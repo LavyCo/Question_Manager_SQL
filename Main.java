@@ -293,14 +293,14 @@ public class Main {
 
                 case 6: {
 
-                    int numOfQuestInTest = 0;
+                    int numOfQuestionsInTheTest = 0;
                     boolean flagOfNumTest = false;
                     while (!flagOfNumTest) {
                         try {
 
                             System.out.println("type how many questions do you want in the test:");
-                            numOfQuestInTest = input.nextInt();
-                            if (numOfQuestInTest > 0 && numOfQuestInTest <= qr1.getNumberOfQuestions()) {
+                            numOfQuestionsInTheTest = input.nextInt();
+                            if (numOfQuestionsInTheTest > 0 && numOfQuestionsInTheTest <= qr1.getNumberOfQuestions()) {
                                 flagOfNumTest = true;
                             }
 
@@ -312,43 +312,47 @@ public class Main {
                         }
                     }
 
-                        for (int i = 0; i < numOfQuestInTest; i++) {
-                            System.out.println(
-                                    "Hi please choose from below the id of the question from the list of the questions for the test:");
-                            // print all questions and their answers and show their Ind
-                            System.out.println(qr1.toString());
-                            // let user choose a question id by input
-                            int expId = exceptionId(qr1);
-                            int[][] indQuestion = new  int[numOfQuestInTest][11];
-                            for (int j = 0; j < qr1.getNumberOfQuestions(); j++) {
-                                if (expId == qr1.getQuestionArray()[j].getQuestionId()) {
-                                    if(qr1.getQuestionArray()[j] instanceof OpenQuestions){
+                    int[][] indQuestion = new int[0][];
+                    for (int i = 0; i < numOfQuestionsInTheTest; i++) {
+
+                        System.out.println(
+                                "Hi please choose from below the id of the question from the list of the questions for the test:");
+                        // print all questions and their answers and show their Ind
+                        System.out.println(qr1.toString());
+                        // let user choose a question id by input
+                        int expId = exceptionId(qr1);
+                        indQuestion = new int[numOfQuestionsInTheTest][12];
+                        for (int j = 0; j < qr1.getNumberOfQuestions(); j++) {
+                            if (expId == qr1.getQuestionArray()[j].getQuestionId()) {
+
+                                if (qr1.getQuestionArray()[j] instanceof OpenQuestions) {
                                     indQuestion[i][0] = j;
-                                    }
-                                    if(qr1.getQuestionArray()[j] instanceof AmericanQuestions){
-                                        System.out.println("Please enter how many answers from the american question you want");
-                                        int numberOfAmericanAnswers=input.nextInt();
-                                        for(int k=0;k<numberOfAmericanAnswers;k++){
-                                            System.out.println("Choose the index of the answer you want to choose");
-                                            indQuestion[i][k+1]=input.nextInt();
-                                        }
+                                }
+
+                                if (qr1.getQuestionArray()[j] instanceof AmericanQuestions) {
+                                    System.out.println("Please enter how many answers from the american question you want");
+                                    int numberOfAmericanAnswers = input.nextInt();
+                                    indQuestion[j][1] = numberOfAmericanAnswers;
+                                    for (int k = 0; k < numberOfAmericanAnswers; k++) {
+                                        System.out.println("Choose the index of the answer you want to choose");
+                                        indQuestion[i][k + 2] = input.nextInt();
                                     }
                                 }
+
                             }
-
-                            System.out.println("nibba");
-                            System.out.println("test");
-                            //Exam manualExam=qr1.manualExamCreate(numOfQuestInTest,indQuestion);
-
-
                         }
 
+
+                    }
+
+                    qr1.manualExamCreate(numOfQuestionsInTheTest, indQuestion);
+                    qr1.toString();
 
                     break;
                 }
 
                 case 7: {
-                    int numberOfQuestions =0;
+                    int numberOfQuestions = 0;
                     try {
                         //Ask user how many questions he wants in the test
                         System.out.println("Please enter the number(between " + 1 + "-" + qr1.getNumberOfQuestions() + ")" + " of question you want in the test ");
@@ -368,11 +372,10 @@ public class Main {
                     } catch (Exception e) {
 
                     }
-                    QuestionReservoir automaticTest=new QuestionReservoir();
-                    automaticTest.automaticExam(qr1,numberOfQuestions);
+                    QuestionReservoir automaticTest = new QuestionReservoir();
+                    automaticTest.automaticExam(qr1, numberOfQuestions);
 
                     System.out.println(automaticTest.toString());
-
 
 
                     break;

@@ -12,6 +12,11 @@ public class AmericanAnswer {
 		this.correctness=correctness;
 	}
 
+	public AmericanAnswer(AmericanAnswer other){
+		this.answerText=other.answerText;
+		this.correctness=other.correctness;
+	}
+
 
 
 

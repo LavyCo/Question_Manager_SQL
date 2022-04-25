@@ -58,7 +58,6 @@ public class QuestionReservoir {
     }
 
 
-
     public boolean changeAnswerWordingOfAmericanQuestions(String newAnswerText, AmericanQuestions editorQuestionAnswer, int numOfAnswer, boolean opt) {
 
 
@@ -101,7 +100,7 @@ public class QuestionReservoir {
         return true;
     }
 
-    public void automaticExam(QuestionReservoir qr1,int numberOfQuestions){
+    public void automaticExam(QuestionReservoir qr1, int numberOfQuestions) {
         //the program will choose question randomly while for american question there will 4 answers
         //there can't be more than 1 true question but there can be "All answers are false" answer
         Questions[] randomQuestionsArray = new Questions[numberOfQuestions];
@@ -120,15 +119,15 @@ public class QuestionReservoir {
                 AmericanAnswer[] randomAmericanAnswers = randomAmericanQuestion.getAnswerArray();
                 AmericanAnswer[] autoAmericanAnswers = new AmericanAnswer[6];
                 boolean onlyOneTrueAnswer = false;
-                int j=0;
-                for (j = 0; j < 4&&j<randomAmericanAnswers.length; j++) {
+                int j = 0;
+                for (j = 0; j < 4 && j < randomAmericanAnswers.length; j++) {
                     if (!onlyOneTrueAnswer && randomAmericanAnswers[j].getCorrectness()) {
                         autoAmericanAnswers[j] = new AmericanAnswer(randomAmericanAnswers[j].getAnswerText(), randomAmericanAnswers[j].getCorrectness());
                         onlyOneTrueAnswer = true;
                     } else if (onlyOneTrueAnswer && randomAmericanAnswers[j].getCorrectness()) {
                         boolean foundFalse = false;
                         int k = j;
-                        while (!foundFalse&&k<randomAmericanAnswers.length&&k<4) {
+                        while (!foundFalse && k < randomAmericanAnswers.length && k < 4) {
                             k++;
                             if (!randomAmericanAnswers[k].getCorrectness()) {
                                 autoAmericanAnswers[j] = new AmericanAnswer(randomAmericanAnswers[k].getAnswerText(), randomAmericanAnswers[k].getCorrectness());
@@ -137,29 +136,32 @@ public class QuestionReservoir {
                         }
                     }
 
-                }if (onlyOneTrueAnswer = false) {
+                }
+                if (onlyOneTrueAnswer = false) {
                     autoAmericanAnswers[j] = new AmericanAnswer("All answers are false", true);
-                }else {
+                } else {
                     autoAmericanAnswers[j] = new AmericanAnswer("All answers are false", false);
                 }
-                autoAmericanAnswers[j+1]=new AmericanAnswer("More than 1 answer is true",false);
-                AmericanQuestions autoAmericanQuestion=new AmericanQuestions(autoAmericanQuestionText,6,autoAmericanAnswers);
-                randomQuestionsArray[i]=autoAmericanQuestion;
+                autoAmericanAnswers[j + 1] = new AmericanAnswer("More than 1 answer is true", false);
+                AmericanQuestions autoAmericanQuestion = new AmericanQuestions(autoAmericanQuestionText, 6, autoAmericanAnswers);
+                randomQuestionsArray[i] = autoAmericanQuestion;
             }
             if (qr1.getQuestionArray()[randomNumberArray[i]] instanceof OpenQuestions) {
-                OpenQuestions autoOpenQuestion=new OpenQuestions(((OpenQuestions)qr1.getQuestionArray()[randomNumberArray[i]]).getQuestionText(),((OpenQuestions)qr1.getQuestionArray()[randomNumberArray[i]]).getAnswerText());
-                randomQuestionsArray[i]=autoOpenQuestion;
+                OpenQuestions autoOpenQuestion = new OpenQuestions(((OpenQuestions) qr1.getQuestionArray()[randomNumberArray[i]]).getQuestionText(), ((OpenQuestions) qr1.getQuestionArray()[randomNumberArray[i]]).getAnswerText());
+                randomQuestionsArray[i] = autoOpenQuestion;
 
             }
 
-        } for (int i=0;i<randomQuestionsArray.length;i++){
+        }
+        for (int i = 0; i < randomQuestionsArray.length; i++) {
             addQuestion(randomQuestionsArray[i]);
         }
 
 
     }
-    public  OpenQuestions createOpenQuestion(String questionText,String answerText){
-        OpenQuestions newOpenQuestion =new OpenQuestions( questionText, answerText);
+
+    public OpenQuestions createOpenQuestion(String questionText, String answerText) {
+        OpenQuestions newOpenQuestion = new OpenQuestions(questionText, answerText);
 
         return newOpenQuestion;
     }
@@ -226,6 +228,7 @@ public class QuestionReservoir {
 
     public boolean deleteAmericanAnswer(int indQuestion, int answerNumber) {
         AmericanAnswer[] originalAnswerArr = ((AmericanQuestions) this.getQuestionArray()[indQuestion]).getAnswerArray();
+
         AmericanQuestions americanQuestion = ((AmericanQuestions) this.getQuestionArray()[indQuestion]);
         int newNumberOfAnswers = originalAnswerArr.length;
         if (americanQuestion.counterTrueFalse(originalAnswerArr) == 1) {
@@ -282,6 +285,38 @@ public class QuestionReservoir {
         this.questionArray = questionArray;
         return true;
     }
+
+    public void manualExamCreate(int numOfQuestInTest, int[][] indQuestion) {
+        Exam manualExam = new Exam(numOfQuestInTest);
+
+        for (int i = 0; i < indQuestion.length; i++) {
+            for (int k = 0; k < this.questionArray.length; k++) {
+
+                if (this.questionArray[k].questionId == indQuestion[i][0]) {
+                    if (this.questionArray[k] instanceof OpenQuestions) {
+                        OpenQuestions newOpenQuestions = new OpenQuestions((OpenQuestions) this.questionArray[i]);
+                        manualExam.getQuestionsExamArray()[i] = newOpenQuestions;
+                    }
+                    if (this.questionArray[k] instanceof AmericanQuestions) {
+
+                        AmericanQuestions americanQuestion = ((AmericanQuestions) this.getQuestionArray()[k]);
+                        AmericanAnswer[] newAnswerArr = new AmericanAnswer[indQuestion[i][1]];
+
+                        for (int j = 0; j < indQuestion[i][1]; i++) {
+                            AmericanAnswer newAnswer = new AmericanAnswer(americanQuestion.getAnswerArray()[indQuestion[i][j + 2]]);
+                            newAnswerArr[j] = newAnswer;
+                        }
+                        AmericanQuestions newAmericanQuestion = new AmericanQuestions(americanQuestion.questionText, newAnswerArr.length, newAnswerArr);
+                        manualExam.getQuestionsExamArray()[i] = newAmericanQuestion;
+                    }
+
+                }
+            }
+        }
+        this.exam=new Exam(manualExam);
+
+    }
+
 
     @Override
     public int hashCode() {
@@ -355,24 +390,5 @@ public class QuestionReservoir {
 
     }
 
-    public Exam manualExamCreate(int numOfQuestInTest, int[][] indQuestion) {
-        Exam manualExam = new Exam(numOfQuestInTest);
-        for (int i = 0; i < this.numberOfQuestions; i++) {
-
-            if (this.questionArray[i].questionId == indQuestion[i][0]) {
-                if (manualExam.getQuestionsExamArray()[i] instanceof OpenQuestions) {
-                    OpenQuestions newOpenQuestions = new OpenQuestions((OpenQuestions) this.questionArray[i]);
-                    manualExam.getQuestionsExamArray()[i] = newOpenQuestions;
-                }
-                if (manualExam.getQuestionsExamArray()[i] instanceof AmericanQuestions) {
-
-                }
-
-
-            }
-        }
-        return  manualExam;
-
-    }
 }
 
