@@ -290,8 +290,9 @@ public class QuestionReservoir {
         Exam manualExam = new Exam(numOfQuestInTest);
 
         for (int i = 0; i < indQuestion.length; i++) {
-            for (int k = 0; k < this.questionArray.length; k++) {
+            for (int k = 0; k <numberOfQuestions ; k++) {
 
+                System.out.println(this.questionArray[k].toString());
                 if (this.questionArray[k].questionId == indQuestion[i][0]) {
                     if (this.questionArray[k] instanceof OpenQuestions) {
                         OpenQuestions newOpenQuestions = new OpenQuestions((OpenQuestions) this.questionArray[i]);
@@ -372,6 +373,10 @@ public class QuestionReservoir {
         return randomNumberArray;
 
 
+    }
+
+    public Exam getExam(){
+        return exam;
     }
 
     @Override

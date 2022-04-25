@@ -22,15 +22,16 @@ public class Exam {
         return questionsExamArray;
     }
 
+
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer("the exam is:\n");
         for (int i = 0; i < numOfQuestions; i++) {
             if (questionsExamArray[i] instanceof AmericanQuestions) {
-                sb.append(((AmericanQuestions) questionsExamArray[i]).toString() + "\n");
+                sb.append(questionsExamArray[i].toString() + "\n");
             }
             if (questionsExamArray[i] instanceof OpenQuestions) {
-                sb.append(((OpenQuestions) questionsExamArray[i]).toString() + "\n");
+                sb.append(questionsExamArray[i].toString() + "\n");
             }
         }
         return sb.toString();

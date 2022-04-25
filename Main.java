@@ -346,7 +346,7 @@ public class Main {
                     }
 
                     qr1.manualExamCreate(numOfQuestionsInTheTest, indQuestion);
-                    qr1.toString();
+                    qr1.getExam().toString();
 
                     break;
                 }
