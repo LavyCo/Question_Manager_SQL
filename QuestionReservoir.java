@@ -289,26 +289,26 @@ public class QuestionReservoir {
     public void manualExamCreate(int numOfQuestInTest, int[][] indQuestion) {
         Exam manualExam = new Exam(numOfQuestInTest);
 
-        for (int i = 0; i < indQuestion.length; i++) {
-            for (int k = 0; k <numberOfQuestions ; k++) {
+        for (int arrayIndex = 0; arrayIndex < numOfQuestInTest; arrayIndex++) {
+            for (int allQuestionsIndex = 0; allQuestionsIndex <numberOfQuestions ; allQuestionsIndex++) {
 
-                System.out.println(this.questionArray[k].toString());
-                if (this.questionArray[k].questionId == indQuestion[i][0]) {
-                    if (this.questionArray[k] instanceof OpenQuestions) {
-                        OpenQuestions newOpenQuestions = new OpenQuestions((OpenQuestions) this.questionArray[i]);
-                        manualExam.getQuestionsExamArray()[i] = newOpenQuestions;
+                if (this.questionArray[allQuestionsIndex].questionId == indQuestion[arrayIndex][0]+1) {
+                    if (this.questionArray[allQuestionsIndex] instanceof OpenQuestions) {
+                        OpenQuestions newOpenQuestions = new OpenQuestions((OpenQuestions) this.questionArray[allQuestionsIndex]);
+                        manualExam.getQuestionsExamArray()[arrayIndex] = newOpenQuestions;
                     }
-                    if (this.questionArray[k] instanceof AmericanQuestions) {
+                    if (this.questionArray[allQuestionsIndex] instanceof AmericanQuestions) {
 
-                        AmericanQuestions americanQuestion = ((AmericanQuestions) this.getQuestionArray()[k]);
-                        AmericanAnswer[] newAnswerArr = new AmericanAnswer[indQuestion[i][1]];
+                        AmericanQuestions americanQuestion = ((AmericanQuestions) this.getQuestionArray()[allQuestionsIndex]);
+                        AmericanAnswer[] newAnswerArr = new AmericanAnswer[indQuestion[arrayIndex][1]];
 
-                        for (int j = 0; j < indQuestion[i][1]; i++) {
-                            AmericanAnswer newAnswer = new AmericanAnswer(americanQuestion.getAnswerArray()[indQuestion[i][j + 2]]);
-                            newAnswerArr[j] = newAnswer;
+                        for (int americanAnswerIndex = 0; americanAnswerIndex < indQuestion[arrayIndex][1]; americanAnswerIndex++) {
+                            AmericanAnswer newAnswer = new AmericanAnswer(americanQuestion.getAnswerArray()[indQuestion[arrayIndex][americanAnswerIndex + 2]-1]);
+                            newAnswerArr[americanAnswerIndex] = newAnswer;
+                            System.out.println("american index inside loop"+americanAnswerIndex);
                         }
                         AmericanQuestions newAmericanQuestion = new AmericanQuestions(americanQuestion.questionText, newAnswerArr.length, newAnswerArr);
-                        manualExam.getQuestionsExamArray()[i] = newAmericanQuestion;
+                        manualExam.getQuestionsExamArray()[arrayIndex] = newAmericanQuestion;
                     }
 
                 }

@@ -3,7 +3,8 @@ package id206214280_id316650399;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-//כדי להצליח לייצר עוד מקצועות עלינו ליצור מחלקות של מקצועות שמקבלות מאגרים
+//כדי להצ
+// ליח לייצר עוד מקצועות עלינו ליצור מחלקות של מקצועות שמקבלות מאגרים
 public class Main {
 
     public static void main(String[] args) throws Exception {
@@ -312,16 +313,16 @@ public class Main {
                         }
                     }
 
-                    int[][] indQuestion = new int[0][];
+                    int[][] indQuestion = new int[numOfQuestionsInTheTest][12];
+                    // print all questions and their answers and show their Ind
+                    System.out.println(qr1.toString());
+
                     for (int i = 0; i < numOfQuestionsInTheTest; i++) {
 
                         System.out.println(
                                 "Hi please choose from below the id of the question from the list of the questions for the test:");
-                        // print all questions and their answers and show their Ind
-                        System.out.println(qr1.toString());
                         // let user choose a question id by input
                         int expId = exceptionId(qr1);
-                        indQuestion = new int[numOfQuestionsInTheTest][12];
                         for (int j = 0; j < qr1.getNumberOfQuestions(); j++) {
                             if (expId == qr1.getQuestionArray()[j].getQuestionId()) {
 
@@ -330,12 +331,14 @@ public class Main {
                                 }
 
                                 if (qr1.getQuestionArray()[j] instanceof AmericanQuestions) {
+                                    indQuestion[i][0]=j;
                                     System.out.println("Please enter how many answers from the american question you want");
                                     int numberOfAmericanAnswers = input.nextInt();
-                                    indQuestion[j][1] = numberOfAmericanAnswers;
+                                    indQuestion[i][1] = numberOfAmericanAnswers;
                                     for (int k = 0; k < numberOfAmericanAnswers; k++) {
                                         System.out.println("Choose the index of the answer you want to choose");
                                         indQuestion[i][k + 2] = input.nextInt();
+                                        input.nextLine();
                                     }
                                 }
 
@@ -346,7 +349,8 @@ public class Main {
                     }
 
                     qr1.manualExamCreate(numOfQuestionsInTheTest, indQuestion);
-                    qr1.getExam().toString();
+                    System.out.println(qr1.getExam().toString());
+
 
                     break;
                 }

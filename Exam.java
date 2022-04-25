@@ -2,7 +2,7 @@ package id206214280_id316650399;
 
 public class Exam {
     private int numOfQuestions;
-    private Questions[] questionsExamArray = new Questions[numOfQuestions];
+    private Questions[] questionsExamArray ;
 
     public Exam(int numOfQuestions) {
         this.numOfQuestions = numOfQuestions;
