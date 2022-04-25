@@ -10,6 +10,12 @@ public class OpenQuestions extends Questions {
 		super(questionText);
 		this.answerText=answerText;
 	}
+
+	public OpenQuestions(OpenQuestions other){
+		super(other.questionText);
+		this.answerText=other.answerText;
+
+	}
 	
 	public String getAnswerText() {
 		return answerText;

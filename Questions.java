@@ -13,14 +13,6 @@ import java.util.Objects;
 		
 	}
 
-	public void automaticTest(int numberOfQuestions){
-
-
-
-
-
-
-	}
 
 	protected void decreaseIdCounter(){
 		if(counter>0){

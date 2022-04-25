@@ -8,6 +8,7 @@ public class QuestionReservoir {
     private int numberOfQuestions = 0;
     private int size = 1;
     private Questions[] questionArray;
+    private Exam exam;
 
 
     public QuestionReservoir() {
@@ -55,6 +56,7 @@ public class QuestionReservoir {
         }
 
     }
+
 
 
     public boolean changeAnswerWordingOfAmericanQuestions(String newAnswerText, AmericanQuestions editorQuestionAnswer, int numOfAnswer, boolean opt) {
@@ -156,8 +158,14 @@ public class QuestionReservoir {
 
 
     }
+    public  OpenQuestions createOpenQuestion(String questionText,String answerText){
+        OpenQuestions newOpenQuestion =new OpenQuestions( questionText, answerText);
+
+        return newOpenQuestion;
+    }
 
     public boolean addQuestion(Questions newQuestion) {
+
 
         if (this.equals(newQuestion.getQuestionText())) {
 
@@ -344,6 +352,26 @@ public class QuestionReservoir {
 
 
     {
+
+    }
+
+    public Exam manualExamCreate(int numOfQuestInTest, int[][] indQuestion) {
+        Exam manualExam = new Exam(numOfQuestInTest);
+        for (int i = 0; i < this.numberOfQuestions; i++) {
+
+            if (this.questionArray[i].questionId == indQuestion[i][0]) {
+                if (manualExam.getQuestionsExamArray()[i] instanceof OpenQuestions) {
+                    OpenQuestions newOpenQuestions = new OpenQuestions((OpenQuestions) this.questionArray[i]);
+                    manualExam.getQuestionsExamArray()[i] = newOpenQuestions;
+                }
+                if (manualExam.getQuestionsExamArray()[i] instanceof AmericanQuestions) {
+
+                }
+
+
+            }
+        }
+        return  manualExam;
 
     }
 }

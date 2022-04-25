@@ -292,7 +292,7 @@ public class Main {
                 }
 
                 case 6: {
-                    QuestionReservoir manualTest = new QuestionReservoir();
+
                     int numOfQuestInTest = 0;
                     boolean flagOfNumTest = false;
                     while (!flagOfNumTest) {
@@ -310,6 +310,7 @@ public class Main {
                         } catch (Exception e) {
                             System.out.println("Error " + e.getMessage());
                         }
+                    }
 
                         for (int i = 0; i < numOfQuestInTest; i++) {
                             System.out.println(
@@ -318,98 +319,29 @@ public class Main {
                             System.out.println(qr1.toString());
                             // let user choose a question id by input
                             int expId = exceptionId(qr1);
-                            int indQuestion = 0;
+                            int[][] indQuestion = new  int[numOfQuestInTest][11];
                             for (int j = 0; j < qr1.getNumberOfQuestions(); j++) {
                                 if (expId == qr1.getQuestionArray()[j].getQuestionId()) {
-                                    indQuestion = j;
-                                }
-                            }
-                            Questions newQ = qr1.getQuestionArray()[indQuestion];
-                            while (manualTest.equals(newQ)) {
-                                System.out.println("this question is already in this exam, please choose again");
-                                expId = exceptionId(qr1);
-                                for (int j = 0; j < qr1.getNumberOfQuestions(); j++) {
-                                    if (expId == qr1.getQuestionArray()[j].getQuestionId()) {
-                                        indQuestion = j;
-                                        newQ = qr1.getQuestionArray()[indQuestion];
+                                    if(qr1.getQuestionArray()[j] instanceof OpenQuestions){
+                                    indQuestion[i][0] = j;
                                     }
-
-                                }
-                            }
-
-                            if (newQ instanceof OpenQuestions) {
-                                newQ = new OpenQuestions(newQ.getQuestionText(), ((OpenQuestions) newQ).getAnswerText());
-                                manualTest.addQuestion(newQ);
-
-                            }
-                            if (newQ instanceof AmericanQuestions) {
-
-                                int countOfAns = 0;
-                                boolean flagCountAns = false;
-                                while (!flagCountAns) {
-                                    try {
-                                        System.out.println("how many answers do you want for this question ?");
-                                        countOfAns = input.nextInt();
-                                        if (countOfAns <= 1 || countOfAns >8 ) {
-                                            System.out.println("try again");
-                                        } else {
-                                            flagCountAns = true;
+                                    if(qr1.getQuestionArray()[j] instanceof AmericanQuestions){
+                                        System.out.println("Please enter how many answers from the american question you want");
+                                        int numberOfAmericanAnswers=input.nextInt();
+                                        for(int k=0;k<numberOfAmericanAnswers;k++){
+                                            System.out.println("Choose the index of the answer you want to choose");
+                                            indQuestion[i][k+1]=input.nextInt();
                                         }
-
-
-                                    } catch (InputMismatchException e) {
-                                        System.out.println("Please enter a valid input(numbers only)");
-                                        input.nextLine();// cleans buffer
-                                    } catch (Exception e) {
-                                        System.out.println("Error " + e.getMessage());
                                     }
                                 }
-                                AmericanAnswer[] newAnswers = new AmericanAnswer[countOfAns];
-                                for (int j = 0; j < countOfAns; j++) {
-                                    flagOfNumTest = false;
-                                    int numOfAnswer = 0;
-                                    while (!flagOfNumTest) {
-                                        try {
-                                            System.out.println("type the number of the answer you want in the test: \n");
-                                            System.out.println(((AmericanQuestions) qr1.getQuestionArray()[indQuestion]).toString());
-                                            numOfAnswer = input.nextInt();
-                                            if (numOfAnswer > 0 && numOfAnswer <= ((AmericanQuestions) qr1.getQuestionArray()[indQuestion]).getNumOfAmericanAnswers()) {
-                                                flagOfNumTest = true;
-                                            }
-
-
-                                        } catch (InputMismatchException e) {
-                                            System.out.println("Please enter a valid input(numbers only)");
-                                            input.nextLine();// cleans buffer
-                                        } catch (Exception e) {
-                                            System.out.println("Error " + e.getMessage());
-                                        }
-
-                                    }
-
-                                    newAnswers[j] = new AmericanAnswer(((AmericanQuestions) qr1.getQuestionArray()[indQuestion]).getAnswerArray()[numOfAnswer - 1].getAnswerText(), ((AmericanQuestions) qr1.getQuestionArray()[indQuestion]).getAnswerArray()[numOfAnswer - 1].getCorrectness());
-
-
-                                }
-
-                                newQ = new AmericanQuestions(newQ.getQuestionText(), countOfAns, newAnswers);
-                                ((AmericanQuestions) newQ).Add2Answers();
-                                manualTest.addQuestion(newQ);
-
-
                             }
-                            newQ = qr1.getQuestionArray()[indQuestion];
+                            Exam manualExam=qr1.manualExamCreate(numOfQuestInTest,indQuestion);
 
 
                         }
-                        System.out.println("your manual Test is:");
-                        System.out.println(manualTest.toString());
 
 
-                    }
                     break;
-
-
                 }
 
                 case 7: {
@@ -437,7 +369,7 @@ public class Main {
                     automaticTest.automaticExam(qr1,numberOfQuestions);
 
                     System.out.println(automaticTest.toString());
-                    System.out.println("nibba");
+
 
 
                     break;

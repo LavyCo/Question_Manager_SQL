@@ -17,6 +17,7 @@ public class AmericanQuestions extends Questions {
         setAnswerArray(answerArray);
     }
 
+
     public AmericanQuestions(AmericanQuestions other) {
         super(other.questionText);
         this.numOfAmericanAnswers = other.numOfAmericanAnswers;
