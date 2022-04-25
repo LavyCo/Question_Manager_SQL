@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 package id206214280_id316650399;
 
 public class Exam {
