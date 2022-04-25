@@ -335,8 +335,10 @@ public class Main {
                                     }
                                 }
                             }
+
+                            System.out.println("nibba");
                             System.out.println("test");
-                            Exam manualExam=qr1.manualExamCreate(numOfQuestInTest,indQuestion);
+                            //Exam manualExam=qr1.manualExamCreate(numOfQuestInTest,indQuestion);
 
 
                         }
