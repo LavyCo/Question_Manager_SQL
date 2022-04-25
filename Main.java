@@ -335,6 +335,7 @@ public class Main {
                                     }
                                 }
                             }
+                            System.out.println("test");
                             Exam manualExam=qr1.manualExamCreate(numOfQuestInTest,indQuestion);
 
 
