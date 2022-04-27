@@ -8,63 +8,25 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-
-        System.out.println();
-        System.out.println();
-        //open questions initialize
-        Questions oq1 = new OpenQuestions("Who was Yitzhak Rabin?", "Israeli prime minister");
-        Questions oq2 = new OpenQuestions("Who solved the Engima machine during WWII?", "Alan Turing ");
-        Questions oq3 = new OpenQuestions("What is the difference between Choclate cake and a Salad?", "Salad wont give you Diabetes");
-        //question array
-        Questions[] qa1 = new Questions[6];
-        //american questions initialize
-        //american question #1
-        AmericanAnswer aa1 = new AmericanAnswer("Muffin", true);
-        AmericanAnswer aa2 = new AmericanAnswer("Choclate cake", true);
-        AmericanAnswer aa3 = new AmericanAnswer("Ice cream", true);
-        AmericanAnswer aa4 = new AmericanAnswer("Brownies", true);
-        AmericanAnswer aa5 = new AmericanAnswer("Salad", false);
-        AmericanAnswer aa6 = new AmericanAnswer("Burger", false);
-        AmericanAnswer aa7 = new AmericanAnswer("Shawrma", false);
-        AmericanAnswer aa8 = new AmericanAnswer("Pizza", false);
-        AmericanAnswer[] aar1 = new AmericanAnswer[8];
-        aar1[0] = aa1;
-        aar1[1] = aa2;
-        aar1[2] = aa3;
-        aar1[3] = aa4;
-        aar1[4] = aa5;
-        aar1[5] = aa6;
-        aar1[6] = aa7;
-        aar1[7] = aa8;
-        Questions aq1 = new AmericanQuestions("Which one of these foods is dessert?", 8, aar1);
-        //american question #2
-        AmericanAnswer aab1 = new AmericanAnswer("Java", false);
-        AmericanAnswer aab2 = new AmericanAnswer("C++", false);
-        AmericanAnswer aab3 = new AmericanAnswer("Assembley", true);
-        AmericanAnswer aab4 = new AmericanAnswer("C", false);
-        AmericanAnswer aab5 = new AmericanAnswer("C#", false);
-        AmericanAnswer aab6 = new AmericanAnswer("Pyton", false);
-        AmericanAnswer aab7 = new AmericanAnswer("Java-Script", false);
-        AmericanAnswer aab8 = new AmericanAnswer("Swift", false);
-        AmericanAnswer aab9 = new AmericanAnswer("Machine Code", true);
-        AmericanAnswer[] aar2 = new AmericanAnswer[9];
-        aar2[0] = aab1;
-        aar2[1] = aab2;
-        aar2[2] = aab3;
-        aar2[3] = aab4;
-        aar2[4] = aab5;
-        aar2[5] = aab6;
-        aar2[6] = aab7;
-        aar2[7] = aab8;
-        aar2[8] = aab1;
-        Questions aq2 = new AmericanQuestions("Which one of these next Programming languages is Low-Level programming language?", 8, aar2);
-
         QuestionReservoir qr1 = new QuestionReservoir();
-        qr1.addQuestion(oq1);
-        qr1.addQuestion(oq2);
-        qr1.addQuestion(oq3);
-        qr1.addQuestion(aq1);
-        qr1.addQuestion(aq2);
+        //open question #1
+        qr1.addOpenQuestion("Who was Yitzhak Rabin?","Israeli prime minister");
+        //open question #2
+       qr1.addOpenQuestion("Who solved the Engima machine during WWII?","Alan Turing");
+        //open question #3
+        qr1.addOpenQuestion("What is the difference between Choclate cake and a Salad?","Salad wont give you Diabetes");
+
+        //american question #1
+        String aq1=("Which one of these is not dessert?");
+        String[] aa1=new String[]{"Muffin","Choclate cake","Ice cream","Brownies","Salad","Burger","Shawrma","Pizza"};
+        boolean[] tof1=new boolean[]{false,false,false,false,true,true,true,true};
+        qr1.addAmericanQuestion(aq1,aa1,tof1);
+        //american question #2
+        String aq2="Which one of these next Programming languages is Low-Level programming language?";
+        String[] aa2=new String[]{"Java","C++","Assembly","C","C#","Python","JavaScript","Swift","Machine Code"};
+        boolean[] tof2=new boolean[]{false,false,true,false,false,false,false,false,true};
+        qr1.addAmericanQuestion(aq2,aa2,tof2);
+
 
 
         int optMenu = 0;
@@ -112,10 +74,10 @@ public class Main {
                         String questionText = input.nextLine();
                         System.out.println("please enter a Answer text:");
                         String OpenAnswer = input.nextLine();
-                        Questions newOpenQuestion = new OpenQuestions(questionText, OpenAnswer);
-                        boolean canOrNot = qr1.addQuestion(newOpenQuestion);
+                        //fixed case 2 sends the function Strings instead of OpenQuestion
+                        boolean canOrNot = qr1.addOpenQuestion( questionText, OpenAnswer);
                         if (canOrNot) {
-                            System.out.println("Add question " + newOpenQuestion);
+                            System.out.println("Added question ");
 
                         } else {
                             System.out.println("your question Already exists");
@@ -126,7 +88,7 @@ public class Main {
                     if (optAddQuestion == 2) {
                         System.out.println("Please enter a Question text:");
                         input.nextLine();
-                        String AmericanQuestionText = input.nextLine();
+                        String americanQuestionText = input.nextLine();
                         boolean AnswerOptTry = false;
                         int numberOfAnswers = 10;
                         while (!AnswerOptTry) {
@@ -149,23 +111,30 @@ public class Main {
                                 System.out.println("Error " + e.getMessage());
                             }
                         }
-                        AmericanAnswer newAmericanAnswerArray[] = new AmericanAnswer[numberOfAnswers];
-                        for (int i = 0; i < numberOfAnswers; i++) {
-                            System.out.println("please enter a Answer text(" + (i + 1) + "/" + numberOfAnswers + "):");
-                            input.nextLine();// cleans buffer
-                            String AmericanAnswerText = input.next();
-                            boolean AnswerOpt = exceptionIsAmericanTrueOrFalse();
-                            newAmericanAnswerArray[i] = new AmericanAnswer(AmericanAnswerText, AnswerOpt);
+                        String[] americanAnswersText=new String[numberOfAnswers];
+                        boolean[] americanAnswersCorrectness=new boolean[numberOfAnswers];
+                        for(int i=0;i<numberOfAnswers;i++){
+                            //inputting text
+                            System.out.println("Please enter answer text for answer number "+(i+1)+"/"+numberOfAnswers);
+                            americanAnswersText[i]=input.next();
+                            input.nextLine();
+                            //inputting correctness
+                            System.out.println("Please enter correctness of the answer for true press-1 for False press-0:");
+                            int trueOrFalse=input.nextInt();
+                            //TO DO try catch
+                            if(trueOrFalse==1){
+                                americanAnswersCorrectness[i]=true;
+                            }
+                            else{
+                                americanAnswersCorrectness[i]=false;
+                            }
                         }
-
-                        Questions newAmericanQuestions = new AmericanQuestions(AmericanQuestionText, numberOfAnswers,
-                                newAmericanAnswerArray);
-                        boolean canOrNot = qr1.addQuestion(newAmericanQuestions);
-
+                        qr1.addAmericanQuestion(americanQuestionText,americanAnswersText,americanAnswersCorrectness);
 
                     }
                     break;
                 }
+
                 // change the wording of a question
                 case 3: {
                     System.out.println(
@@ -286,8 +255,6 @@ public class Main {
                         //sending parametes to the function (Question Index and Answer number)
                         qr1.deleteAmericanAnswer(indQuestion, (answerNumber - 1));
                         askUserIftoAddAnswer((AmericanQuestions) qr1.getQuestionArray()[indQuestion]);
-
-
                     }
                     break;
                 }
@@ -363,24 +330,25 @@ public class Main {
                         try {
                             numberOfQuestions = input.nextInt();
                             while (numberOfQuestions < 0 || numberOfQuestions > qr1.getNumberOfQuestions()) {
-                                System.out.println("choosen number of question not withing range please try again:");
+                                System.out.println("chosen number of questions not within range please try again:");
                                 input.nextLine();
                                 numberOfQuestions = input.nextInt();
                             }
 
-                        } catch (Exception e) {
+                        } catch (InputMismatchException e) {
+                            System.out.println("Please enter a valid input(numbers only)");
+                            input.nextLine();// cleans buffer
 
                         }
 
 
                     } catch (Exception e) {
+                        System.out.println("Error " + e.getMessage());
 
                     }
                     QuestionReservoir automaticTest = new QuestionReservoir();
-                    automaticTest.automaticExam(qr1, numberOfQuestions);
-
-                    System.out.println(automaticTest.toString());
-
+                   //TO DO
+                    qr1.automaticExam(numberOfQuestions);
 
                     break;
                 }
@@ -424,12 +392,8 @@ public class Main {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 input.nextLine();
-
             }
-
-
         }
-
         return expId;
     }
 
@@ -595,5 +559,6 @@ public class Main {
         }
         return false;
     }
+
 
 }

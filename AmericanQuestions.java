@@ -17,6 +17,14 @@ public class AmericanQuestions extends Questions {
         setAnswerArray(answerArray);
     }
 
+    public boolean isAnswerInArray(AmericanAnswer americanAnswer){
+        for(int i=0;i<numOfAmericanAnswers;i++){
+            if(answerArray[i].equals(americanAnswer))
+                return true;
+        }
+        return false;
+    }
+
 
     public AmericanQuestions(AmericanQuestions other) {
         super(other.questionText);
@@ -24,6 +32,7 @@ public class AmericanQuestions extends Questions {
         this.answerArray = other.answerArray;
 
     }
+    //שגיאות כתיב של לביא בפונקציה
     public void Add2Answers() {
         if(this.getNumOfAmericanAnswers()<=8){
             AmericanAnswer[] plus2AmericanAnswer=new AmericanAnswer[this.getNumOfAmericanAnswers()+2];
@@ -34,23 +43,24 @@ public class AmericanQuestions extends Questions {
                 plus2AmericanAnswer[i].setCorrectness(false);
             }
             if(counterTrueFalse(this.getAnswerArray())==2){
+                //לביא והשטויות שלו
                 boolean correct= true;
-                boolean notcorrect=false;
+                boolean notCorrect=false;
                 String Ans2= "there is more than 1 right answer";
                 String Ans1= "all the answers is false";
                 this.answerArray=plus2AmericanAnswer;
                 this.setNumOfAmericanAnswers(plus2AmericanAnswer.length);
                 this.answerArray[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1, correct);
-                this.answerArray[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, notcorrect);
+                this.answerArray[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, notCorrect);
             }
-            if(counterTrueFalse(this.getAnswerArray())==3){
-                boolean notcorrect=false;
+            else if(counterTrueFalse(this.getAnswerArray())==3){
+                boolean notCorrect=false;
                 boolean correct= true;
                 String Ans1= "all the answers is false";
                 String Ans2= "there is more than 1 right answer";
                 this.answerArray=plus2AmericanAnswer;
                 this.setNumOfAmericanAnswers(plus2AmericanAnswer.length);
-                this.answerArray[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1,notcorrect );
+                this.answerArray[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1,notCorrect );
                 this.answerArray[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, correct);
             }
             else{
@@ -211,6 +221,8 @@ public class AmericanQuestions extends Questions {
         }
         return true;
     }
+
+
 
     public AmericanAnswer[] getAnswerArray() {
         return answerArray;
