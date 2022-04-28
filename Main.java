@@ -10,19 +10,19 @@ public class Main {
     public static void main(String[] args) throws Exception {
         QuestionReservoir qr1 = new QuestionReservoir();
         //open question #1
-        qr1.addOpenQuestion("Who was Yitzhak Rabin?","Israeli prime minister");
+        qr1.addOpenQuestion("A Who was Yitzhak Rabin?","Israeli prime minister");
         //open question #2
-       qr1.addOpenQuestion("Who solved the Engima machine during WWII?","Alan Turing");
+       qr1.addOpenQuestion("B Who solved the Engima machine during WWII?","Alan Turing");
         //open question #3
-        qr1.addOpenQuestion("What is the difference between Choclate cake and a Salad?","Salad wont give you Diabetes");
+        qr1.addOpenQuestion("C What is the difference between Choclate cake and a Salad?","Salad wont give you Diabetes");
 
         //american question #1
-        String aq1=("Which one of these is not dessert?");
+        String aq1=("D Which one of these is not dessert?");
         String[] aa1=new String[]{"Muffin","Choclate cake","Ice cream","Brownies","Salad","Burger","Shawrma","Pizza"};
         boolean[] tof1=new boolean[]{false,false,false,false,true,true,true,true};
         qr1.addAmericanQuestion(aq1,aa1,tof1);
         //american question #2
-        String aq2="Which one of these next Programming languages is Low-Level programming language?";
+        String aq2="E Which one of these next Programming languages is Low-Level programming language?";
         String[] aa2=new String[]{"Java","C++","Assembly","C","C#","Python","JavaScript","Swift","Machine Code"};
         boolean[] tof2=new boolean[]{false,false,true,false,false,false,false,false,true};
         qr1.addAmericanQuestion(aq2,aa2,tof2);

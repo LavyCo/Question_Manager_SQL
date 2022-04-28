@@ -1,4 +1,7 @@
 package id206214280_id316650399;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Exam {
     private int numOfQuestions;
@@ -40,13 +43,25 @@ public class Exam {
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer("the exam is:\n");
+        DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDateTime now= LocalDateTime.now();
+        StringBuffer sb = new StringBuffer("The date is:");
+        sb.append(dtf.format(now)+"\n");
+        sb.append("The exam is:"+"\n");
         for (int i = 0; i < numOfQuestions; i++) {
             if (questionsExamArray[i] instanceof AmericanQuestions) {
-                sb.append(questionsExamArray[i].toString() + "\n");
+                sb.append("Question number "+(i+1)+"\n");
+                sb.append(this.getQuestionsExamArray()[i].getQuestionText()+"\n");
+                sb.append(((AmericanQuestions)this.getQuestionsExamArray()[i]).printAnswersOnly()+"\n");
+                sb.append("\n");
+
             }
             if (questionsExamArray[i] instanceof OpenQuestions) {
-                sb.append(questionsExamArray[i].toString() + "\n");
+                sb.append("Question number "+(i+1)+"\n");
+                sb.append(this.getQuestionsExamArray()[i].getQuestionText()+"\n");
+                sb.append(((OpenQuestions)this.getQuestionsExamArray()[i]).getAnswerText()+"\n");
+                sb.append("\n");
+
             }
         }
         return sb.toString();
