@@ -58,8 +58,8 @@ public class Exam {
             writerExam.println("the test without answers:\n");
             writerSolution.println("the test with answers:\n");
             for (int i=0;i<numOfQuestions;i++){
-                writerExam.println("the question is : "+questionsExamArray[i].getQuestionText()+"\n");
-                writerSolution.println("the question is : "+questionsExamArray[i].getQuestionText()+"\n");
+                writerExam.println(i+1+") "+"the question is : "+questionsExamArray[i].getQuestionText()+"\n");
+                writerSolution.println(i+1+") "+"the question is : "+questionsExamArray[i].getQuestionText()+"\n");
                 if(questionsExamArray[i] instanceof OpenQuestions){
                     OpenQuestions printOpanQuestion=(OpenQuestions) questionsExamArray[i];
                     writerSolution.println("solution for question "+i+1+") "+"is: "+printOpanQuestion.getAnswerText()+"\n");
@@ -69,6 +69,7 @@ public class Exam {
                     writerSolution.println("solutions for question "+i+1+") "+"is: "+"\n");
                     for(int j=0;j<printAmricnQuestion.getNumOfAmericanAnswers();j++){
                         writerSolution.println(j+1+") "+printAmricnQuestion.getAnswerArray()[j]+"\n");
+                        writerExam.println(j+1+") "+printAmricnQuestion.getAnswerArray()[j].getAnswerText()+"\n");
                     }
 
 
