@@ -1,5 +1,6 @@
 package id206214280_id316650399;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -101,7 +102,7 @@ public class QuestionReservoir {
         return true;
     }
 
-    public void automaticExam(int automaticExamNumberOfQuestions) {
+    public void automaticExam(int automaticExamNumberOfQuestions) throws FileNotFoundException {
         Exam randomExam = new Exam(automaticExamNumberOfQuestions);
         Questions[] newQuestionArray = new Questions[automaticExamNumberOfQuestions];
         Questions[] qrQuestionArr = this.getQuestionArray();
@@ -177,6 +178,7 @@ public class QuestionReservoir {
             }
         }
         automaticExam.sortQuestionsByLexicographicOrderExem();
+        automaticExam.save();
         System.out.println(automaticExam.toString());
 
     }
@@ -256,6 +258,14 @@ public class QuestionReservoir {
 
 
     }
+    public int takeNumOfAnswers(QuestionReservoir qr1,int index){
+        AmericanQuestions americanQuestions=new AmericanQuestions((AmericanQuestions) qr1.getQuestionArray()[index]);
+
+      return americanQuestions.getNumOfAmericanAnswers() ; 
+
+
+    }
+
 
 
     public boolean deleteAmericanAnswer(int indQuestion, int answerNumber) {
@@ -311,7 +321,7 @@ public class QuestionReservoir {
     }
 
 
-    public void manualExamCreate(int numOfQuestInTest, int[][] indQuestion) {
+    public void manualExamCreate(int numOfQuestInTest, int[][] indQuestion) throws FileNotFoundException {
         Exam manualExam = new Exam(numOfQuestInTest);
 
         for (int arrayIndex = 0; arrayIndex < numOfQuestInTest; arrayIndex++) {
@@ -340,6 +350,7 @@ public class QuestionReservoir {
             }
         }
         this.manualExam = new Exam(manualExam);
+        manualExam.save();
         System.out.println("Manual exam created successfully !");
 
     }

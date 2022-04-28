@@ -1,0 +1,11 @@
+the test with answers:
+
+the question is : A Who was Yitzhak Rabin?
+
+solution for question 01) is: Israeli prime minister
+
+the question is : B Who solved the Engima machine during WWII?
+
+solution for question 11) is: Alan Turing
+
+end

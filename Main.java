@@ -301,11 +301,12 @@ public class Main {
                                     indQuestion[i][0]=j;
                                     boolean numOfAns=false;
                                     int numberOfAmericanAnswers=0;
+                                    int numbersOfAns=qr1.takeNumOfAnswers(qr1,j);
                                     while (!numOfAns){
                                         try{
                                             System.out.println("Please enter how many answers from the american question you want");
                                              numberOfAmericanAnswers = input.nextInt();
-                                            if (numberOfAmericanAnswers>0&&numberOfAmericanAnswers<=((AmericanQuestions)qr1.getQuestionArray()[i]).getNumOfAmericanAnswers()){
+                                            if (numberOfAmericanAnswers>0&&numberOfAmericanAnswers<=numbersOfAns){
                                                 numOfAns=true;
                                             }
 
