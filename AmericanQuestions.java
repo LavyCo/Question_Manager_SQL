@@ -32,7 +32,7 @@ public class AmericanQuestions extends Questions {
         this.answerArray = other.answerArray;
 
     }
-    //שגיאות כתיב של לביא בפונקציה
+
     public void Add2Answers() {
         if(this.getNumOfAmericanAnswers()<=8){
             AmericanAnswer[] plus2AmericanAnswer=new AmericanAnswer[this.getNumOfAmericanAnswers()+2];
@@ -43,7 +43,7 @@ public class AmericanQuestions extends Questions {
                 plus2AmericanAnswer[i].setCorrectness(false);
             }
             if(counterTrueFalse(this.getAnswerArray())==2){
-                //לביא והשטויות שלו
+
                 boolean correct= true;
                 boolean notCorrect=false;
                 String Ans2= "there is more than 1 right answer";
@@ -64,6 +64,9 @@ public class AmericanQuestions extends Questions {
                 this.answerArray[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, correct);
             }
             else{
+                for(int i=0;i<numOfAmericanAnswers;i++){
+                    plus2AmericanAnswer[i].setCorrectness(this.getAnswerArray()[i].getCorrectness());
+                }
                 String Ans1= "all the answers is false";
                 String Ans2= "there is more than 1 right answer";
                 this.answerArray=plus2AmericanAnswer;

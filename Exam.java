@@ -21,6 +21,21 @@ public class Exam {
     public Questions[] getQuestionsExamArray() {
         return questionsExamArray;
     }
+    public void sortQuestionsByLexicographicOrderExem() {
+        boolean noChange = false;
+        for (int i = this.getNumOfQuestions() - 1; i > 0 && (noChange == false); i--) {
+            for (int j = 0; j < i; j++) {
+                noChange = true;
+                if (questionsExamArray[j].getQuestionText().compareToIgnoreCase(questionsExamArray[j + 1].getQuestionText()) > 0) {
+                    Questions tempQuestion = questionsExamArray[j + 1];
+                    questionsExamArray[j + 1] = questionsExamArray[j];
+                    questionsExamArray[j] = tempQuestion;
+                    noChange = false;
+                }
+            }
+        }
+
+    }
 
 
     @Override

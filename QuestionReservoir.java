@@ -163,16 +163,24 @@ public class QuestionReservoir {
                 automaticAmericanQuestion.setQuestionText(randomAmericanQuestion.getQuestionText());
                 automaticAmericanQuestion.setNumOfAmericanAnswers(4);
                 automaticAmericanQuestion.setAnswerArray(automaticAmericanAnswersArray);
-                automaticAmericanQuestion.Add2Answers();
+
                 newQuestionArray[i] = new AmericanQuestions(automaticAmericanQuestion);
-
-
                  randomExam.getQuestionsExamArray()[i] = newQuestionArray[i];
+
             }
 
 
+
         }
+
         this.automaticExam = new Exam(randomExam);
+        for(int add2AnsIndex=0;add2AnsIndex<randomExam.getNumOfQuestions();add2AnsIndex++){
+            if(randomExam.getQuestionsExamArray()[add2AnsIndex] instanceof AmericanQuestions){
+               AmericanQuestions addAnsQuestion= (AmericanQuestions) randomExam.getQuestionsExamArray()[add2AnsIndex];
+                addAnsQuestion.Add2Answers();
+            }
+        }
+        randomExam.sortQuestionsByLexicographicOrderExem();
         System.out.println(automaticExam.toString());
 
     }
@@ -328,6 +336,7 @@ public class QuestionReservoir {
                             newAnswerArr[americanAnswerIndex] = newAnswer;
                         }
                         AmericanQuestions newAmericanQuestion = new AmericanQuestions(americanQuestion.questionText, newAnswerArr.length, newAnswerArr);
+                        newAmericanQuestion.Add2Answers();
                         manualExam.getQuestionsExamArray()[arrayIndex] = newAmericanQuestion;
                     }
 
