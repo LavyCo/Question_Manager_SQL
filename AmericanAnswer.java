@@ -1,8 +1,9 @@
 package id206214280_id316650399;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class AmericanAnswer {
+public class AmericanAnswer implements Serializable {
 	
 	private boolean correctness;
 	private String answerText;

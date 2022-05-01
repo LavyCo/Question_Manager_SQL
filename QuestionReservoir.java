@@ -1,10 +1,10 @@
 package id206214280_id316650399;
 
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class QuestionReservoir {
+public class QuestionReservoir implements Serializable {
 
     private int numberOfQuestions = 0;
     private int size = 1;
@@ -13,9 +13,10 @@ public class QuestionReservoir {
     private Exam automaticExam;
 
 
-    public QuestionReservoir() {
 
+    public QuestionReservoir() {
         questionArray = new Questions[size];
+
 
     }
 
@@ -25,6 +26,7 @@ public class QuestionReservoir {
             newQuestionsArray[i] = questionArray[i];
         }
         this.questionArray = newQuestionsArray;
+
     }
 
 
@@ -58,6 +60,40 @@ public class QuestionReservoir {
         }
 
     }
+    public void updateId(){
+
+            for(int i=numberOfQuestions;questionArray[i]!=null;i++) {
+            if(this.getQuestionArray()[i] instanceof  AmericanQuestions){
+                AmericanQuestions newAmericanQuestion = new AmericanQuestions((AmericanQuestions) this.getQuestionArray()[i]);
+                questionArray[i]=newAmericanQuestion;
+                numberOfQuestions++;
+            }
+
+            if(this.getQuestionArray()[i] instanceof  OpenQuestions){
+                    OpenQuestions newOpenQuestion = new OpenQuestions((OpenQuestions)this.getQuestionArray()[i]);
+                    questionArray[i]=newOpenQuestion;
+                    numberOfQuestions++;
+
+            }
+
+            };
+
+
+    }
+public void  saveBin() throws FileNotFoundException, IOException,ClassNotFoundException {
+    ObjectOutputStream outFile= new ObjectOutputStream(new FileOutputStream("QuestionArray.dat"));
+    outFile.writeObject(this.getQuestionArray());
+    outFile.close();
+
+
+}
+public void readBin() throws FileNotFoundException, IOException,ClassNotFoundException{
+    ObjectInputStream inFile=new ObjectInputStream(new FileInputStream("QuestionArray.dat"));
+          this.questionArray = (Questions[]) inFile.readObject();
+        inFile.close();
+        this.updateId();
+}
+
 
 
     public boolean changeAnswerWordingOfAmericanQuestions(String newAnswerText, AmericanQuestions editorQuestionAnswer, int numOfAnswer, boolean opt) {
@@ -224,6 +260,7 @@ public class QuestionReservoir {
             } else {
                 questionArray[numberOfQuestions++] = newOpenQuestion;
             }
+
             return true;
 
         }
@@ -269,6 +306,7 @@ public class QuestionReservoir {
 
 
     public boolean deleteAmericanAnswer(int indQuestion, int answerNumber) {
+
         AmericanAnswer[] originalAnswerArr = ((AmericanQuestions) this.getQuestionArray()[indQuestion]).getAnswerArray();
 
         AmericanQuestions americanQuestion = ((AmericanQuestions) this.getQuestionArray()[indQuestion]);

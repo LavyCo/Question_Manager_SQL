@@ -77,8 +77,8 @@ public class Exam {
                 }
             }
         }
-        writerExam.println("good luck");
-        writerSolution.println("end");
+        writerExam.println("Good Luck");
+        writerSolution.println("End");
         writerExam.close();
         writerSolution.close();
     }

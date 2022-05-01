@@ -1,17 +1,23 @@
 package id206214280_id316650399;
 
+import java.io.Serializable;
 import java.util.Objects;
 
- public  class  Questions {
+ public  class  Questions implements Serializable {
 	private static int counter=1;
 	protected int questionId;
 	protected String questionText;
 	
 	public Questions(String questionText) {
+
 		this.questionText=questionText;
-		this.questionId=counter++;
-		
+		setQuestionId(questionId);
 	}
+
+
+
+
+
 
 
 	protected void decreaseIdCounter(){
@@ -48,9 +54,8 @@ import java.util.Objects;
 		Questions p=(Questions)other;
 		return  this.questionText.equalsIgnoreCase(p.questionText);
 	}
-	
-	
-	
 
-
-}
+	 public void setQuestionId(int questionId) {
+		 this.questionId=counter++;
+		}
+ }

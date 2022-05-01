@@ -1,5 +1,6 @@
 package id206214280_id316650399;
 
+import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -7,25 +8,42 @@ import java.util.Scanner;
 // ליח לייצר עוד מקצועות עלינו ליצור מחלקות של מקצועות שמקבלות מאגרים
 public class Main {
 
-    public static void main(String[] args) throws Exception {
-        QuestionReservoir qr1 = new QuestionReservoir();
-        //open question #1
-        qr1.addOpenQuestion("A Who was Yitzhak Rabin?","Israeli prime minister");
-        //open question #2
-       qr1.addOpenQuestion("B Who solved the Engima machine during WWII?","Alan Turing");
-        //open question #3
-        qr1.addOpenQuestion("C What is the difference between Choclate cake and a Salad?","Salad wont give you Diabetes");
+    public static void main(String[] args) throws Exception , FileNotFoundException, IOException,ClassNotFoundException {
+//        QuestionReservoir qr1 = new QuestionReservoir();
+//        //open question #1
+//        qr1.addOpenQuestion("A Who was Yitzhak Rabin?","Israeli prime minister");
+//        //open question #2
+//       qr1.addOpenQuestion("B Who solved the Engima machine during WWII?","Alan Turing");
+//        //open question #3
+//        qr1.addOpenQuestion("C What is the difference between Choclate cake and a Salad?","Salad wont give you Diabetes");
+//
+//        //american question #1
+//        String aq1=("D Which one of these is not dessert?");
+//        String[] aa1=new String[]{"Muffin","Choclate cake","Ice cream","Brownies","Salad","Burger","Shawrma","Pizza"};
+//        boolean[] tof1=new boolean[]{false,false,false,false,true,true,true,true};
+//        qr1.addAmericanQuestion(aq1,aa1,tof1);
+//        //american question #2
+//        String aq2="E Which one of these next Programming languages is Low-Level programming language?";
+//        String[] aa2=new String[]{"Java","C++","Assembly","C","C#","Python","JavaScript","Swift","Machine Code"};
+//        boolean[] tof2=new boolean[]{false,false,true,false,false,false,false,false,true};
+//        qr1.addAmericanQuestion(aq2,aa2,tof2);
+//        qr1.saveBin();
+        QuestionReservoir qr1= new QuestionReservoir();
+        qr1.readBin();
+//        ObjectOutputStream outFile= new ObjectOutputStream(new FileOutputStream("QuestionReservoir.dat"));
+//        for(int i=0;i< qr1.getNumberOfQuestions();i++){
+//            outFile.writeObject(qr1.getQuestionArray()[i]);
+//        }
+//        outFile.writeObject(qr1);
+//        int idSave=qr1.getQuestionArray()[qr1.getNumberOfQuestions()-1].questionId;
+//        outFile.write(idSave);
+//       outFile.close();
+//        ObjectInputStream inFile=new ObjectInputStream(new FileInputStream("QuestionReservoir.dat"));
+//        QuestionReservoir qr1 = (QuestionReservoir) inFile.readObject();
+//        inFile.close();
 
-        //american question #1
-        String aq1=("D Which one of these is not dessert?");
-        String[] aa1=new String[]{"Muffin","Choclate cake","Ice cream","Brownies","Salad","Burger","Shawrma","Pizza"};
-        boolean[] tof1=new boolean[]{false,false,false,false,true,true,true,true};
-        qr1.addAmericanQuestion(aq1,aa1,tof1);
-        //american question #2
-        String aq2="E Which one of these next Programming languages is Low-Level programming language?";
-        String[] aa2=new String[]{"Java","C++","Assembly","C","C#","Python","JavaScript","Swift","Machine Code"};
-        boolean[] tof2=new boolean[]{false,false,true,false,false,false,false,false,true};
-        qr1.addAmericanQuestion(aq2,aa2,tof2);
+
+
 
 
 
@@ -373,6 +391,8 @@ public class Main {
 
 
                 case 8: {
+                    System.out.println("Question reservoir saved");
+                    qr1.saveBin();
                     System.out.println("Goodbye");
                     break;
                 }
