@@ -9,27 +9,28 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws Exception , FileNotFoundException, IOException,ClassNotFoundException {
-//        QuestionReservoir qr1 = new QuestionReservoir();
-//        //open question #1
-//        qr1.addOpenQuestion("A Who was Yitzhak Rabin?","Israeli prime minister");
-//        //open question #2
-//       qr1.addOpenQuestion("B Who solved the Engima machine during WWII?","Alan Turing");
-//        //open question #3
-//        qr1.addOpenQuestion("C What is the difference between Choclate cake and a Salad?","Salad wont give you Diabetes");
-//
-//        //american question #1
-//        String aq1=("D Which one of these is not dessert?");
-//        String[] aa1=new String[]{"Muffin","Choclate cake","Ice cream","Brownies","Salad","Burger","Shawrma","Pizza"};
-//        boolean[] tof1=new boolean[]{false,false,false,false,true,true,true,true};
-//        qr1.addAmericanQuestion(aq1,aa1,tof1);
-//        //american question #2
-//        String aq2="E Which one of these next Programming languages is Low-Level programming language?";
-//        String[] aa2=new String[]{"Java","C++","Assembly","C","C#","Python","JavaScript","Swift","Machine Code"};
-//        boolean[] tof2=new boolean[]{false,false,true,false,false,false,false,false,true};
-//        qr1.addAmericanQuestion(aq2,aa2,tof2);
-//        qr1.saveBin();
-        QuestionReservoir qr1= new QuestionReservoir();
-        qr1.readBin();
+        QuestionReservoir qr1 = new QuestionReservoir();
+        //open question #1
+        qr1.addOpenQuestion("A Who was Yitzhak Rabin?","Israeli prime minister");
+        //open question #2
+       qr1.addOpenQuestion("B Who solved the Engima machine during WWII?","Alan Turing");
+        //open question #3
+        qr1.addOpenQuestion("C What is the difference between Choclate cake and a Salad?","Salad wont give you Diabetes");
+
+        //american question #1
+        String aq1=("D Which one of these is not dessert?");
+        String[] aa1=new String[]{"Muffin","Choclate cake","Ice cream","Brownies","Salad","Burger","Shawrma","Pizza"};
+        boolean[] tof1=new boolean[]{false,false,false,false,true,true,true,true};
+        qr1.addAmericanQuestion(aq1,aa1,tof1);
+        //american question #2
+        String aq2="E Which one of these next Programming languages is Low-Level programming language?";
+        String[] aa2=new String[]{"Java","C++","Assembly","C","C#","Python","JavaScript","Swift","Machine Code"};
+        boolean[] tof2=new boolean[]{false,false,true,false,false,false,false,false,true};
+        qr1.addAmericanQuestion(aq2,aa2,tof2);
+        qr1.saveBin();
+//        QuestionReservoir qr1= new QuestionReservoir();
+//        qr1.readBin();
+
 //        ObjectOutputStream outFile= new ObjectOutputStream(new FileOutputStream("QuestionReservoir.dat"));
 //        for(int i=0;i< qr1.getNumberOfQuestions();i++){
 //            outFile.writeObject(qr1.getQuestionArray()[i]);
@@ -159,8 +160,8 @@ public class Main {
                             "Please choose which question would you like to change from the list below:");
                     // print all questions an show their Id
                     for (int i = 0; i < qr1.getNumberOfQuestions(); i++) {
-                        System.out.print("id is:(" + qr1.getQuestionArray()[i].getQuestionId() + ")" + " ");
-                        System.out.println("Question text is: " + qr1.getQuestionArray()[i].getQuestionText());
+                        System.out.print("id is:(" + qr1.getQuestionArray().get(i).getQuestionId() + ")" + " ");
+                        System.out.println("Question text is: " + qr1.getQuestionArray().get(i).getQuestionText());
                     }
                     // let user choose a question id by input
                     int expId = exceptionId(qr1);
@@ -187,29 +188,29 @@ public class Main {
                     int numOfAnswer = 0;
 
                     for (int i = 0; i < qr1.getNumberOfQuestions(); i++) {
-                        if (expId == qr1.getQuestionArray()[i].getQuestionId()) {
+                        if (expId == qr1.getQuestionArray().get(i).getQuestionId()) {
                             indQuestion = i;
                         }
                     }
-                    if (qr1.getQuestionArray()[indQuestion] instanceof AmericanQuestions) {
+                    if (qr1.castToAmericanQuestion(indQuestion) instanceof AmericanQuestions) {
                         boolean flagNumOfAnswer = false;
-                        ((AmericanQuestions) qr1.getQuestionArray()[indQuestion]).toString();
+                        qr1.castToAmericanQuestion(indQuestion).toString();
                         numOfAnswer = exceptionNumOfAnswer(qr1, expId);
 
-                        System.out.println("You chose to change the answer" + (((AmericanQuestions) qr1.getQuestionArray()[indQuestion]).getAnswerArray()[numOfAnswer - 1]));
+                        System.out.println("You chose to change the answer" + (qr1.castToAmericanQuestion(indQuestion).getAnswerArray()[numOfAnswer - 1]));
                         System.out.println("Please enter a new wording for the answer:");
                         input.nextLine();//cleans buffer
                         String newWordingForAmericanAnswer = input.nextLine();
                         boolean newAnswerOpt = exceptionIsAmericanTrueOrFalse();
-                        qr1.changeAnswerWordingOfAmericanQuestions(newWordingForAmericanAnswer, (AmericanQuestions) qr1.getQuestionArray()[indQuestion], numOfAnswer - 1, newAnswerOpt);
+                        qr1.changeAnswerWordingOfAmericanQuestions(newWordingForAmericanAnswer, qr1.castToAmericanQuestion(indQuestion), numOfAnswer - 1, newAnswerOpt);
                         askUserIftoAddAnswer(qr1,indQuestion);
 
                     }
-                    if ((qr1.getQuestionArray()[indQuestion] instanceof OpenQuestions)) {
+                    if ((qr1.castToOpenQuestion(indQuestion) instanceof OpenQuestions)) {
                         System.out.println("type in a new answer wording ");
                         input.nextLine();// cleans buffer
                         String newAnswer = input.nextLine();
-                        if (qr1.changeAnswerWordingOfOpenQuestion(newAnswer, qr1.getQuestionArray()[indQuestion], numOfAnswer)) {
+                        if (qr1.changeAnswerWordingOfOpenQuestion(newAnswer, qr1.getQuestionArray().get(indQuestion), numOfAnswer)) {
                             System.out.println("the answer wording changed");
                         } else {
                             System.out.println("failed");
@@ -234,8 +235,8 @@ public class Main {
                     int indQuestion = 0;
                     boolean americanQuestionFlag = true;
                     for (int i = 0; i < qr1.getNumberOfQuestions(); i++) {
-                        if (qr1.getQuestionArray()[i].getQuestionId() == userGivenQuestionId) {
-                            if (qr1.getQuestionArray()[i] instanceof OpenQuestions) {
+                        if (qr1.getQuestionArray().get(i).getQuestionId() == userGivenQuestionId) {
+                            if (qr1.castToOpenQuestion(i) instanceof OpenQuestions) {
                                 System.out.println("Can't delete the answer of an open question");
                                 americanQuestionFlag = false;
                             } else {
@@ -250,13 +251,14 @@ public class Main {
                         int answerNumber = 0;
                         //choosing the answer number
                         boolean flagCountAmericanAns = false;
-                        System.out.println(((AmericanQuestions) qr1.getQuestionArray()[indQuestion]).printAnswersOnly());
-                        System.out.println("" + ((AmericanQuestions) qr1.getQuestionArray()[indQuestion]).getNumOfAmericanAnswers() + "");
+
+                        System.out.println(qr1.castToAmericanQuestion(indQuestion).printAnswersOnly());
+                        System.out.println("" + qr1.castToAmericanQuestion(indQuestion).getNumOfAmericanAnswers() + "");
                         while (!flagCountAmericanAns) {
                             try {
                                 System.out.println("Please choose the answer you want to delete");
                                 answerNumber = input.nextInt();
-                                if (answerNumber > 0 && answerNumber <= ((AmericanQuestions) qr1.getQuestionArray()[indQuestion]).getNumOfAmericanAnswers()) {
+                                if (answerNumber > 0 && answerNumber <= qr1.castToAmericanQuestion(indQuestion).getNumOfAmericanAnswers()) {
                                     flagCountAmericanAns = true;
                                 }
 
@@ -266,8 +268,8 @@ public class Main {
                                 System.out.println("Error " + e.getMessage());
                             }
                         }
-                        if (answerNumber > 0 && answerNumber <= ((AmericanQuestions) qr1.getQuestionArray()[indQuestion]).getNumOfAmericanAnswers()) {
-                            System.out.println("Choosen answer to delete is" + ((AmericanQuestions) qr1.getQuestionArray()[indQuestion]).getAnswerArray()[answerNumber - 1]);
+                        if (answerNumber > 0 && answerNumber <=  qr1.castToAmericanQuestion(indQuestion).getNumOfAmericanAnswers()) {
+                            System.out.println("Choosen answer to delete is" +  qr1.castToAmericanQuestion(indQuestion).getAnswerArray()[answerNumber - 1]);
                         }
 
                         //sending parametes to the function (Question Index and Answer number)
@@ -309,13 +311,13 @@ public class Main {
                         // let user choose a question id by input
                         int expId = exceptionId(qr1);
                         for (int j = 0; j < qr1.getNumberOfQuestions(); j++) {
-                            if (expId == qr1.getQuestionArray()[j].getQuestionId()) {
+                            if (expId == qr1.getQuestionArray().get(j).getQuestionId()) {
 
-                                if (qr1.getQuestionArray()[j] instanceof OpenQuestions) {
+                                if (qr1.castToOpenQuestion(j) instanceof OpenQuestions) {
                                     indQuestion[i][0] = j;
                                 }
 
-                                if (qr1.getQuestionArray()[j] instanceof AmericanQuestions) {
+                                if (qr1.castToAmericanQuestion(j) instanceof AmericanQuestions) {
                                     indQuestion[i][0]=j;
                                     boolean numOfAns=false;
                                     int numberOfAmericanAnswers=0;
@@ -415,7 +417,7 @@ public class Main {
                 expId = input.nextInt();
                 boolean flag = false;
                 for (int i = 0; i < qr.getNumberOfQuestions(); i++) {
-                    if (qr.getQuestionArray()[i].questionId == expId) {
+                    if (qr.getQuestionArray().get(i).questionId == expId) {
                         flag = true;
                         return expId;
                     }
@@ -442,23 +444,23 @@ public class Main {
         int QuestionInd = 0;
 
         //finding the chosen question by id
-        for (int i = 0; i < qr.getQuestionArray().length; i++) {
+        for (int i = 0; i < qr.getQuestionArray().size(); i++) {
 
-            if (qr.getQuestionArray()[i] == null) {
+            if (qr.getQuestionArray().get(i) == null) {
 
-            } else if (qr.getQuestionArray()[i].getQuestionId() == expId) {
+            } else if (qr.getQuestionArray().get(i).getQuestionId() == expId) {
                 QuestionInd = i;
             }
         }
         //printing the answers to the user
         System.out.println("Please choose an answer by number");
-        System.out.println(((AmericanQuestions) qr.getQuestionArray()[QuestionInd]).printAnswersOnly());
+        System.out.println( qr.castToAmericanQuestion(QuestionInd).printAnswersOnly());
         //allowing user to choose within range (needs to be bigger than 0 and smaller than the answer array)
-        while (numberOfAnswer <= 0 || numberOfAnswer > ((AmericanQuestions) qr.getQuestionArray()[QuestionInd]).getAnswerArray().length) {
+        while (numberOfAnswer <= 0 || numberOfAnswer > ((AmericanQuestions) qr.castToAmericanQuestion(QuestionInd)).getAnswerArray().length) {
 
             try {
                 numberOfAnswer = input.nextInt();
-                if (numberOfAnswer <= 0 || numberOfAnswer > (((AmericanQuestions) qr.getQuestionArray()[QuestionInd]).getAnswerArray().length))
+                if (numberOfAnswer <= 0 || numberOfAnswer > ( qr.castToAmericanQuestion(QuestionInd).getAnswerArray().length))
                     throw new Exception("Number not within answers range");
 
             }
@@ -470,7 +472,7 @@ public class Main {
             }
             //checks if enterd answer index is withing range
             catch (Exception e) {
-                System.out.println("Entered number not within range of answer" + "(" + 1 + "-" + ((AmericanQuestions) qr.getQuestionArray()[QuestionInd]).getAnswerArray().length + ")");
+                System.out.println("Entered number not within range of answer" + "(" + 1 + "-" + qr.castToAmericanQuestion(QuestionInd).getAnswerArray().length + ")");
                 input.nextLine();
             }
 
@@ -540,8 +542,8 @@ public class Main {
     public static boolean askUserIftoAddAnswer( QuestionReservoir qr1,int americanIndex) {
         Scanner input = new Scanner(System.in);
         //asks user if he want to add an "All answers are false" or "More than 1 answer is true option"
-        if(qr1.getQuestionArray()[americanIndex] instanceof AmericanQuestions) {
-          AmericanQuestions  americanQuestion=(AmericanQuestions) qr1.getQuestionArray()[americanIndex];
+        if(qr1.castToAmericanQuestion(americanIndex)instanceof AmericanQuestions) {
+          AmericanQuestions  americanQuestion=(AmericanQuestions) qr1.castToAmericanQuestion(americanIndex);
 
 
             if (americanQuestion.counterTrueFalse(americanQuestion.getAnswerArray()) == 2) {

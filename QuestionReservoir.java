@@ -1,6 +1,7 @@
 package id206214280_id316650399;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -8,26 +9,26 @@ public class QuestionReservoir implements Serializable {
 
     private int numberOfQuestions = 0;
     private int size = 1;
-    private Questions[] questionArray;
+    private ArrayList <Questions> questionArray;
     private Exam manualExam;
     private Exam automaticExam;
 
 
 
     public QuestionReservoir() {
-        questionArray = new Questions[size];
+        questionArray = new ArrayList<>();
 
 
     }
 
-    public void resizeQuestionArray() {
-        Questions[] newQuestionsArray = new Questions[size * 2];
-        for (int i = 0; i < numberOfQuestions; i++) {
-            newQuestionsArray[i] = questionArray[i];
-        }
-        this.questionArray = newQuestionsArray;
-
-    }
+//    public void resizeQuestionArray() {
+//        Questions[] newQuestionsArray = new Questions[size * 2];
+//        for (int i = 0; i < numberOfQuestions; i++) {
+//            newQuestionsArray[i] = questionArray[i];
+//        }
+//        this.questionArray = newQuestionsArray;
+//
+//    }
 
 
     public boolean changeAnswerWordingOfOpenQuestion(String newAnswerText, Questions editorQuestionAnswer, int numOfAnswer) {
@@ -50,28 +51,41 @@ public class QuestionReservoir implements Serializable {
         for (int i = this.getNumberOfQuestions() - 1; i > 0 && (noChange == false); i--) {
             for (int j = 0; j < i; j++) {
                 noChange = true;
-                if (questionArray[j].getQuestionText().compareToIgnoreCase(questionArray[j + 1].getQuestionText()) > 0) {
-                    Questions tempQuestion = questionArray[j + 1];
-                    questionArray[j + 1] = questionArray[j];
-                    questionArray[j] = tempQuestion;
+                if (questionArray.get(j).getQuestionText().compareToIgnoreCase(questionArray.get(j + 1).getQuestionText()) > 0) {
+                    Questions tempQuestion = questionArray.get(j + 1);
+                    questionArray.set(j+1,questionArray.get(j)) ;
+                    questionArray.set(j,tempQuestion);
                     noChange = false;
                 }
             }
         }
 
     }
+
+    public ArrayList<Questions> getQuestionArray() {
+        return questionArray;
+    }
+
+    public AmericanQuestions castToAmericanQuestion(int index){
+        return (AmericanQuestions) this.questionArray.get(index);
+
+    }
+    public OpenQuestions castToOpenQuestion(int index){
+        return (OpenQuestions) this.questionArray.get(index);
+
+    }
     public void updateId(){
 
-            for(int i=numberOfQuestions;questionArray[i]!=null;i++) {
-            if(this.getQuestionArray()[i] instanceof  AmericanQuestions){
-                AmericanQuestions newAmericanQuestion = new AmericanQuestions((AmericanQuestions) this.getQuestionArray()[i]);
-                questionArray[i]=newAmericanQuestion;
+            for(int i=numberOfQuestions;questionArray.get(i)!=null;i++) {
+            if(this.questionArray.get(i) instanceof  AmericanQuestions){
+                AmericanQuestions newAmericanQuestion = new AmericanQuestions((AmericanQuestions) this.questionArray.get(i));
+                questionArray.set(i,newAmericanQuestion);
                 numberOfQuestions++;
             }
 
-            if(this.getQuestionArray()[i] instanceof  OpenQuestions){
-                    OpenQuestions newOpenQuestion = new OpenQuestions((OpenQuestions)this.getQuestionArray()[i]);
-                    questionArray[i]=newOpenQuestion;
+            if(this.questionArray.get(i) instanceof  OpenQuestions){
+                    OpenQuestions newOpenQuestion = new OpenQuestions((OpenQuestions)this.questionArray.get(i));
+                    questionArray.set(i,newOpenQuestion);
                     numberOfQuestions++;
 
             }
@@ -82,14 +96,14 @@ public class QuestionReservoir implements Serializable {
     }
 public void  saveBin() throws FileNotFoundException, IOException,ClassNotFoundException {
     ObjectOutputStream outFile= new ObjectOutputStream(new FileOutputStream("QuestionArray.dat"));
-    outFile.writeObject(this.getQuestionArray());
+    outFile.writeObject(this.questionArray);
     outFile.close();
 
 
 }
 public void readBin() throws FileNotFoundException, IOException,ClassNotFoundException{
     ObjectInputStream inFile=new ObjectInputStream(new FileInputStream("QuestionArray.dat"));
-          this.questionArray = (Questions[]) inFile.readObject();
+          this.questionArray =(ArrayList <Questions>) inFile.readObject();
         inFile.close();
         this.updateId();
 }
@@ -121,7 +135,7 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
         // loop that checks if the question exists
         Questions testQuestionText = new Questions(newQuestionText);
         for (int i = 0; i < this.numberOfQuestions; i++) {
-            if (testQuestionText.equals(this.questionArray[i])) {
+            if (testQuestionText.equals(this.questionArray.get(i))) {
                 System.out.println("Can't change question text-There a Question with the same text");
                 return false;
             }
@@ -129,8 +143,8 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
         }
 
         for (int i = 0; i < this.numberOfQuestions; i++) {
-            if (this.questionArray[i].questionId == choosenId) {
-                this.questionArray[i].setQuestionText(newQuestionText);
+            if (this.questionArray.get(i).questionId == choosenId) {
+                this.questionArray.get(i).setQuestionText(newQuestionText);
             }
 
         }
@@ -140,22 +154,22 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
 
     public void automaticExam(int automaticExamNumberOfQuestions) throws FileNotFoundException {
         Exam randomExam = new Exam(automaticExamNumberOfQuestions);
-        Questions[] newQuestionArray = new Questions[automaticExamNumberOfQuestions];
-        Questions[] qrQuestionArr = this.getQuestionArray();
+       ArrayList <Questions> newQuestionArray = new ArrayList<>(automaticExamNumberOfQuestions);
+        ArrayList <Questions> qrQuestionArr = this.questionArray;
         int[] randomIndex = randomNumbersArray(this.numberOfQuestions);
         for (int i = 0; i < automaticExamNumberOfQuestions; i++) {
             //r random index
             int r = randomIndex[i];
 
-            if (qrQuestionArr[r] instanceof OpenQuestions) {
-                newQuestionArray[i] = new OpenQuestions((OpenQuestions) qrQuestionArr[r]);
-                randomExam.getQuestionsExamArray()[i] = newQuestionArray[i];
+            if (qrQuestionArr.get(r) instanceof OpenQuestions) {
+                newQuestionArray.set(i,new OpenQuestions((OpenQuestions) qrQuestionArr.get(r)));
+                randomExam.getQuestionsExamArray()[i] = newQuestionArray.get(i);
             }
 
 
-            if (qrQuestionArr[r] instanceof AmericanQuestions) {
-                int americanAnswersSize = ((AmericanQuestions) qrQuestionArr[r]).getNumOfAmericanAnswers();
-                AmericanQuestions randomAmericanQuestion = ((AmericanQuestions) qrQuestionArr[r]);
+            if (qrQuestionArr.get(r) instanceof AmericanQuestions) {
+                int americanAnswersSize = ((AmericanQuestions) qrQuestionArr.get(r)).getNumOfAmericanAnswers();
+                AmericanQuestions randomAmericanQuestion = ((AmericanQuestions) qrQuestionArr.get(r));
                 AmericanQuestions automaticAmericanQuestion = new AmericanQuestions(randomAmericanQuestion.questionText, randomAmericanQuestion.getNumOfAmericanAnswers(), randomAmericanQuestion.getAnswerArray());
 
                 int[] randomAnswerIndex = randomNumbersArray(americanAnswersSize);
@@ -198,8 +212,8 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
                 automaticAmericanQuestion.setNumOfAmericanAnswers(4);
                 automaticAmericanQuestion.setAnswerArray(automaticAmericanAnswersArray);
 
-                newQuestionArray[i] = new AmericanQuestions(automaticAmericanQuestion);
-                randomExam.getQuestionsExamArray()[i] = newQuestionArray[i];
+                newQuestionArray.set(i,new AmericanQuestions(automaticAmericanQuestion))  ;
+                randomExam.getQuestionsExamArray()[i] = newQuestionArray.get(i);
 
             }
 
@@ -244,7 +258,7 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
         if (newQuestion instanceof OpenQuestions) {
             Questions newOpenQuestion = newQuestion;
             for (int i = 0; i < numberOfQuestions; i++) {
-                if (questionArray[i].equals(newOpenQuestion)) {
+                if (questionArray.get(i).equals(newOpenQuestion)) {
                     System.out.println("Cannot add:This question is already in the reservoir");
                     //decreasing id counter by 1
                     newQuestion.decreaseIdCounter();
@@ -252,15 +266,7 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
                 }
 
             }
-
-            if (numberOfQuestions == size) {
-                resizeQuestionArray();
-                questionArray[numberOfQuestions++] = newOpenQuestion;
-                size *= 2;
-            } else {
-                questionArray[numberOfQuestions++] = newOpenQuestion;
-            }
-
+                questionArray.add(newOpenQuestion) ;
             return true;
 
         }
@@ -283,20 +289,15 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
         }
         AmericanQuestions newAmericanQuestion = new AmericanQuestions(questionText, newAmericanAnswersArray.length, newAmericanAnswersArray);
 
-        if (numberOfQuestions == size) {
-            resizeQuestionArray();
-            questionArray[numberOfQuestions++] = newAmericanQuestion;
-            size *= 2;
-        } else {
-            questionArray[numberOfQuestions++] = newAmericanQuestion;
-        }
+            questionArray.add(newAmericanQuestion)  ;
+
         System.out.println("American Question added");
         return true;
 
 
     }
     public int takeNumOfAnswers(QuestionReservoir qr1,int index){
-        AmericanQuestions americanQuestions=new AmericanQuestions((AmericanQuestions) qr1.getQuestionArray()[index]);
+        AmericanQuestions americanQuestions=new AmericanQuestions((AmericanQuestions) qr1.questionArray.get(index));
 
       return americanQuestions.getNumOfAmericanAnswers() ; 
 
@@ -307,9 +308,9 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
 
     public boolean deleteAmericanAnswer(int indQuestion, int answerNumber) {
 
-        AmericanAnswer[] originalAnswerArr = ((AmericanQuestions) this.getQuestionArray()[indQuestion]).getAnswerArray();
+        AmericanAnswer[] originalAnswerArr = ((AmericanQuestions) this.questionArray.get(indQuestion)).getAnswerArray();
 
-        AmericanQuestions americanQuestion = ((AmericanQuestions) this.getQuestionArray()[indQuestion]);
+        AmericanQuestions americanQuestion = ((AmericanQuestions) this.questionArray.get(indQuestion));
         int newNumberOfAnswers = originalAnswerArr.length;
         if (americanQuestion.counterTrueFalse(originalAnswerArr) == 1) {
             System.out.println("Can't delete must have 2 negated answers");
@@ -354,9 +355,7 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
     }
 
 
-    public Questions[] getQuestionArray() {
-        return questionArray;
-    }
+
 
 
     public void manualExamCreate(int numOfQuestInTest, int[][] indQuestion) throws FileNotFoundException {
@@ -365,14 +364,14 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
         for (int arrayIndex = 0; arrayIndex < numOfQuestInTest; arrayIndex++) {
             for (int allQuestionsIndex = 0; allQuestionsIndex < numberOfQuestions; allQuestionsIndex++) {
 
-                if (this.questionArray[allQuestionsIndex].questionId == indQuestion[arrayIndex][0] + 1) {
-                    if (this.questionArray[allQuestionsIndex] instanceof OpenQuestions) {
-                        OpenQuestions newOpenQuestions = new OpenQuestions((OpenQuestions) this.questionArray[allQuestionsIndex]);
+                if (this.questionArray.get(allQuestionsIndex).questionId == indQuestion[arrayIndex][0] + 1) {
+                    if (this.questionArray.get(allQuestionsIndex) instanceof OpenQuestions) {
+                        OpenQuestions newOpenQuestions = new OpenQuestions((OpenQuestions) this.questionArray.get(allQuestionsIndex));
                         manualExam.getQuestionsExamArray()[arrayIndex] = newOpenQuestions;
                     }
-                    if (this.questionArray[allQuestionsIndex] instanceof AmericanQuestions) {
+                    if (this.questionArray.get(allQuestionsIndex) instanceof AmericanQuestions) {
 
-                        AmericanQuestions americanQuestion = ((AmericanQuestions) this.getQuestionArray()[allQuestionsIndex]);
+                        AmericanQuestions americanQuestion = ((AmericanQuestions) this.questionArray.get(allQuestionsIndex));
                         AmericanAnswer[] newAnswerArr = new AmericanAnswer[indQuestion[arrayIndex][1]];
 
                         for (int americanAnswerIndex = 0; americanAnswerIndex < indQuestion[arrayIndex][1]; americanAnswerIndex++) {
@@ -394,15 +393,6 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
     }
 
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(questionArray);
-        result = prime * result + Objects.hash(numberOfQuestions);
-        return result;
-    }
-
     //checks if there is the same question in the array
     @Override
     public boolean equals(Object other) {
@@ -412,7 +402,7 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
         Questions p = (Questions) other;
         for (int i = 0; i < numberOfQuestions; i++) {
 
-            return this.questionArray[i].equals(p);
+            return this.questionArray.get(i).equals(p);
 
 
         }
@@ -460,7 +450,7 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
         sb.append("The number of questions in the Reservoir is: " + numberOfQuestions + "\n"
                 + "\nThe questions are:\n");
         for (int i = 0; i < numberOfQuestions; i++) {
-            sb.append(questionArray[i].toString());
+            sb.append(questionArray.get(i).toString());
         }
         return sb.toString();
     }
