@@ -1,5 +1,6 @@
 package id206214280_id316650399;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -7,79 +8,98 @@ public class AmericanQuestions extends Questions {
 
     private final int MAX_AMERICAN_ANSWERS = 10;
     private int numOfAmericanAnswers;
-    private AmericanAnswer[] answerArray = new AmericanAnswer[MAX_AMERICAN_ANSWERS];
+    private ArrayList<AmericanAnswer> answerArrayList;
 
 
-
-    public AmericanQuestions(String questionText, int numOfAmericanAnswers, AmericanAnswer[] answerArray) {
+    public AmericanQuestions(String questionText, ArrayList<AmericanAnswer> answerArrayList) {
         super(questionText);
-        this.numOfAmericanAnswers = numOfAmericanAnswers;
-        setAnswerArray(answerArray);
+        this.numOfAmericanAnswers = answerArrayList.size();
+        this.answerArrayList = answerArrayList;
     }
 
-    public boolean isAnswerInArray(AmericanAnswer americanAnswer){
-        for(int i=0;i<numOfAmericanAnswers;i++){
-            if(answerArray[i].equals(americanAnswer))
+    public boolean isAnswerInArray(AmericanAnswer americanAnswer) {
+        for (int i = 0; i < numOfAmericanAnswers; i++) {
+            if (answerArrayList.get(i).equals(americanAnswer))
                 return true;
         }
         return false;
     }
 
+    public boolean addAnswer(AmericanAnswer americanAnswer) {
+        if (numOfAmericanAnswers == MAX_AMERICAN_ANSWERS) {
+            System.out.println("Capacity full cannot add answer");
+            return false;
+        } else {
+            this.answerArrayList.add(americanAnswer);
+            numOfAmericanAnswers++;
+            return true;
+        }
+    }
+
+    public boolean americanAnswerRemove(int answerNumber) {
+        System.out.println(numOfAmericanAnswers);
+        if (numOfAmericanAnswers > 1) {
+            numOfAmericanAnswers--;
+            System.out.println(answerArrayList.get(answerNumber).toString());
+            return true;
+        }
+        return false;
+    }
 
     public AmericanQuestions(AmericanQuestions other) {
         super(other.questionText);
         this.numOfAmericanAnswers = other.numOfAmericanAnswers;
-        this.answerArray = other.answerArray;
+        answerArrayList.addAll(other.answerArrayList);
 
     }
 
-    public void Add2Answers() {
-        if(this.getNumOfAmericanAnswers()<=8){
-            AmericanAnswer[] plus2AmericanAnswer=new AmericanAnswer[this.getNumOfAmericanAnswers()+2];
-            for(int i=0;i<this.getNumOfAmericanAnswers();i++){
-                plus2AmericanAnswer[i]=new AmericanAnswer(this.getAnswerArray()[i].getAnswerText(),this.getAnswerArray()[i].getCorrectness());
-            }
-            for(int i=0;i<numOfAmericanAnswers;i++){
-                plus2AmericanAnswer[i].setCorrectness(false);
-            }
-            if(counterTrueFalse(this.getAnswerArray())==2){
-
-                boolean correct= true;
-                boolean notCorrect=false;
-                String Ans2= "there is more than 1 right answer";
-                String Ans1= "all the answers is false";
-                this.answerArray=plus2AmericanAnswer;
-                this.setNumOfAmericanAnswers(plus2AmericanAnswer.length);
-                this.answerArray[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1, correct);
-                this.answerArray[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, notCorrect);
-            }
-            else if(counterTrueFalse(this.getAnswerArray())==3){
-                boolean notCorrect=false;
-                boolean correct= true;
-                String Ans1= "all the answers is false";
-                String Ans2= "there is more than 1 right answer";
-                this.answerArray=plus2AmericanAnswer;
-                this.setNumOfAmericanAnswers(plus2AmericanAnswer.length);
-                this.answerArray[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1,notCorrect );
-                this.answerArray[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, correct);
-            }
-            else{
-                for(int i=0;i<numOfAmericanAnswers;i++){
-                    plus2AmericanAnswer[i].setCorrectness(this.getAnswerArray()[i].getCorrectness());
-                }
-                String Ans1= "all the answers is false";
-                String Ans2= "there is more than 1 right answer";
-                this.answerArray=plus2AmericanAnswer;
-                this.setNumOfAmericanAnswers(plus2AmericanAnswer.length);
-                this.answerArray[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1,false );
-                this.answerArray[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, false);
-            }
-
-
-
-        }
-
-    }
+//    public void Add2Answers() {
+//        if(this.getNumOfAmericanAnswers()<=8){
+//            AmericanAnswer[] plus2AmericanAnswer=new AmericanAnswer[this.getNumOfAmericanAnswers()+2];
+//            for(int i=0;i<this.getNumOfAmericanAnswers();i++){
+//                plus2AmericanAnswer[i]=new AmericanAnswer(this.getAnswerArray()[i].getAnswerText(),this.getAnswerArray()[i].getCorrectness());
+//            }
+//            for(int i=0;i<numOfAmericanAnswers;i++){
+//                plus2AmericanAnswer[i].setCorrectness(false);
+//            }
+//            if(counterTrueFalse(this.getAnswerArray())==2){
+//
+//                boolean correct= true;
+//                boolean notCorrect=false;
+//                String Ans2= "there is more than 1 right answer";
+//                String Ans1= "all the answers is false";
+//                this.answerArray=plus2AmericanAnswer;
+//                this.setNumOfAmericanAnswers(plus2AmericanAnswer.length);
+//                this.answerArray[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1, correct);
+//                this.answerArray[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, notCorrect);
+//            }
+//            else if(counterTrueFalse(this.getAnswerArray())==3){
+//                boolean notCorrect=false;
+//                boolean correct= true;
+//                String Ans1= "all the answers is false";
+//                String Ans2= "there is more than 1 right answer";
+//                this.answerArray=plus2AmericanAnswer;
+//                this.setNumOfAmericanAnswers(plus2AmericanAnswer.length);
+//                this.answerArray[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1,notCorrect );
+//                this.answerArray[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, correct);
+//            }
+//            else{
+//                for(int i=0;i<numOfAmericanAnswers;i++){
+//                    plus2AmericanAnswer[i].setCorrectness(this.getAnswerArray()[i].getCorrectness());
+//                }
+//                String Ans1= "all the answers is false";
+//                String Ans2= "there is more than 1 right answer";
+//                this.answerArray=plus2AmericanAnswer;
+//                this.setNumOfAmericanAnswers(plus2AmericanAnswer.length);
+//                this.answerArray[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1,false );
+//                this.answerArray[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, false);
+//            }
+//
+//
+//
+//        }
+//
+//    }
 
 
     //this function check if there are more than 1 true answer and adds "More than 1 true answer"
@@ -87,7 +107,7 @@ public class AmericanQuestions extends Questions {
     // ומטפלת לפי כל סיטואציה
     //יותר מתשובה אחת נכונה,כל התשובות נכונות,אף תשובה אינה נכונה,תושבה אחת נכונה ותשובה שנייה לא נכונה(לא מטפלת),יש רק תשובה אחת נכונה(לא מטפלת)
     //הפונקציה מחזירה מערך תשובות לאחר שטיפלה בו
-    public boolean checkAnswerArrays(AmericanAnswer[] americanAnswers) {
+    public boolean checkAnswerArrays(ArrayList<AmericanAnswer> americanAnswers) {
 
         //tC=1 and fC=1
         if (this.counterTrueFalse(americanAnswers) == 1) {
@@ -102,13 +122,7 @@ public class AmericanQuestions extends Questions {
                     System.out.println("Maximal number of answers exceeded");
                     return false;
                 }
-                int newNumOfAmericanAnswer = numOfAmericanAnswers + 1;
-                AmericanAnswer[] newAmericanAnswers = new AmericanAnswer[newNumOfAmericanAnswer];
-                for (int i = 0; i < newNumOfAmericanAnswer - 1; i++) {
-                    newAmericanAnswers[i] = americanAnswers[i];
-                }
-                newAmericanAnswers[newNumOfAmericanAnswer - 1] = new AmericanAnswer("All answers are false", true);
-                this.setAnswerArray(newAmericanAnswers);
+                this.answerArrayList.add(new AmericanAnswer("All answers are false", true));
                 numOfAmericanAnswers++;
 
                 return true;
@@ -128,16 +142,9 @@ public class AmericanQuestions extends Questions {
             }
             //loop that turns all true answers into false answers
             for (int i = 0; i < numOfAmericanAnswers; i++) {
-                americanAnswers[i].setCorrectness(false);
+                this.answerArrayList.get(i).setCorrectness(false);
             }
-            //creating copy array
-            int newNumOfAmericanAnswer = this.numOfAmericanAnswers + 1;
-            AmericanAnswer[] newAmericanAnswerArr = new AmericanAnswer[newNumOfAmericanAnswer];
-            for (int i = 0; i < numOfAmericanAnswers; i++) {
-                newAmericanAnswerArr[i] = americanAnswers[i];
-            }
-            newAmericanAnswerArr[newNumOfAmericanAnswer - 1] = new AmericanAnswer("More than 1 answer is true", true);
-            this.setAnswerArray(newAmericanAnswerArr);
+            this.answerArrayList.add(new AmericanAnswer("All answers are true", true));
             numOfAmericanAnswers++;
 
         }
@@ -146,13 +153,13 @@ public class AmericanQuestions extends Questions {
 
 
     //הפונקציה סופרת את את מספר התשובות הנכונות ולא נכונות ומחזירה אינדקס
-    public int counterTrueFalse(AmericanAnswer[] americanAnswers) {
+    public int counterTrueFalse(ArrayList<AmericanAnswer> americanAnswers) {
 
         //function that check how many true and false there are
         //check how many false or true answers there are for the question
         int trueCounter = 0, falseCounter = 0;
-        for (int i = 0; i < americanAnswers.length; i++) {
-            if (americanAnswers[i].getCorrectness()) {
+        for (int i = 0; i < americanAnswers.size(); i++) {
+            if (americanAnswers.get(i).getCorrectness()) {
                 trueCounter++;
             } else {
                 falseCounter++;
@@ -188,7 +195,7 @@ public class AmericanQuestions extends Questions {
         StringBuffer sb = new StringBuffer();
         sb.append(super.toString() + "the answers are: \n");
         for (int i = 0; i < numOfAmericanAnswers; i++) {
-            sb.append((i + 1) + ")" + answerArray[i].toString() + "\n");
+            sb.append((i + 1) + ")" + answerArrayList.get(i).toString() + "\n");
         }
         sb.append("\n");
         return sb.toString();
@@ -199,20 +206,12 @@ public class AmericanQuestions extends Questions {
         StringBuffer sb = new StringBuffer();
         sb.append("The answers are:\n");
         for (int i = 0; i < numOfAmericanAnswers; i++) {
-            sb.append((i + 1) + ")" + answerArray[i].toString() + "\n");
+            sb.append((i + 1) + ")" + answerArrayList.get(i).toString() + "\n");
         }
         return sb.toString();
 
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(answerArray);
-        result = prime * result + Objects.hash(MAX_AMERICAN_ANSWERS, numOfAmericanAnswers);
-        return result;
-    }
 
     @Override
     public boolean equals(Object other) {
@@ -226,17 +225,15 @@ public class AmericanQuestions extends Questions {
     }
 
 
-
-    public AmericanAnswer[] getAnswerArray() {
-        return answerArray;
+    public ArrayList<AmericanAnswer> getAnswerArray() {
+        return answerArrayList;
     }
 
-    public boolean setAnswerArray(AmericanAnswer[] answerArray) {
+    public boolean setAnswerArray(ArrayList<AmericanAnswer> answerArrayList) {
 
         for (int i = 0; i < numOfAmericanAnswers; i++) {
-            this.answerArray[i] = answerArray[i];
+            this.answerArrayList.set(i, answerArrayList.get(i));
         }
-        this.answerArray = answerArray;
         return true;
     }
 

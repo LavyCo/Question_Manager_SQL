@@ -2,22 +2,19 @@ package id206214280_id316650399;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class QuestionReservoir implements Serializable {
 
     private int numberOfQuestions = 0;
-    private int size = 1;
-    private ArrayList <Questions> questionArray;
+    private ArrayList<Questions> questionArray;
     private Exam manualExam;
     private Exam automaticExam;
 
 
-
     public QuestionReservoir() {
         questionArray = new ArrayList<>();
-
+        manualExam=new Exam();
+        automaticExam=new Exam();
 
     }
 
@@ -46,68 +43,56 @@ public class QuestionReservoir implements Serializable {
         return false;
     }
 
-    public void sortQuestionsByLexicographicOrder() {
-        boolean noChange = false;
-        for (int i = this.getNumberOfQuestions() - 1; i > 0 && (noChange == false); i--) {
-            for (int j = 0; j < i; j++) {
-                noChange = true;
-                if (questionArray.get(j).getQuestionText().compareToIgnoreCase(questionArray.get(j + 1).getQuestionText()) > 0) {
-                    Questions tempQuestion = questionArray.get(j + 1);
-                    questionArray.set(j+1,questionArray.get(j)) ;
-                    questionArray.set(j,tempQuestion);
-                    noChange = false;
-                }
-            }
-        }
-
-    }
-
-    public ArrayList<Questions> getQuestionArray() {
-        return questionArray;
-    }
-
-    public AmericanQuestions castToAmericanQuestion(int index){
-        return (AmericanQuestions) this.questionArray.get(index);
-
-    }
-    public OpenQuestions castToOpenQuestion(int index){
-        return (OpenQuestions) this.questionArray.get(index);
-
-    }
-    public void updateId(){
-
-            for(int i=numberOfQuestions;questionArray.get(i)!=null;i++) {
-            if(this.questionArray.get(i) instanceof  AmericanQuestions){
+    public void updateId() {
+        for (int i = numberOfQuestions; i < questionArray.size(); i++) {
+            if (this.questionArray.get(i) instanceof AmericanQuestions) {
                 AmericanQuestions newAmericanQuestion = new AmericanQuestions((AmericanQuestions) this.questionArray.get(i));
-                questionArray.set(i,newAmericanQuestion);
+                questionArray.set(i, newAmericanQuestion);
                 numberOfQuestions++;
             }
 
-            if(this.questionArray.get(i) instanceof  OpenQuestions){
-                    OpenQuestions newOpenQuestion = new OpenQuestions((OpenQuestions)this.questionArray.get(i));
-                    questionArray.set(i,newOpenQuestion);
-                    numberOfQuestions++;
-
+            if (this.questionArray.get(i) instanceof OpenQuestions) {
+                OpenQuestions newOpenQuestion = new OpenQuestions((OpenQuestions) this.questionArray.get(i));
+                questionArray.set(i, newOpenQuestion);
+                numberOfQuestions++;
             }
 
-            };
+        }
+        ;
 
 
     }
-public void  saveBin() throws FileNotFoundException, IOException,ClassNotFoundException {
-    ObjectOutputStream outFile= new ObjectOutputStream(new FileOutputStream("QuestionArray.dat"));
-    outFile.writeObject(this.questionArray);
-    outFile.close();
+
+    public void saveBin() throws FileNotFoundException, IOException, ClassNotFoundException {
+        ObjectOutputStream outFile = new ObjectOutputStream(new FileOutputStream("QuestionArray.dat"));
+        Questions[] questionArray = new Questions[this.questionArray.size()];
+        for (int i = 0; i < this.questionArray.size(); i++) {
+            questionArray[i] = this.questionArray.get(i);
+        }
+        outFile.writeObject(questionArray);
+        outFile.close();
 
 
-}
-public void readBin() throws FileNotFoundException, IOException,ClassNotFoundException{
-    ObjectInputStream inFile=new ObjectInputStream(new FileInputStream("QuestionArray.dat"));
-          this.questionArray =(ArrayList <Questions>) inFile.readObject();
+    }
+
+    public void readBin() throws FileNotFoundException, IOException, ClassNotFoundException {
+        ObjectInputStream inFile = new ObjectInputStream(new FileInputStream("QuestionArray.dat"));
+        Questions[] tempQuestionArr = (Questions[]) inFile.readObject();
         inFile.close();
-        this.updateId();
-}
+        for (int i = 0; i < tempQuestionArr.length; i++) {
+            if (tempQuestionArr[i] instanceof OpenQuestions) {
+                questionArray.add(tempQuestionArr[i]);
+                numberOfQuestions++;
+            }
+            if (tempQuestionArr[i] instanceof AmericanQuestions) {
+                questionArray.add(tempQuestionArr[i]);
+                numberOfQuestions++;
 
+            }
+        }
+        updateId();
+
+    }
 
 
     public boolean changeAnswerWordingOfAmericanQuestions(String newAnswerText, AmericanQuestions editorQuestionAnswer, int numOfAnswer, boolean opt) {
@@ -117,14 +102,14 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
 
             for (int i = 0; i < (editorQuestionAnswer).getNumOfAmericanAnswers(); i++) {
 
-                if ((editorQuestionAnswer).getAnswerArray()[i].getAnswerText().equalsIgnoreCase(newAnswerText)) {
+                if (editorQuestionAnswer.getAnswerArray().get(i).getAnswerText().equalsIgnoreCase(newAnswerText)) {
                     System.out.println("Can't change Answer text-There's an Answer with the same text");
                     return false;
                 }
             }
 
-            (editorQuestionAnswer).getAnswerArray()[numOfAnswer].setCorrectness(opt);
-            (editorQuestionAnswer).getAnswerArray()[numOfAnswer].setAnswerText(newAnswerText);
+            (editorQuestionAnswer).getAnswerArray().get(numOfAnswer).setCorrectness(opt);
+            (editorQuestionAnswer).getAnswerArray().get(numOfAnswer).setAnswerText(newAnswerText);
             return true;
         }
         return false;
@@ -153,48 +138,77 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
     }
 
     public void automaticExam(int automaticExamNumberOfQuestions) throws FileNotFoundException {
-        Exam randomExam = new Exam(automaticExamNumberOfQuestions);
-       ArrayList <Questions> newQuestionArray = new ArrayList<>(automaticExamNumberOfQuestions);
-        ArrayList <Questions> qrQuestionArr = this.questionArray;
+        automaticExam=new Exam<>();
+        //new question array for the exam
+        ArrayList<Questions> newQuestionArray = new ArrayList<>(automaticExamNumberOfQuestions);
+        //the reservoir question array
+        ArrayList<Questions> qrQuestionArr = this.questionArray;
+        //random index array example:5,3,2,4,1
         int[] randomIndex = randomNumbersArray(this.numberOfQuestions);
         for (int i = 0; i < automaticExamNumberOfQuestions; i++) {
+
             //r random index
             int r = randomIndex[i];
 
+            //checks if the question is open
             if (qrQuestionArr.get(r) instanceof OpenQuestions) {
-                newQuestionArray.set(i,new OpenQuestions((OpenQuestions) qrQuestionArr.get(r)));
-                randomExam.getQuestionsExamArray()[i] = newQuestionArray.get(i);
+                OpenQuestions newOpenQuestion = new OpenQuestions(qrQuestionArr.get(r).questionText, ((OpenQuestions) qrQuestionArr.get(r)).getAnswerText());
+                newQuestionArray.add(newOpenQuestion);
+                automaticExam.addQuestion(newOpenQuestion);
             }
 
 
             if (qrQuestionArr.get(r) instanceof AmericanQuestions) {
                 int americanAnswersSize = ((AmericanQuestions) qrQuestionArr.get(r)).getNumOfAmericanAnswers();
-                AmericanQuestions randomAmericanQuestion = ((AmericanQuestions) qrQuestionArr.get(r));
-                AmericanQuestions automaticAmericanQuestion = new AmericanQuestions(randomAmericanQuestion.questionText, randomAmericanQuestion.getNumOfAmericanAnswers(), randomAmericanQuestion.getAnswerArray());
 
+                //random American question chosen from the reservoir
+                AmericanQuestions randomAmericanQuestion = ((AmericanQuestions) qrQuestionArr.get(r));
+
+                //automated american question
+                AmericanQuestions automaticAmericanQuestion = new AmericanQuestions(randomAmericanQuestion.questionText,randomAmericanQuestion.getAnswerArray());
+
+                //another random index array for the answers
                 int[] randomAnswerIndex = randomNumbersArray(americanAnswersSize);
-                AmericanAnswer[] automaticAmericanAnswersArray = new AmericanAnswer[4];
+                //initializing answers array size of 4
+                ArrayList<AmericanAnswer> automaticAmericanAnswerArrayList=new ArrayList<>() ;
+                //counts how mnay true answer encountered
                 int trueCounter = 0;
+                //iteration of the answer array
                 int t = 0;
+                //loop will keep running as long as inside the array and there are less than 4 answer collected
                 for (int j = 0; j < americanAnswersSize && t < 4; j++) {
+                    //index for random anser array
                     int p = randomAnswerIndex[j];
 
-                    if (randomAmericanQuestion.getAnswerArray()[p].getCorrectness() && trueCounter != 1) {
-                        automaticAmericanAnswersArray[t] = new AmericanAnswer(randomAmericanQuestion.getAnswerArray()[p]);
+                    //if current chosen answer is the first true answer encountered add to automated array
+                    if (randomAmericanQuestion.getAnswerArray().get(p).getCorrectness() && trueCounter != 1) {
+                        automaticAmericanAnswerArrayList.add(randomAmericanQuestion.getAnswerArray().get(p));
+                        //automaticAmericanAnswersArray[t] = new AmericanAnswer(randomAmericanQuestion.getAnswerArray().get(p));
                         t++;
                         trueCounter = 1;
-                    } else if (!randomAmericanQuestion.getAnswerArray()[p].getCorrectness()) {
-                        automaticAmericanAnswersArray[t] = new AmericanAnswer(randomAmericanQuestion.getAnswerArray()[p]);
+                    }
+                    //if current answer is false then add to automated answer array
+                    else if (!randomAmericanQuestion.getAnswerArray().get(p).getCorrectness()) {
+                        automaticAmericanAnswerArrayList.add(randomAmericanQuestion.getAnswerArray().get(p));
+
+                        //automaticAmericanAnswersArray[t] = new AmericanAnswer(randomAmericanQuestion.getAnswerArray().get(p));
                         t++;
 
-                    } else if (randomAmericanQuestion.getAnswerArray()[p].getCorrectness() && trueCounter == 1) {
+                    }
+                    //if current answer is true and answer array has already a true ansewr in it
+                    else if (randomAmericanQuestion.getAnswerArray().get(p).getCorrectness() && trueCounter == 1) {
+                        //initializing k to j value to iterating out of loop
                         int k = j;
+                        //foundFalse turns into true if a false answer is found
                         boolean foundFalse = false;
+                        //next random answer index
                         k++;
+                        //inner while loop that finds a false answer
                         while (!foundFalse) {
                             p = randomAnswerIndex[k];
-                            if (!randomAmericanQuestion.getAnswerArray()[p].getCorrectness()) {
-                                automaticAmericanAnswersArray[t] = new AmericanAnswer(randomAmericanQuestion.getAnswerArray()[p]);
+                            //if found false answer
+                            if (!randomAmericanQuestion.getAnswerArray().get(p).getCorrectness()) {
+                                automaticAmericanAnswerArrayList.add(randomAmericanQuestion.getAnswerArray().get(p));
                                 t++;
                                 j = k;
                                 foundFalse = true;
@@ -210,25 +224,16 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
 
                 automaticAmericanQuestion.setQuestionText(randomAmericanQuestion.getQuestionText());
                 automaticAmericanQuestion.setNumOfAmericanAnswers(4);
-                automaticAmericanQuestion.setAnswerArray(automaticAmericanAnswersArray);
-
-                newQuestionArray.set(i,new AmericanQuestions(automaticAmericanQuestion))  ;
-                randomExam.getQuestionsExamArray()[i] = newQuestionArray.get(i);
+                automaticAmericanQuestion.setAnswerArray(automaticAmericanAnswerArrayList);
+                automaticExam.addQuestion(automaticAmericanQuestion);
 
             }
 
 
         }
 
-        this.automaticExam = new Exam(randomExam);
-        for (int add2AnsIndex = 0; add2AnsIndex < randomExam.getNumOfQuestions(); add2AnsIndex++) {
-            if (randomExam.getQuestionsExamArray()[add2AnsIndex] instanceof AmericanQuestions) {
-                AmericanQuestions addAnsQuestion = (AmericanQuestions) randomExam.getQuestionsExamArray()[add2AnsIndex];
-                addAnsQuestion.Add2Answers();
-            }
-        }
-        automaticExam.sortQuestionsByLexicographicOrderExem();
-        automaticExam.save();
+        automaticExam.saveToText();
+        automaticExam.sortQuestionsByLexicographicOrderExam();
         System.out.println(automaticExam.toString());
 
     }
@@ -243,6 +248,10 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
         }
         System.out.println("Answer isn't in the array");
         return false;
+    }
+
+    public void sortAnswersByLength() {
+
     }
 
     public boolean addOpenQuestion(String questionText, String answerText) {
@@ -264,131 +273,119 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
                     newQuestion.decreaseIdCounter();
                     return false;
                 }
-
             }
-                questionArray.add(newOpenQuestion) ;
+            questionArray.add(newOpenQuestion);
+            numberOfQuestions++;
             return true;
 
         }
         return false;
     }
 
-    public void sortAmericanAnswers(AmericanQuestions americanQuestions) {
-
-    }
-
     public boolean addAmericanQuestion(String questionText, String[] answersArray, boolean[] correctnessArray) {
+         ArrayList<AmericanAnswer> answerArrayList =new ArrayList<>();
 
-        AmericanAnswer[] newAmericanAnswersArray = new AmericanAnswer[answersArray.length];
-        for (int i = 0; i < newAmericanAnswersArray.length; i++) {
-            newAmericanAnswersArray[i] = new AmericanAnswer("temp", true);
-        }
         for (int i = 0; i < answersArray.length; i++) {
-            newAmericanAnswersArray[i].setAnswerText(answersArray[i]);
-            newAmericanAnswersArray[i].setCorrectness(correctnessArray[i]);
+            answerArrayList.add(new AmericanAnswer(answersArray[i],correctnessArray[i]));
         }
-        AmericanQuestions newAmericanQuestion = new AmericanQuestions(questionText, newAmericanAnswersArray.length, newAmericanAnswersArray);
+        AmericanQuestions newAmericanQuestion=new AmericanQuestions(questionText,answerArrayList);
 
-            questionArray.add(newAmericanQuestion)  ;
+        questionArray.add(newAmericanQuestion);
+        numberOfQuestions++;
 
         System.out.println("American Question added");
         return true;
 
 
     }
-    public int takeNumOfAnswers(QuestionReservoir qr1,int index){
-        AmericanQuestions americanQuestions=new AmericanQuestions((AmericanQuestions) qr1.questionArray.get(index));
 
-      return americanQuestions.getNumOfAmericanAnswers() ; 
+    public int takeNumOfAnswers(QuestionReservoir qr1, int index) {
+        AmericanQuestions americanQuestion = (AmericanQuestions) this.getQuestionArray().get(index);
+
+        return americanQuestion.getNumOfAmericanAnswers();
 
 
     }
 
-
-
-    public boolean deleteAmericanAnswer(int indQuestion, int answerNumber) {
-
-        AmericanAnswer[] originalAnswerArr = ((AmericanQuestions) this.questionArray.get(indQuestion)).getAnswerArray();
-
-        AmericanQuestions americanQuestion = ((AmericanQuestions) this.questionArray.get(indQuestion));
-        int newNumberOfAnswers = originalAnswerArr.length;
-        if (americanQuestion.counterTrueFalse(originalAnswerArr) == 1) {
-            System.out.println("Can't delete must have 2 negated answers");
-            return false;
-        }
-
-        if (americanQuestion.getNumOfAmericanAnswers() <= 2) {
-            System.out.println("Cant delete answer minimum answers required");
-            return false;
-        }
-
-
-        //creating new array of answer for american question with reduced number of answers
-        newNumberOfAnswers--;
-        AmericanAnswer[] newAmericanAnswerArray = new AmericanAnswer[newNumberOfAnswers];
-
-        for (int i = 0; i < answerNumber; i++) {
-            newAmericanAnswerArray[i] = originalAnswerArr[i];
-            System.out.println(newAmericanAnswerArray[i].toString());
-        }
-
-        for (int j = answerNumber; j < newNumberOfAnswers; j++) {
-            newAmericanAnswerArray[j] = originalAnswerArr[j + 1];
-            System.out.println(newAmericanAnswerArray[j].toString());
-
-        }
-
-
-        //reducing number of american answer for the question by 1
-        americanQuestion.setNumOfAmericanAnswers(newNumberOfAnswers);
-
-        //configuring new answer array
-        americanQuestion.setAnswerArray(newAmericanAnswerArray);
-
-        return true;
-
+    public void deleteAmericanAnswer(int indQuestion,int answerNumber){
+                ((AmericanQuestions)questionArray.get(indQuestion)).americanAnswerRemove(answerNumber);
     }
 
-
-    public int getNumberOfQuestions() {
-        return numberOfQuestions;
-    }
-
-
-
+//    public boolean deleteAmericanAnswer(int indQuestion, int answerNumber) {
+//
+//        AmericanAnswer[] originalAnswerArr = ((AmericanQuestions) this.questionArray.get(indQuestion)).getAnswerArray();
+//
+//        AmericanQuestions americanQuestion = ((AmericanQuestions) this.questionArray.get(indQuestion));
+//        int newNumberOfAnswers = originalAnswerArr.length;
+//        if (americanQuestion.counterTrueFalse(originalAnswerArr) == 1) {
+//            System.out.println("Can't delete must have 2 negated answers");
+//            return false;
+//        }
+//
+//        if (americanQuestion.getNumOfAmericanAnswers() <= 2) {
+//            System.out.println("Cant delete answer minimum answers required");
+//            return false;
+//        }
+//
+//
+//        //creating new array of answer for american question with reduced number of answers
+//        newNumberOfAnswers--;
+//        AmericanAnswer[] newAmericanAnswerArray = new AmericanAnswer[newNumberOfAnswers];
+//
+//        for (int i = 0; i < answerNumber; i++) {
+//            newAmericanAnswerArray[i] = originalAnswerArr[i];
+//            System.out.println(newAmericanAnswerArray[i].toString());
+//        }
+//
+//        for (int j = answerNumber; j < newNumberOfAnswers; j++) {
+//            newAmericanAnswerArray[j] = originalAnswerArr[j + 1];
+//            System.out.println(newAmericanAnswerArray[j].toString());
+//
+//        }
+//
+//
+//        //reducing number of american answer for the question by 1
+//        americanQuestion.setNumOfAmericanAnswers(newNumberOfAnswers);
+//
+//        //configuring new answer array
+//        americanQuestion.setAnswerArray(newAmericanAnswerArray);
+//
+//        return true;
+//
+//    }
 
 
     public void manualExamCreate(int numOfQuestInTest, int[][] indQuestion) throws FileNotFoundException {
-        Exam manualExam = new Exam(numOfQuestInTest);
 
         for (int arrayIndex = 0; arrayIndex < numOfQuestInTest; arrayIndex++) {
             for (int allQuestionsIndex = 0; allQuestionsIndex < numberOfQuestions; allQuestionsIndex++) {
-
                 if (this.questionArray.get(allQuestionsIndex).questionId == indQuestion[arrayIndex][0] + 1) {
+
                     if (this.questionArray.get(allQuestionsIndex) instanceof OpenQuestions) {
                         OpenQuestions newOpenQuestions = new OpenQuestions((OpenQuestions) this.questionArray.get(allQuestionsIndex));
-                        manualExam.getQuestionsExamArray()[arrayIndex] = newOpenQuestions;
+                        manualExam.addQuestion(newOpenQuestions);
+
                     }
                     if (this.questionArray.get(allQuestionsIndex) instanceof AmericanQuestions) {
-
-                        AmericanQuestions americanQuestion = ((AmericanQuestions) this.questionArray.get(allQuestionsIndex));
-                        AmericanAnswer[] newAnswerArr = new AmericanAnswer[indQuestion[arrayIndex][1]];
-
-                        for (int americanAnswerIndex = 0; americanAnswerIndex < indQuestion[arrayIndex][1]; americanAnswerIndex++) {
-                            AmericanAnswer newAnswer = new AmericanAnswer(americanQuestion.getAnswerArray()[indQuestion[arrayIndex][americanAnswerIndex + 2] - 1]);
-                            newAnswerArr[americanAnswerIndex] = newAnswer;
+                        //first im going to initialize an american Question
+                        AmericanQuestions newAmericanQuestion;
+                        //next Im going to initialize an answerArrayList
+                        ArrayList<AmericanAnswer> newAmericanAnswer=new ArrayList<>();
+                        //now im going to start a loop that its stopping index is the index of the [][1]
+                        for(int i=0;i<indQuestion[arrayIndex][1];i++){
+                            newAmericanAnswer.add(((AmericanQuestions) this.getQuestionArray().get(allQuestionsIndex)).getAnswerArray().get(indQuestion[arrayIndex][i+2]-1));
                         }
-                        AmericanQuestions newAmericanQuestion = new AmericanQuestions(americanQuestion.questionText, newAnswerArr.length, newAnswerArr);
-                        newAmericanQuestion.Add2Answers();
-                        manualExam.getQuestionsExamArray()[arrayIndex] = newAmericanQuestion;
+                        newAmericanQuestion=new AmericanQuestions(this.getQuestionArray().get(allQuestionsIndex).getQuestionText(),newAmericanAnswer);
+                        manualExam.addQuestion(newAmericanQuestion);
                     }
 
                 }
             }
         }
-        this.manualExam = new Exam(manualExam);
-        manualExam.save();
+        manualExam.saveToText();
         System.out.println("Manual exam created successfully !");
+        manualExam.toString();
+
 
     }
 
@@ -439,16 +436,27 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
 
     }
 
-    public Exam getExam() {
+    public Exam getManualExam() {
+        return manualExam;
+    }
+
+    public Exam getAutomaticExam() {
         return manualExam;
     }
 
 
+    public ArrayList<Questions> getQuestionArray() {
+        return questionArray;
+    }
+
+    public int getNumberOfQuestions() {
+        return numberOfQuestions;
+    }
+
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("The number of questions in the Reservoir is: " + numberOfQuestions + "\n"
-                + "\nThe questions are:\n");
+        sb.append("The number of questions in the Reservoir is: " + numberOfQuestions + "\n" + "\nThe questions are:\n");
         for (int i = 0; i < numberOfQuestions; i++) {
             sb.append(questionArray.get(i).toString());
         }
@@ -456,9 +464,6 @@ public void readBin() throws FileNotFoundException, IOException,ClassNotFoundExc
     }
 
 
-    {
-
-    }
 
 }
 
