@@ -1,0 +1,31 @@
+the test without answers:
+
+1) the question is : E Which one of these next Programming languages is Low-Level programming language?
+
+1) Python
+
+2) Swift
+
+3) JavaScript
+
+4) Machine Code
+
+2) the question is : C What is the difference between Choclate cake and a Salad?
+
+3) the question is : A Who was Yitzhak Rabin?
+
+4) the question is : D Which one of these is not dessert?
+
+1) Burger
+
+2) Ice cream
+
+3) Muffin
+
+4) Brownies
+
+5) the question is : B Who solved the Engima machine during WWII?
+
+6) the question is : a
+
+Good Luck

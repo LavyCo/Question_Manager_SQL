@@ -1,0 +1,19 @@
+the test with answers:
+
+1) the question is : D Which one of these is not dessert?
+
+solutions for question 01) is: 
+
+1)  Muffin (False)
+
+2)  Brownies (False)
+
+3)  Pizza (True)
+
+4)  Ice cream (False)
+
+2) the question is : A Who was Yitzhak Rabin?
+
+solution for question 11) is: Israeli prime minister
+
+End

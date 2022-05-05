@@ -1,21 +1,25 @@
 package id206214280_id316650399;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class AmericanQuestions extends Questions {
 
     private final int MAX_AMERICAN_ANSWERS = 10;
     private int numOfAmericanAnswers;
-    private ArrayList<AmericanAnswer> answerArrayList;
+    private Set<AmericanAnswer> answerArrayList;
 
 
-    public AmericanQuestions(String questionText, ArrayList<AmericanAnswer> answerArrayList) {
+    public AmericanQuestions(String questionText, Set<AmericanAnswer> answerArrayList) {
         super(questionText);
         this.numOfAmericanAnswers = answerArrayList.size();
         this.answerArrayList = answerArrayList;
     }
+
+    public AmericanQuestions(AmericanQuestions other) {
+        super(other.questionText);
+        this.numOfAmericanAnswers = other.numOfAmericanAnswers;
+        this.answerArrayList=other.answerArrayList;
+    }
+
 
     public boolean isAnswerInArray(AmericanAnswer americanAnswer) {
         for (int i = 0; i < numOfAmericanAnswers; i++) {
@@ -36,6 +40,8 @@ public class AmericanQuestions extends Questions {
         }
     }
 
+
+
     public boolean americanAnswerRemove(int answerNumber) {
         System.out.println(numOfAmericanAnswers);
         if (numOfAmericanAnswers > 1) {
@@ -46,12 +52,6 @@ public class AmericanQuestions extends Questions {
         return false;
     }
 
-    public AmericanQuestions(AmericanQuestions other) {
-        super(other.questionText);
-        this.numOfAmericanAnswers = other.numOfAmericanAnswers;
-        answerArrayList.addAll(other.answerArrayList);
-
-    }
 
 //    public void Add2Answers() {
 //        if(this.getNumOfAmericanAnswers()<=8){
@@ -107,7 +107,7 @@ public class AmericanQuestions extends Questions {
     // ומטפלת לפי כל סיטואציה
     //יותר מתשובה אחת נכונה,כל התשובות נכונות,אף תשובה אינה נכונה,תושבה אחת נכונה ותשובה שנייה לא נכונה(לא מטפלת),יש רק תשובה אחת נכונה(לא מטפלת)
     //הפונקציה מחזירה מערך תשובות לאחר שטיפלה בו
-    public boolean checkAnswerArrays(ArrayList<AmericanAnswer> americanAnswers) {
+    public boolean checkAnswerArrays(Set<AmericanAnswer> americanAnswers) {
 
         //tC=1 and fC=1
         if (this.counterTrueFalse(americanAnswers) == 1) {
@@ -153,7 +153,7 @@ public class AmericanQuestions extends Questions {
 
 
     //הפונקציה סופרת את את מספר התשובות הנכונות ולא נכונות ומחזירה אינדקס
-    public int counterTrueFalse(ArrayList<AmericanAnswer> americanAnswers) {
+    public int counterTrueFalse(Set<AmericanAnswer> americanAnswers) {
 
         //function that check how many true and false there are
         //check how many false or true answers there are for the question
@@ -225,14 +225,14 @@ public class AmericanQuestions extends Questions {
     }
 
 
-    public ArrayList<AmericanAnswer> getAnswerArray() {
+    public Set<AmericanAnswer> getAnswerArray() {
         return answerArrayList;
     }
 
-    public boolean setAnswerArray(ArrayList<AmericanAnswer> answerArrayList) {
+    public boolean setAnswerArray(Set<AmericanAnswer> answerArrayList) {
 
         for (int i = 0; i < numOfAmericanAnswers; i++) {
-            this.answerArrayList.set(i, answerArrayList.get(i));
+            this.answerArrayList.add (answerArrayList.get(i));
         }
         return true;
     }

@@ -1,0 +1,23 @@
+the test without answers:
+
+1) the question is : E Which one of these next Programming languages is Low-Level programming language?
+
+1) JavaScript
+
+2) Assembly
+
+3) Python
+
+4) C++
+
+2) the question is : D Which one of these is not dessert?
+
+1) Choclate cake
+
+2) Shawrma
+
+3) Muffin
+
+4) Brownies
+
+Good Luck

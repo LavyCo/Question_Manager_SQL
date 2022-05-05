@@ -1,0 +1,27 @@
+the test with answers:
+
+1) the question is : D Which one of these is not dessert?
+
+solutions for question 01) is: 
+
+1)  Muffin (False)
+
+2)  Choclate cake (False)
+
+3)  Ice cream (False)
+
+4)  Brownies (False)
+
+5)  Salad (True)
+
+6)  Burger (True)
+
+7)  Shawrma (True)
+
+8)  Pizza (True)
+
+9)  Muffin (False)
+
+10)  Choclate cake (False)
+
+End

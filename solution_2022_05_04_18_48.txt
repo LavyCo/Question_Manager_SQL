@@ -1,0 +1,35 @@
+the test with answers:
+
+1) the question is : D Which one of these is not dessert?
+
+solutions for question 01) is: 
+
+1)  Muffin (False)
+
+2)  Salad (True)
+
+3)  Choclate cake (False)
+
+4)  Brownies (False)
+
+5)  there is more than 1 right answer (False)
+
+6)  all the answers is false (False)
+
+2) the question is : E Which one of these next Programming languages is Low-Level programming language?
+
+solutions for question 11) is: 
+
+1)  Python (False)
+
+2)  Machine Code (True)
+
+3)  C# (False)
+
+4)  Swift (False)
+
+5)  there is more than 1 right answer (False)
+
+6)  all the answers is false (False)
+
+End

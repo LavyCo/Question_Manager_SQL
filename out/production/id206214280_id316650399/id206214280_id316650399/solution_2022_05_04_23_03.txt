@@ -1,0 +1,23 @@
+the test with answers:
+
+1) the question is : A Who was Yitzhak Rabin?
+
+solution for question 01) is: Israeli prime minister
+
+2) the question is : E Which one of these next Programming languages is Low-Level programming language?
+
+solutions for question 11) is: 
+
+1)  Swift (False)
+
+2)  JavaScript (False)
+
+3)  C# (False)
+
+4)  Swift (False)
+
+3) the question is : B Who solved the Engima machine during WWII?
+
+solution for question 21) is: Alan Turing
+
+End

@@ -1,0 +1,25 @@
+the test without answers:
+
+1) the question is : D Which one of these is not dessert?
+
+1) Muffin
+
+2) Choclate cake
+
+3) Ice cream
+
+4) Brownies
+
+5) Salad
+
+6) Burger
+
+7) Shawrma
+
+8) Pizza
+
+9) Muffin
+
+10) Choclate cake
+
+Good Luck

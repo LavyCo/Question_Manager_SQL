@@ -1,0 +1,13 @@
+the test without answers:
+
+1) the question is : E Which one of these next Programming languages is Low-Level programming language?
+
+1) Python
+
+2) Machine Code
+
+3) Swift
+
+4) Swift
+
+Good Luck

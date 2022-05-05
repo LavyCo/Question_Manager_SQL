@@ -1,8 +1,9 @@
 package id206214280_id316650399;
 
 import java.io.*;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
+import java.util.Set;
+
 
 //כדי להצ
 // ליח לייצר עוד מקצועות עלינו ליצור מחלקות של מקצועות שמקבלות מאגרים
@@ -38,6 +39,12 @@ public class Main {
 
 
 
+
+
+
+
+
+
         int optMenu = 0;
         Scanner input = new Scanner(System.in);
         do {
@@ -50,7 +57,8 @@ public class Main {
             System.out.println("5-Delete an answer to a question");
             System.out.println("6-Create a test manually");
             System.out.println("7-Create a test automatically");
-            System.out.println("8-Exit program");
+            System.out.println("8-clone an exam");
+            System.out.println("9-Exit program");
             System.out.println("-----------------------------------------------------------------");
             try {
                 optMenu = input.nextInt();
@@ -381,8 +389,18 @@ public class Main {
                     break;
                 }
 
+                case 8:{
+                    System.out.println("Please choose which exam to clone");
+                    System.out.println("1-manual exam");
+                    System.out.println("2-automatic exam");
+                    int option=input.nextInt();
+                    qr1.cloneExam(option);
 
-                case 8: {
+                    break;
+                }
+
+
+                case 9: {
                     System.out.println("Question reservoir saved");
                     qr1.saveBin();
                     System.out.println("Goodbye");
@@ -390,7 +408,7 @@ public class Main {
                 }
 
             }
-        } while (optMenu != 8);
+        } while (optMenu != 9);
         input.close();
     }
 

@@ -1,0 +1,19 @@
+the test without answers:
+
+1) the question is : E Which one of these next Programming languages is Low-Level programming language?
+
+1) C++
+
+2) Python
+
+3) C#
+
+4) JavaScript
+
+2) the question is : B Who solved the Engima machine during WWII?
+
+3) the question is : C What is the difference between Choclate cake and a Salad?
+
+4) the question is : A Who was Yitzhak Rabin?
+
+Good Luck

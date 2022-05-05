@@ -8,13 +8,15 @@ public class QuestionReservoir implements Serializable {
     private int numberOfQuestions = 0;
     private ArrayList<Questions> questionArray;
     private Exam manualExam;
+    private Exam manualExamClone;
     private Exam automaticExam;
+    private Exam automaticExamClone;
 
 
     public QuestionReservoir() {
         questionArray = new ArrayList<>();
-        manualExam=new Exam();
-        automaticExam=new Exam();
+        manualExam = new Exam();
+        automaticExam = new Exam();
 
     }
 
@@ -81,16 +83,19 @@ public class QuestionReservoir implements Serializable {
         inFile.close();
         for (int i = 0; i < tempQuestionArr.length; i++) {
             if (tempQuestionArr[i] instanceof OpenQuestions) {
-                questionArray.add(tempQuestionArr[i]);
+                OpenQuestions newOpenQuestion = new OpenQuestions((OpenQuestions) tempQuestionArr[i]);
+                this.getQuestionArray().add(newOpenQuestion);
                 numberOfQuestions++;
+
             }
             if (tempQuestionArr[i] instanceof AmericanQuestions) {
-                questionArray.add(tempQuestionArr[i]);
+                AmericanQuestions newAmericanQuestion = new AmericanQuestions((AmericanQuestions) tempQuestionArr[i]);
+                this.getQuestionArray().add(newAmericanQuestion);
                 numberOfQuestions++;
 
             }
         }
-        updateId();
+//        updateId();
 
     }
 
@@ -137,8 +142,18 @@ public class QuestionReservoir implements Serializable {
         return true;
     }
 
+    //פונקציה זו נועדה בעיקר לכפר על כך שלמחלקה Set לא קיימת פונקצייה get שמחזירה אובייקט לפי אינדקס שהוכנס לכן היא עוזר לפונקציות שנכתבו לפני מימושה
+    public Set<AmericanAnswer> copyArrayListToSet(ArrayList arrayList){
+        Set<AmericanAnswer> newSet=new Set<>();
+        for(int i=0;i<arrayList.size();i++){
+            newSet.add((AmericanAnswer) arrayList.get(i));
+        }
+        return newSet;
+
+    }
+
     public void automaticExam(int automaticExamNumberOfQuestions) throws FileNotFoundException {
-        automaticExam=new Exam<>();
+        automaticExam = new Exam<>();
         //new question array for the exam
         ArrayList<Questions> newQuestionArray = new ArrayList<>(automaticExamNumberOfQuestions);
         //the reservoir question array
@@ -165,12 +180,12 @@ public class QuestionReservoir implements Serializable {
                 AmericanQuestions randomAmericanQuestion = ((AmericanQuestions) qrQuestionArr.get(r));
 
                 //automated american question
-                AmericanQuestions automaticAmericanQuestion = new AmericanQuestions(randomAmericanQuestion.questionText,randomAmericanQuestion.getAnswerArray());
+                AmericanQuestions automaticAmericanQuestion = new AmericanQuestions(randomAmericanQuestion.questionText, randomAmericanQuestion.getAnswerArray());
 
                 //another random index array for the answers
                 int[] randomAnswerIndex = randomNumbersArray(americanAnswersSize);
                 //initializing answers array size of 4
-                ArrayList<AmericanAnswer> automaticAmericanAnswerArrayList=new ArrayList<>() ;
+                ArrayList<AmericanAnswer> automaticAmericanAnswerArrayList = new ArrayList<>();
                 //counts how mnay true answer encountered
                 int trueCounter = 0;
                 //iteration of the answer array
@@ -222,9 +237,10 @@ public class QuestionReservoir implements Serializable {
 
                 }
 
+                Set<AmericanAnswer> automaticAmericanAnswerSet=copyArrayListToSet(automaticAmericanAnswerArrayList);
                 automaticAmericanQuestion.setQuestionText(randomAmericanQuestion.getQuestionText());
                 automaticAmericanQuestion.setNumOfAmericanAnswers(4);
-                automaticAmericanQuestion.setAnswerArray(automaticAmericanAnswerArrayList);
+                automaticAmericanQuestion.setAnswerArray(automaticAmericanAnswerSet);
                 automaticExam.addQuestion(automaticAmericanQuestion);
 
             }
@@ -233,26 +249,38 @@ public class QuestionReservoir implements Serializable {
         }
 
         automaticExam.saveToText();
-        automaticExam.sortQuestionsByLexicographicOrderExam();
+        automaticExam.sortExamByShortestAnswers();
         System.out.println(automaticExam.toString());
 
     }
 
-
-    public boolean isAnswerInArray(AmericanAnswer americanAnswer, AmericanAnswer[] americanAnswers) {
-        for (int i = 0; americanAnswers[i] != null; i++) {
-            if (americanAnswers[i].equals(americanAnswer)) {
-                System.out.println("Answer is in the array");
-                return true;
+    public boolean cloneExam(int whichExamOpt) throws CloneNotSupportedException {
+        if (whichExamOpt == 1) {
+            if (manualExam.getNumOfQuestions() == 0) {
+                System.out.println("Can't clone the exam. Manual exam not created yet.");
+                return false;
             }
+            manualExamClone = manualExam.clone();
+            System.out.println("Manual exam cloned");
+            System.out.println(manualExamClone.toString());
+            return true;
         }
-        System.out.println("Answer isn't in the array");
-        return false;
+
+        if (whichExamOpt == 2) {
+            if (automaticExam.getNumOfQuestions() == 0) {
+                System.out.println("Can't clone the exam. Automatic exam not created yet.");
+                return false;
+            }
+            automaticExamClone = automaticExam.clone();
+            System.out.println("Automatic exam cloned");
+            System.out.println(automaticExamClone.toString());
+            return true;
+
+        }
+        return true;
+
     }
 
-    public void sortAnswersByLength() {
-
-    }
 
     public boolean addOpenQuestion(String questionText, String answerText) {
         OpenQuestions newQuestion = new OpenQuestions(questionText, answerText);
@@ -283,12 +311,12 @@ public class QuestionReservoir implements Serializable {
     }
 
     public boolean addAmericanQuestion(String questionText, String[] answersArray, boolean[] correctnessArray) {
-         ArrayList<AmericanAnswer> answerArrayList =new ArrayList<>();
+        Set<AmericanAnswer> answerArrayList = new Set<>();
 
         for (int i = 0; i < answersArray.length; i++) {
-            answerArrayList.add(new AmericanAnswer(answersArray[i],correctnessArray[i]));
+            answerArrayList.add(new AmericanAnswer(answersArray[i], correctnessArray[i]));
         }
-        AmericanQuestions newAmericanQuestion=new AmericanQuestions(questionText,answerArrayList);
+        AmericanQuestions newAmericanQuestion = new AmericanQuestions(questionText, answerArrayList);
 
         questionArray.add(newAmericanQuestion);
         numberOfQuestions++;
@@ -307,8 +335,8 @@ public class QuestionReservoir implements Serializable {
 
     }
 
-    public void deleteAmericanAnswer(int indQuestion,int answerNumber){
-                ((AmericanQuestions)questionArray.get(indQuestion)).americanAnswerRemove(answerNumber);
+    public void deleteAmericanAnswer(int indQuestion, int answerNumber) {
+        ((AmericanQuestions) questionArray.get(indQuestion)).americanAnswerRemove(answerNumber);
     }
 
 //    public boolean deleteAmericanAnswer(int indQuestion, int answerNumber) {
@@ -354,7 +382,6 @@ public class QuestionReservoir implements Serializable {
 //
 //    }
 
-
     public void manualExamCreate(int numOfQuestInTest, int[][] indQuestion) throws FileNotFoundException {
 
         for (int arrayIndex = 0; arrayIndex < numOfQuestInTest; arrayIndex++) {
@@ -370,12 +397,12 @@ public class QuestionReservoir implements Serializable {
                         //first im going to initialize an american Question
                         AmericanQuestions newAmericanQuestion;
                         //next Im going to initialize an answerArrayList
-                        ArrayList<AmericanAnswer> newAmericanAnswer=new ArrayList<>();
+                        Set<AmericanAnswer> newAmericanAnswer = new Set<>();
                         //now im going to start a loop that its stopping index is the index of the [][1]
-                        for(int i=0;i<indQuestion[arrayIndex][1];i++){
-                            newAmericanAnswer.add(((AmericanQuestions) this.getQuestionArray().get(allQuestionsIndex)).getAnswerArray().get(indQuestion[arrayIndex][i+2]-1));
+                        for (int i = 0; i < indQuestion[arrayIndex][1]; i++) {
+                            newAmericanAnswer.add(((AmericanQuestions) this.getQuestionArray().get(allQuestionsIndex)).getAnswerArray().get(indQuestion[arrayIndex][i + 2] - 1));
                         }
-                        newAmericanQuestion=new AmericanQuestions(this.getQuestionArray().get(allQuestionsIndex).getQuestionText(),newAmericanAnswer);
+                        newAmericanQuestion = new AmericanQuestions(this.getQuestionArray().get(allQuestionsIndex).getQuestionText(), newAmericanAnswer);
                         manualExam.addQuestion(newAmericanQuestion);
                     }
 
@@ -388,7 +415,6 @@ public class QuestionReservoir implements Serializable {
 
 
     }
-
 
     //checks if there is the same question in the array
     @Override
@@ -444,7 +470,6 @@ public class QuestionReservoir implements Serializable {
         return manualExam;
     }
 
-
     public ArrayList<Questions> getQuestionArray() {
         return questionArray;
     }
@@ -462,7 +487,6 @@ public class QuestionReservoir implements Serializable {
         }
         return sb.toString();
     }
-
 
 
 }

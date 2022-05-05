@@ -42,8 +42,37 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
         return examQuestionArray;
     }
 
+
+
     public void sortExamByShortestAnswers(){
-        
+        boolean noChange=false;
+        for(int i=numOfQuestions-1;i>0 &&(noChange==false);i--){
+            noChange=true;
+            for(int j=0;j<i;j++){
+                if(lengthOfAnswer(examQuestionArray.get(j+1))<lengthOfAnswer(examQuestionArray.get(j))){
+                    Questions tempQuestion = examQuestionArray.get(j + 1);
+                    examQuestionArray.set(j + 1, examQuestionArray.get(j));
+                    examQuestionArray.set(j, tempQuestion);
+                    noChange = false;
+                }
+            }
+        }
+
+    }
+
+    //function that calculates length of an answer user by sortExamByShortestAnswers function
+    public int lengthOfAnswer(Questions question){
+        if(question instanceof OpenQuestions){
+            return ((OpenQuestions) question).getAnswerText().length();
+        }
+        if(question instanceof  AmericanQuestions){
+            int lengthOfAnswer=0;
+            for(int i=0;i<((AmericanQuestions) question).getNumOfAmericanAnswers();i++){
+                lengthOfAnswer+=((AmericanQuestions) question).getAnswerArray().get(i).getAnswerText().length();
+            }
+            return lengthOfAnswer;
+        }
+        return 0;
     }
 
 
@@ -63,6 +92,10 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
 
     }
 
+    @Override
+    protected Exam clone() throws CloneNotSupportedException {
+        return (Exam) super.clone();
+    }
 
     public void saveToText() throws FileNotFoundException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm");

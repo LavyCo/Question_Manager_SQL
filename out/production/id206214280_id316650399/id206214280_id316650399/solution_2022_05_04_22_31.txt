@@ -1,0 +1,39 @@
+the test with answers:
+
+1) the question is : A Who was Yitzhak Rabin?
+
+solution for question 01) is: Israeli prime minister
+
+2) the question is : E Which one of these next Programming languages is Low-Level programming language?
+
+solutions for question 11) is: 
+
+1)  Assembly (True)
+
+2)  Java (False)
+
+3)  C (False)
+
+4)  Python (False)
+
+3) the question is : D Which one of these is not dessert?
+
+solutions for question 21) is: 
+
+1)  Pizza (True)
+
+2)  Choclate cake (False)
+
+3)  Ice cream (False)
+
+4)  Brownies (False)
+
+4) the question is : B Who solved the Engima machine during WWII?
+
+solution for question 31) is: Alan Turing
+
+5) the question is : C What is the difference between Choclate cake and a Salad?
+
+solution for question 41) is: Salad wont give you Diabetes
+
+End
