@@ -607,6 +607,6 @@ public class Main implements Examble {
 
     @Override
     public void printQuestions(String print) {
-        
+
     }
 }
