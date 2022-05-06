@@ -1,6 +1,8 @@
 package id206214280_id316650399;
 
 
+import java.util.Iterator;
+
 public class AmericanQuestions extends Questions {
 
     private final int MAX_AMERICAN_ANSWERS = 10;
@@ -243,7 +245,7 @@ public class AmericanQuestions extends Questions {
     public boolean setAnswerArray(Set<AmericanAnswer> answerArrayList) {
 
         Object[] americanAnswer=answerArrayList.toArray();
-
+        setNumOfAmericanAnswers(answerArrayList.size());
         for (int i = 0; i < numOfAmericanAnswers; i++) {
             this.answerArrayList.add ((AmericanAnswer) americanAnswer[i]);
         }

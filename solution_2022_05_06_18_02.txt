@@ -1,0 +1,51 @@
+the test with answers:
+
+1) the question is : E Which one of these next Programming languages is Low-Level programming language?
+
+solutions for question 01) is: 
+
+1)  Assembly (True)
+
+2)  JavaScript (False)
+
+3)  C (False)
+
+4)  Swift (False)
+
+5)  there is more than 1 right answer (False)
+
+6)  all the answers is false (False)
+
+2) the question is : B Who solved the Engima machine during WWII?
+
+solution for question 11) is: Alan Turing
+
+3) the question is : D Which one of these is not dessert?
+
+solutions for question 21) is: 
+
+1)  Choclate cake (False)
+
+2)  Pizza (True)
+
+3)  Ice cream (False)
+
+4)  Muffin (False)
+
+5)  there is more than 1 right answer (False)
+
+6)  all the answers is false (False)
+
+4) the question is : A Who was Yitzhak Rabin?
+
+solution for question 31) is: Israeli prime minister
+
+5) the question is : asdads
+
+solution for question 41) is: asdsa
+
+6) the question is : C What is the difference between Choclate cake and a Salad?
+
+solution for question 51) is: Salad wont give you Diabetes
+
+End

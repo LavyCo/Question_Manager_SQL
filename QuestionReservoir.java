@@ -175,13 +175,13 @@ public class QuestionReservoir implements Serializable {
                 AmericanQuestions randomAmericanQuestion = ((AmericanQuestions) qrQuestionArr.get(r));
 
                 //automated american question
-                AmericanQuestions automaticAmericanQuestion = new AmericanQuestions(randomAmericanQuestion.questionText, randomAmericanQuestion.getAnswerArray());
+                AmericanQuestions automaticAmericanQuestion ;
 
                 Object[] answerArr=randomAmericanQuestion.getAnswerArray().toArray();
                 //another random index array for the answers
                 int[] randomAnswerIndex = randomNumbersArray(americanAnswersSize);
                 //initializing answers array size of 4
-                ArrayList<AmericanAnswer> automaticAmericanAnswerArrayList = new ArrayList<>();
+                Set<AmericanAnswer> automaticAmericanAnswerSet = new Set<>();
                 //counts how mnay true answer encountered
                 int trueCounter = 0;
                 //iteration of the answer array
@@ -193,14 +193,14 @@ public class QuestionReservoir implements Serializable {
 
                     //if current chosen answer is the first true answer encountered add to automated array
                     if (((AmericanAnswer)answerArr[p]).getCorrectness() && trueCounter != 1) {
-                        automaticAmericanAnswerArrayList.add(((AmericanAnswer)answerArr[p]));
+                        automaticAmericanAnswerSet.add(((AmericanAnswer)answerArr[p]));
                         //automaticAmericanAnswersArray[t] = new AmericanAnswer(randomAmericanQuestion.getAnswerArray().get(p));
                         t++;
                         trueCounter = 1;
                     }
                     //if current answer is false then add to automated answer array
                     else if (!((AmericanAnswer)answerArr[p]).getCorrectness()) {
-                        automaticAmericanAnswerArrayList.add(((AmericanAnswer)answerArr[p]));
+                        automaticAmericanAnswerSet.add(((AmericanAnswer)answerArr[p]));
 
                         //automaticAmericanAnswersArray[t] = new AmericanAnswer(randomAmericanQuestion.getAnswerArray().get(p));
                         t++;
@@ -219,7 +219,7 @@ public class QuestionReservoir implements Serializable {
                             p = randomAnswerIndex[k];
                             //if found false answer
                             if (!((AmericanAnswer)answerArr[p]).getCorrectness()) {
-                                automaticAmericanAnswerArrayList.add(((AmericanAnswer)answerArr[p]));
+                                automaticAmericanAnswerSet.add(((AmericanAnswer)answerArr[p]));
                                 t++;
                                 j = k;
                                 foundFalse = true;
@@ -232,11 +232,7 @@ public class QuestionReservoir implements Serializable {
                     }
 
                 }
-
-                Set<AmericanAnswer> automaticAmericanAnswerSet=copyArrayListToSet(automaticAmericanAnswerArrayList);
-                automaticAmericanQuestion.setQuestionText(randomAmericanQuestion.getQuestionText());
-                automaticAmericanQuestion.setNumOfAmericanAnswers(4);
-                automaticAmericanQuestion.setAnswerArray(automaticAmericanAnswerSet);
+                automaticAmericanQuestion=new AmericanQuestions(randomAmericanQuestion.questionText,automaticAmericanAnswerSet);
                 automaticAmericanQuestion.add2Answers();
                 automaticExam.addQuestion(automaticAmericanQuestion);
             }
@@ -356,6 +352,7 @@ public class QuestionReservoir implements Serializable {
                         }
                         newAmericanQuestion = new AmericanQuestions(this.getQuestionArray().get(allQuestionsIndex).getQuestionText(), newAmericanAnswer);
                         manualExam.addQuestion(newAmericanQuestion);
+                        newAmericanQuestion.add2Answers();
                     }
 
                 }

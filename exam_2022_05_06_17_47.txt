@@ -1,0 +1,37 @@
+the test without answers:
+
+1) the question is : D Which one of these is not dessert?
+
+1) Salad
+
+2) Brownies
+
+3) Muffin
+
+4) Ice cream
+
+5) there is more than 1 right answer
+
+6) all the answers is false
+
+2) the question is : C What is the difference between Choclate cake and a Salad?
+
+3) the question is : A Who was Yitzhak Rabin?
+
+4) the question is : B Who solved the Engima machine during WWII?
+
+5) the question is : E Which one of these next Programming languages is Low-Level programming language?
+
+1) C++
+
+2) Machine Code
+
+3) Swift
+
+4) JavaScript
+
+5) there is more than 1 right answer
+
+6) all the answers is false
+
+Good Luck
