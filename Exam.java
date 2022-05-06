@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -67,8 +66,10 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
         }
         if(question instanceof  AmericanQuestions){
             int lengthOfAnswer=0;
+            Object[] americanAnswerArr=((AmericanQuestions) question).getAnswerArray().toArray();
             for(int i=0;i<((AmericanQuestions) question).getNumOfAmericanAnswers();i++){
-                lengthOfAnswer+=((AmericanQuestions) question).getAnswerArray().get(i).getAnswerText().length();
+
+                lengthOfAnswer+=((AmericanAnswer)americanAnswerArr[i]).getAnswerText().length();
             }
             return lengthOfAnswer;
         }
@@ -112,16 +113,17 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
                 writerExam.println(i + 1 + ") " + "the question is : " + examQuestionArray.get(i).getQuestionText() + "\n");
                 writerSolution.println(i + 1 + ") " + "the question is : " + examQuestionArray.get(i).getQuestionText() + "\n");
                 if (examQuestionArray.get(i) instanceof OpenQuestions) {
-                    //שגיאות כתיב של לביא
-                    OpenQuestions printOpanQuestion = (OpenQuestions) examQuestionArray.get(i);
-                    writerSolution.println("solution for question " + i + 1 + ") " + "is: " + printOpanQuestion.getAnswerText() + "\n");
+                    OpenQuestions printOpenQuestion = (OpenQuestions) examQuestionArray.get(i);
+                    writerSolution.println("solution for question " + i + 1 + ") " + "is: " + printOpenQuestion.getAnswerText() + "\n");
                 }
                 if (examQuestionArray.get(i) instanceof AmericanQuestions) {
-                    AmericanQuestions printAmricnQuestion = (AmericanQuestions) examQuestionArray.get(i);
+
+                    AmericanQuestions printAmericanQuestion = (AmericanQuestions) examQuestionArray.get(i);
+                    Object[] americanAnswerArr=printAmericanQuestion.getAnswerArray().toArray();
                     writerSolution.println("solutions for question " + i + 1 + ") " + "is: " + "\n");
-                    for (int j = 0; j < printAmricnQuestion.getNumOfAmericanAnswers(); j++) {
-                        writerSolution.println(j + 1 + ") " + printAmricnQuestion.getAnswerArray().get(j) + "\n");
-                        writerExam.println(j + 1 + ") " + printAmricnQuestion.getAnswerArray().get(j).getAnswerText() + "\n");
+                    for (int j = 0; j < printAmericanQuestion.getNumOfAmericanAnswers(); j++) {
+                        writerSolution.println(j + 1 + ") " + americanAnswerArr[j] + "\n");
+                        writerExam.println(j + 1 + ") " + ((AmericanAnswer)americanAnswerArr[j]).getAnswerText() + "\n");
                     }
                 }
             }

@@ -86,13 +86,6 @@ public  class Set<T> implements Serializable {
         return currentSize;
     }
 
-    public T get(int index){
-        return genericArray[index];
-    }
-
-
-
-
 
     public boolean contains(Object e) {
         if (e instanceof Object) {

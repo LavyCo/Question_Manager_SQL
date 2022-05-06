@@ -259,8 +259,8 @@ public class Main {
                         }
 
                         //sending parametes to the function (Question Index and Answer number)
-//                        qr1.deleteAmericanAnswer(indQuestion, (answerNumber - 1));
-//                        askUserIftoAddAnswer(qr1,indQuestion);
+                        qr1.deleteAmericanAnswer(indQuestion, (answerNumber - 1));
+                        askUserIftoAddAnswer(qr1,indQuestion);
                     }
                     break;
                 }
@@ -342,7 +342,6 @@ public class Main {
                     qr1.manualExamCreate(numOfQuestionsInTheTest, indQuestion);
                     System.out.println(qr1.getManualExam().toString());
 
-
                     break;
                 }
 
@@ -370,9 +369,8 @@ public class Main {
                         System.out.println("Error " + e.getMessage());
 
                     }
-                    QuestionReservoir automaticTest = new QuestionReservoir();
                    //TO DO
-//                    qr1.automaticExam(numberOfQuestions);
+                    qr1.automaticExam(numberOfQuestions);
 
                     break;
                 }
