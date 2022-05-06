@@ -2,7 +2,6 @@ package id206214280_id316650399;
 
 import java.io.*;
 import java.util.*;
-import java.util.Set;
 
 
 //כדי להצ
@@ -10,36 +9,29 @@ import java.util.Set;
 public class Main {
 
     public static void main(String[] args) throws Exception , FileNotFoundException, IOException,ClassNotFoundException {
-//        QuestionReservoir qr1 = new QuestionReservoir();
-//        //open question #1
-//        qr1.addOpenQuestion("A Who was Yitzhak Rabin?","Israeli prime minister");
-//        //open question #2
-//        qr1.addOpenQuestion("B Who solved the Engima machine during WWII?","Alan Turing");
-//        //open question #3
-//        qr1.addOpenQuestion("C What is the difference between Choclate cake and a Salad?","Salad wont give you Diabetes");
-//        //american question #1
-//        String aq1=("D Which one of these is not dessert?");
-//        String[] aa1=new String[]{"Muffin","Choclate cake","Ice cream","Brownies","Salad","Burger","Shawrma","Pizza"};
-//        boolean[] tof1=new boolean[]{false,false,false,false,true,true,true,true};
-//        qr1.addAmericanQuestion(aq1,aa1,tof1);
-//        //american question #2
-//        String aq2="E Which one of these next Programming languages is Low-Level programming language?";
-//        String[] aa2=new String[]{"Java","C++","Assembly","C","C#","Python","JavaScript","Swift","Machine Code"};
-//        boolean[] tof2=new boolean[]{false,false,true,false,false,false,false,false,true};
-//        qr1.addAmericanQuestion(aq2,aa2,tof2);
-//        System.out.println(qr1.getQuestionArray().size());
-//        qr1.saveBin();
-
-        QuestionReservoir qr1= new QuestionReservoir();
-        qr1.readBin();
+        QuestionReservoir qr1 = new QuestionReservoir();
+        //open question #1
+        qr1.addOpenQuestion("A Who was Yitzhak Rabin?","Israeli prime minister");
+        //open question #2
+        qr1.addOpenQuestion("B Who solved the Engima machine during WWII?","Alan Turing");
+        //open question #3
+        qr1.addOpenQuestion("C What is the difference between Choclate cake and a Salad?","Salad wont give you Diabetes");
+        //american question #1
+        String aq1=("D Which one of these is not dessert?");
+        String[] aa1=new String[]{"Muffin","Choclate cake","Ice cream","Brownies","Salad","Burger","Shawrma","Pizza"};
+        boolean[] tof1=new boolean[]{false,false,false,false,true,true,true,true};
+        qr1.addAmericanQuestion(aq1,aa1,tof1);
+        //american question #2
+        String aq2="E Which one of these next Programming languages is Low-Level programming language?";
+        String[] aa2=new String[]{"Java","C++","Assembly","C","C#","Python","JavaScript","Swift","Machine Code"};
+        boolean[] tof2=new boolean[]{false,false,true,false,false,false,false,false,true};
+        qr1.addAmericanQuestion(aq2,aa2,tof2);
+        System.out.println(qr1.getQuestionArray().size());
+        qr1.saveBin();
 
 
-
-
-
-
-
-
+//        QuestionReservoir qr1= new QuestionReservoir();
+//        qr1.readBin();
 
 
 
@@ -195,12 +187,11 @@ public class Main {
                         qr1.getQuestionArray().get(indQuestion).toString();
                         numOfAnswer = exceptionNumOfAnswer(qr1, expId);
 
-                        System.out.println("You chose to change the answer" + (((AmericanQuestions) qr1.getQuestionArray().get(indQuestion)).getAnswerArray().get(numOfAnswer)));
                         System.out.println("Please enter a new wording for the answer:");
                         input.nextLine();//cleans buffer
                         String newWordingForAmericanAnswer = input.nextLine();
                         boolean newAnswerOpt = exceptionIsAmericanTrueOrFalse();
-                        qr1.changeAnswerWordingOfAmericanQuestions(newWordingForAmericanAnswer, (AmericanQuestions) qr1.getQuestionArray().get(indQuestion), numOfAnswer - 1, newAnswerOpt);
+//                        qr1.changeAnswerWordingOfAmericanQuestions(newWordingForAmericanAnswer, (AmericanQuestions) qr1.getQuestionArray().get(indQuestion), numOfAnswer - 1, newAnswerOpt);
 //                        askUserIftoAddAnswer(qr1,indQuestion);
 
                     }
@@ -266,12 +257,9 @@ public class Main {
                                 System.out.println("Error " + e.getMessage());
                             }
                         }
-                        if (answerNumber > 0 && answerNumber <=  ((AmericanQuestions) qr1.getQuestionArray().get(indQuestion)).getNumOfAmericanAnswers()) {
-                            System.out.println("Choosen answer to delete is" +  ((AmericanQuestions) qr1.getQuestionArray().get(indQuestion)).getAnswerArray().get(answerNumber - 1));
-                        }
 
                         //sending parametes to the function (Question Index and Answer number)
-                        qr1.deleteAmericanAnswer(indQuestion, (answerNumber - 1));
+//                        qr1.deleteAmericanAnswer(indQuestion, (answerNumber - 1));
 //                        askUserIftoAddAnswer(qr1,indQuestion);
                     }
                     break;
@@ -384,7 +372,7 @@ public class Main {
                     }
                     QuestionReservoir automaticTest = new QuestionReservoir();
                    //TO DO
-                    qr1.automaticExam(numberOfQuestions);
+//                    qr1.automaticExam(numberOfQuestions);
 
                     break;
                 }
@@ -546,72 +534,72 @@ public class Main {
         return true;
     }
 
-//    //function that asks user if to add an "all answers are false" or "more than 1 answer is true"
-//    public static boolean askUserIftoAddAnswer( QuestionReservoir qr1,int americanIndex) {
-//        Scanner input = new Scanner(System.in);
-//        //asks user if he want to add an "All answers are false" or "More than 1 answer is true option"
-//        if(qr1.getQuestionArray().get(americanIndex)instanceof AmericanQuestions) {
-//          AmericanQuestions  americanQuestion=(AmericanQuestions) qr1.getQuestionArray().get(americanIndex);
-//
-//
-//            if (americanQuestion.counterTrueFalse(americanQuestion.getAnswerArray()) == 2) {
-//                System.out.println("All answers are false would you like to add an 'All answers are false answers ?'");
-//                System.out.println("to add enter 1,otherwise enter 0");
-//                boolean validInputFlag = false;
-//                while (!validInputFlag) {
-//                    try {
-//                        int toAdd = input.nextInt();
-//                        if (toAdd == 1 || toAdd == 0) {
-//                            validInputFlag = true;
-//                        }
-//                        if (toAdd == 1) {
-//                            americanQuestion.checkAnswerArrays(americanQuestion.getAnswerArray());
-//                            System.out.println("Added 'All answers are false' answer");
-//                            return true;
-//                        } else {
-//                            System.out.println("Didn't add 'all answers are false' answer");
-//                            return false;
-//                        }
-//                    } catch (InputMismatchException e) {
-//                        System.out.println(e.getMessage());
-//                        input.nextLine();
-//                    } catch (Exception e) {
-//                        System.out.println(e.getMessage());
-//
-//                    }
-//                }
-//            }
-//            //asks user if he wants to add an "more than 1 answer is true" answer
-//            if (americanQuestion.counterTrueFalse(americanQuestion.getAnswerArray()) == 3) {
-//                System.out.println("more than 1 answer is true would you like to add an 'More than 1 answer is true ?'");
-//                System.out.println("to add enter 1,otherwise enter 0");
-//                boolean validInputFlag = false;
-//                while (!validInputFlag) {
-//                    try {
-//                        int toAdd = input.nextInt();
-//                        if (toAdd == 1 || toAdd == 0) {
-//                            validInputFlag = true;
-//                        }
-//                        if (toAdd == 1) {
-//                            americanQuestion.checkAnswerArrays(americanQuestion.getAnswerArray());
-//                            System.out.println("'More than 1 answer is true' added");
-//                            return true;
-//                        } else {
-//                            System.out.println("Didn't add 'More than 1 answer is true' answer");
-//                            return false;
-//                        }
-//                    } catch (InputMismatchException e) {
-//                        System.out.println(e.getMessage());
-//                        input.nextLine();
-//                    } catch (Exception e) {
-//                        System.out.println(e.getMessage());
-//
-//                    }
-//                }
-//            }
-//        }
-//        return false;
-//    }
+    //function that asks user if to add an "all answers are false" or "more than 1 answer is true"
+    public static boolean askUserIftoAddAnswer( QuestionReservoir qr1,int americanIndex) {
+        Scanner input = new Scanner(System.in);
+        //asks user if he want to add an "All answers are false" or "More than 1 answer is true option"
+        if(qr1.getQuestionArray().get(americanIndex)instanceof AmericanQuestions) {
+          AmericanQuestions  americanQuestion=(AmericanQuestions) qr1.getQuestionArray().get(americanIndex);
+
+
+            if (americanQuestion.counterTrueFalse(americanQuestion.getAnswerArray()) == 2) {
+                System.out.println("All answers are false would you like to add an 'All answers are false answers ?'");
+                System.out.println("to add enter 1,otherwise enter 0");
+                boolean validInputFlag = false;
+                while (!validInputFlag) {
+                    try {
+                        int toAdd = input.nextInt();
+                        if (toAdd == 1 || toAdd == 0) {
+                            validInputFlag = true;
+                        }
+                        if (toAdd == 1) {
+                            americanQuestion.checkAnswerArrays(americanQuestion.getAnswerArray());
+                            System.out.println("Added 'All answers are false' answer");
+                            return true;
+                        } else {
+                            System.out.println("Didn't add 'all answers are false' answer");
+                            return false;
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println(e.getMessage());
+                        input.nextLine();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+
+                    }
+                }
+            }
+            //asks user if he wants to add an "more than 1 answer is true" answer
+            if (americanQuestion.counterTrueFalse(americanQuestion.getAnswerArray()) == 3) {
+                System.out.println("more than 1 answer is true would you like to add an 'More than 1 answer is true ?'");
+                System.out.println("to add enter 1,otherwise enter 0");
+                boolean validInputFlag = false;
+                while (!validInputFlag) {
+                    try {
+                        int toAdd = input.nextInt();
+                        if (toAdd == 1 || toAdd == 0) {
+                            validInputFlag = true;
+                        }
+                        if (toAdd == 1) {
+                            americanQuestion.checkAnswerArrays(americanQuestion.getAnswerArray());
+                            System.out.println("'More than 1 answer is true' added");
+                            return true;
+                        } else {
+                            System.out.println("Didn't add 'More than 1 answer is true' answer");
+                            return false;
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println(e.getMessage());
+                        input.nextLine();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
 
 }

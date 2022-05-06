@@ -21,13 +21,13 @@ public class AmericanQuestions extends Questions {
     }
 
 
-    public boolean isAnswerInArray(AmericanAnswer americanAnswer) {
-        for (int i = 0; i < numOfAmericanAnswers; i++) {
-            if (answerArrayList.get(i).equals(americanAnswer))
-                return true;
-        }
-        return false;
-    }
+//    public boolean isAnswerInArray(AmericanAnswer americanAnswer) {
+//        for (int i = 0; i < numOfAmericanAnswers; i++) {
+//            if (answerArrayList.get(i).equals(americanAnswer))
+//                return true;
+//        }
+//        return false;
+//    }
 
     public boolean addAnswer(AmericanAnswer americanAnswer) {
         if (numOfAmericanAnswers == MAX_AMERICAN_ANSWERS) {
@@ -106,7 +106,7 @@ public class AmericanQuestions extends Questions {
     //  הפונקצמיה בודקת את מערך התשובות לשאלה האמריקאית ומחלקת למצבים הבאים
     // ומטפלת לפי כל סיטואציה
     //יותר מתשובה אחת נכונה,כל התשובות נכונות,אף תשובה אינה נכונה,תושבה אחת נכונה ותשובה שנייה לא נכונה(לא מטפלת),יש רק תשובה אחת נכונה(לא מטפלת)
-    //הפונקציה מחזירה מערך תשובות לאחר שטיפלה בו
+//    הפונקציה מחזירה מערך תשובות לאחר שטיפלה בו
     public boolean checkAnswerArrays(Set<AmericanAnswer> americanAnswers) {
 
         //tC=1 and fC=1
@@ -157,9 +157,11 @@ public class AmericanQuestions extends Questions {
 
         //function that check how many true and false there are
         //check how many false or true answers there are for the question
+        Object[] americanAnswer=answerArrayList.toArray();
+
         int trueCounter = 0, falseCounter = 0;
         for (int i = 0; i < americanAnswers.size(); i++) {
-            if (americanAnswers.get(i).getCorrectness()) {
+            if (((AmericanAnswer)americanAnswer[i]).getCorrectness()) {
                 trueCounter++;
             } else {
                 falseCounter++;
@@ -191,22 +193,25 @@ public class AmericanQuestions extends Questions {
 
     @Override
     public String toString() {
-
+        Object[] americanAnswer=answerArrayList.toArray();
         StringBuffer sb = new StringBuffer();
         sb.append(super.toString() + "the answers are: \n");
         for (int i = 0; i < numOfAmericanAnswers; i++) {
-            sb.append((i + 1) + ")" + answerArrayList.get(i).toString() + "\n");
+            sb.append((i + 1) + ")" + americanAnswer[i].toString() + "\n");
         }
         sb.append("\n");
         return sb.toString();
-
     }
 
+
+
     public String printAnswersOnly() {
+        Object[] americanAnswer=answerArrayList.toArray();
+
         StringBuffer sb = new StringBuffer();
         sb.append("The answers are:\n");
         for (int i = 0; i < numOfAmericanAnswers; i++) {
-            sb.append((i + 1) + ")" + answerArrayList.get(i).toString() + "\n");
+            sb.append((i + 1) + ")" + americanAnswer[i].toString() + "\n");
         }
         return sb.toString();
 
@@ -231,8 +236,10 @@ public class AmericanQuestions extends Questions {
 
     public boolean setAnswerArray(Set<AmericanAnswer> answerArrayList) {
 
+        Object[] americanAnswer=answerArrayList.toArray();
+
         for (int i = 0; i < numOfAmericanAnswers; i++) {
-            this.answerArrayList.add (answerArrayList.get(i));
+            this.answerArrayList.add ((AmericanAnswer) americanAnswer[i]);
         }
         return true;
     }

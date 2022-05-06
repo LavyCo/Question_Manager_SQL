@@ -20,15 +20,6 @@ public class QuestionReservoir implements Serializable {
 
     }
 
-//    public void resizeQuestionArray() {
-//        Questions[] newQuestionsArray = new Questions[size * 2];
-//        for (int i = 0; i < numberOfQuestions; i++) {
-//            newQuestionsArray[i] = questionArray[i];
-//        }
-//        this.questionArray = newQuestionsArray;
-//
-//    }
-
 
     public boolean changeAnswerWordingOfOpenQuestion(String newAnswerText, Questions editorQuestionAnswer, int numOfAnswer) {
         if (editorQuestionAnswer instanceof OpenQuestions) {
@@ -339,48 +330,6 @@ public class QuestionReservoir implements Serializable {
         ((AmericanQuestions) questionArray.get(indQuestion)).americanAnswerRemove(answerNumber);
     }
 
-//    public boolean deleteAmericanAnswer(int indQuestion, int answerNumber) {
-//
-//        AmericanAnswer[] originalAnswerArr = ((AmericanQuestions) this.questionArray.get(indQuestion)).getAnswerArray();
-//
-//        AmericanQuestions americanQuestion = ((AmericanQuestions) this.questionArray.get(indQuestion));
-//        int newNumberOfAnswers = originalAnswerArr.length;
-//        if (americanQuestion.counterTrueFalse(originalAnswerArr) == 1) {
-//            System.out.println("Can't delete must have 2 negated answers");
-//            return false;
-//        }
-//
-//        if (americanQuestion.getNumOfAmericanAnswers() <= 2) {
-//            System.out.println("Cant delete answer minimum answers required");
-//            return false;
-//        }
-//
-//
-//        //creating new array of answer for american question with reduced number of answers
-//        newNumberOfAnswers--;
-//        AmericanAnswer[] newAmericanAnswerArray = new AmericanAnswer[newNumberOfAnswers];
-//
-//        for (int i = 0; i < answerNumber; i++) {
-//            newAmericanAnswerArray[i] = originalAnswerArr[i];
-//            System.out.println(newAmericanAnswerArray[i].toString());
-//        }
-//
-//        for (int j = answerNumber; j < newNumberOfAnswers; j++) {
-//            newAmericanAnswerArray[j] = originalAnswerArr[j + 1];
-//            System.out.println(newAmericanAnswerArray[j].toString());
-//
-//        }
-//
-//
-//        //reducing number of american answer for the question by 1
-//        americanQuestion.setNumOfAmericanAnswers(newNumberOfAnswers);
-//
-//        //configuring new answer array
-//        americanQuestion.setAnswerArray(newAmericanAnswerArray);
-//
-//        return true;
-//
-//    }
 
     public void manualExamCreate(int numOfQuestInTest, int[][] indQuestion) throws FileNotFoundException {
 
@@ -394,13 +343,14 @@ public class QuestionReservoir implements Serializable {
 
                     }
                     if (this.questionArray.get(allQuestionsIndex) instanceof AmericanQuestions) {
+                        Object[] answerArray=((AmericanQuestions) this.questionArray.get(allQuestionsIndex)).getAnswerArray().toArray();
                         //first im going to initialize an american Question
                         AmericanQuestions newAmericanQuestion;
                         //next Im going to initialize an answerArrayList
                         Set<AmericanAnswer> newAmericanAnswer = new Set<>();
                         //now im going to start a loop that its stopping index is the index of the [][1]
                         for (int i = 0; i < indQuestion[arrayIndex][1]; i++) {
-                            newAmericanAnswer.add(((AmericanQuestions) this.getQuestionArray().get(allQuestionsIndex)).getAnswerArray().get(indQuestion[arrayIndex][i + 2] - 1));
+                            newAmericanAnswer.add((AmericanAnswer) answerArray[indQuestion[arrayIndex][i + 2] - 1]);
                         }
                         newAmericanQuestion = new AmericanQuestions(this.getQuestionArray().get(allQuestionsIndex).getQuestionText(), newAmericanAnswer);
                         manualExam.addQuestion(newAmericanQuestion);
@@ -467,7 +417,7 @@ public class QuestionReservoir implements Serializable {
     }
 
     public Exam getAutomaticExam() {
-        return manualExam;
+        return automaticExam;
     }
 
     public ArrayList<Questions> getQuestionArray() {

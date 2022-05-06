@@ -4,11 +4,12 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class AmericanAnswer implements Serializable {
-	
+	private int Index;
 	private boolean correctness;
 	private String answerText;
 	
 	public AmericanAnswer(String answerText,boolean correctness) {
+
 		this.answerText=answerText;
 		this.correctness=correctness;
 	}
