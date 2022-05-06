@@ -37,6 +37,8 @@ public class Main implements Examble {
         Set<String> stringSet=new HashSet<>();
         stringSet.add("d");
 
+        Examble main=new Main();
+
 
 
 
@@ -603,4 +605,8 @@ public class Main implements Examble {
     }
 
 
+    @Override
+    public void printQuestions(String print) {
+        
+    }
 }
