@@ -1,0 +1,27 @@
+the test with answers:
+
+1) the question is : B Who solved the Engima machine during WWII?
+
+solution for question 01) is: Alan Turing
+
+2) the question is : E Which one of these next Programming languages is Low-Level programming language?
+
+solutions for question 11) is: 
+
+1)  Java (False)
+
+2)  C (False)
+
+3)  Machine Code (True)
+
+4)  JavaScript (False)
+
+5)  there is more than 1 right answer (False)
+
+6)  all the answers is false (False)
+
+3) the question is : C What is the difference between Choclate cake and a Salad?
+
+solution for question 21) is: Salad wont give you Diabetes
+
+End

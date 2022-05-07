@@ -1,12 +1,8 @@
 package id206214280_id316650399;
 
-import javax.naming.spi.ObjectFactoryBuilder;
 import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.security.spec.RSAOtherPrimeInfo;
 import java.util.Arrays;
 import java.lang.Object;
-import java.util.Iterator;
 
 
 public class Set<T> implements Serializable {
@@ -19,6 +15,13 @@ public class Set<T> implements Serializable {
 
     public Set() {
         genericArray = (T[]) new Object[currentSize];
+    }
+
+    public void removeAll(){
+        for(int i=0;i<genericArray.length;i++){
+            remove(genericArray[i]);
+            currentSize--;
+        }
     }
 
     public boolean remove(T e) {
@@ -72,7 +75,6 @@ public class Set<T> implements Serializable {
 
     public boolean add(T e) {
         if (contains(e)) {
-            System.out.println("cant add already in set");
             return false;
         }
         genericArray = Arrays.copyOf(genericArray, ++currentSize);

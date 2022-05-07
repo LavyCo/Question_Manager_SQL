@@ -132,7 +132,7 @@ public class AmericanQuestions extends Questions {
 
         //tC>1  more than 1 true answer
         //turns all true answers into true and adds "More than answer is true" Answer
-        AmericanAnswer [] americanAnswersArr= (AmericanAnswer[]) answerArrayList.toArray();
+        Object [] americanAnswersArr= answerArrayList.toArray();
         if (this.counterTrueFalse(americanAnswers) == 3) {
             if (numOfAmericanAnswers == MAX_AMERICAN_ANSWERS) {
                 System.out.println("Maximal number of answers exceeded");
@@ -140,7 +140,14 @@ public class AmericanQuestions extends Questions {
             }
             //loop that turns all true answers into false answers
             for (int i = 0; i < numOfAmericanAnswers; i++) {
-                americanAnswersArr[i].setCorrectness(false);
+                ((AmericanAnswer)americanAnswersArr[i]).setCorrectness(false);
+            }
+            //loop that turns array into set
+            answerArrayList.removeAll();
+            numOfAmericanAnswers=0;
+            for(int i=0;i<americanAnswersArr.length;i++){
+                answerArrayList.add((AmericanAnswer)americanAnswersArr[i]);
+                numOfAmericanAnswers++;
             }
 
             this.answerArrayList.add(new AmericanAnswer("All answers are true", true));

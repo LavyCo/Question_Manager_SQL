@@ -1,0 +1,21 @@
+the test without answers:
+
+1) the question is : A Who was Yitzhak Rabin?
+
+2) the question is : B Who solved the Engima machine during WWII?
+
+3) the question is : C What is the difference between Choclate cake and a Salad?
+
+4) the question is : D Which one of these is not dessert?
+
+1) Muffin
+
+2) Choclate cake
+
+3) Ice cream
+
+4) there is more than 1 right answer
+
+5) all the answers is false
+
+Good Luck
