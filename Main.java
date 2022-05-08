@@ -409,10 +409,10 @@ public class Main implements Examble {
                             boolean flagIndexAns = false;
                             while (!flagIndexAns) {
                                 try {
-                                    System.out.println("Choose the index of the answer you want to choose");
+                                    System.out.println("Choose the index of the answer you want to choose "+k+"from: "+numberOfAmericanAnswers);
                                     indQuestion[i][k + 2] = input.nextInt();
-                                    input.nextLine();
-                                    if (indQuestion[i][k + 2] > 0 || indQuestion[i][k + 2] <= ((AmericanQuestions) qr1.getQuestionArray().get(j)).getAnswerArray().size()) {
+
+                                    if (indQuestion[i][k + 2] > 0 && indQuestion[i][k + 2] <= ((AmericanQuestions) qr1.getQuestionArray().get(j)).getAnswerArray().size()) {
                                         flagIndexAns = true;
                                     }
                                 } catch (InputMismatchException e) {

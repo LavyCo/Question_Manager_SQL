@@ -1,0 +1,15 @@
+the test with answers:
+
+1) the question is : E Which one of these next Programming languages is Low-Level programming language?
+
+solutions for question 01) is: 
+
+1)  Machine Code (True)
+
+2)  Swift (False)
+
+3)  there is more than 1 right answer (False)
+
+4)  all the answers is false (False)
+
+End
