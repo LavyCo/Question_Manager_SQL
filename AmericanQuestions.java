@@ -229,15 +229,5 @@ public class AmericanQuestions extends Questions {
         return answerArrayList;
     }
 
-    public boolean setAnswerArray(Set<AmericanAnswer> answerArrayList) {
-
-        Object[] americanAnswer=answerArrayList.toArray();
-        setNumOfAmericanAnswers(answerArrayList.size());
-        for (int i = 0; i < numOfAmericanAnswers; i++) {
-            this.answerArrayList.add ((AmericanAnswer) americanAnswer[i]);
-        }
-        return true;
-    }
-
 }
 

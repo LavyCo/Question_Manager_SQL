@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class AmericanAnswer implements Serializable {
-	private int Index;
 	private boolean correctness;
 	private String answerText;
 	
@@ -13,12 +12,6 @@ public class AmericanAnswer implements Serializable {
 		this.answerText=answerText;
 		this.correctness=correctness;
 	}
-
-	public AmericanAnswer(AmericanAnswer other){
-		this.answerText=other.answerText;
-		this.correctness=other.correctness;
-	}
-
 
 
 
@@ -69,12 +62,6 @@ public class AmericanAnswer implements Serializable {
 	public void setAnswerText(String answerText) {
 		this.answerText = answerText;
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	
 }

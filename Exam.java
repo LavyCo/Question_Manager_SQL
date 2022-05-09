@@ -76,23 +76,6 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
         return 0;
     }
 
-
-    public void sortQuestionsByLexicographicOrderExam() {
-        boolean noChange = false;
-        for (int i = numOfQuestions - 1; i > 0 && (noChange == false); i--) {
-            for (int j = 0; j < i; j++) {
-                noChange = true;
-                if (examQuestionArray.get(j).getQuestionText().compareToIgnoreCase(examQuestionArray.get(j + 1).getQuestionText()) > 0) {
-                    Questions tempQuestion = examQuestionArray.get(j + 1);
-                    examQuestionArray.set(j + 1, examQuestionArray.get(j));
-                    examQuestionArray.set(j, tempQuestion);
-                    noChange = false;
-                }
-            }
-        }
-
-    }
-
     @Override
     protected Exam clone() throws CloneNotSupportedException {
         return (Exam) super.clone();
@@ -152,8 +135,8 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
             }
             if (examQuestionArray.get(i) instanceof OpenQuestions) {
                 sb.append("Question number " + (i + 1) + "\n");
-                sb.append(examQuestionArray.get(i).getQuestionText() + "\n");
-                sb.append(((OpenQuestions) examQuestionArray.get(i)).getAnswerText() + "\n");
+                sb.append("Question: "+examQuestionArray.get(i).getQuestionText() + "\n");
+                sb.append("Question Answer "+((OpenQuestions) examQuestionArray.get(i)).getAnswerText() + "\n");
                 sb.append("\n");
 
             }

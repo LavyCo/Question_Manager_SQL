@@ -36,25 +36,6 @@ public class QuestionReservoir implements Serializable {
         return false;
     }
 
-    public void updateId() {
-        for (int i = numberOfQuestions; i < questionArray.size(); i++) {
-            if (this.questionArray.get(i) instanceof AmericanQuestions) {
-                AmericanQuestions newAmericanQuestion = new AmericanQuestions((AmericanQuestions) this.questionArray.get(i));
-                questionArray.set(i, newAmericanQuestion);
-                numberOfQuestions++;
-            }
-
-            if (this.questionArray.get(i) instanceof OpenQuestions) {
-                OpenQuestions newOpenQuestion = new OpenQuestions((OpenQuestions) this.questionArray.get(i));
-                questionArray.set(i, newOpenQuestion);
-                numberOfQuestions++;
-            }
-
-        }
-        ;
-
-
-    }
 
     public void saveBin() throws FileNotFoundException, IOException, ClassNotFoundException {
         ObjectOutputStream outFile = new ObjectOutputStream(new FileOutputStream("QuestionArray.dat"));
@@ -86,8 +67,6 @@ public class QuestionReservoir implements Serializable {
 
             }
         }
-//        updateId();
-
     }
 
 

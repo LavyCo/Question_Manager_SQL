@@ -2,13 +2,8 @@ package id206214280_id316650399;
 
 import java.io.*;
 import java.util.*;
-import java.util.Set;
-
-import static id206214280_id316650399.Main.exception1Or2Select;
 
 
-//כדי להצ
-// ליח לייצר עוד מקצועות עלינו ליצור מחלקות של מקצועות שמקבלות מאגרים
 public class Main implements Examble {
 
     public static void main(String[] args) throws Exception, FileNotFoundException, IOException, ClassNotFoundException {
@@ -37,7 +32,6 @@ public class Main implements Examble {
         qr1.readBin();
 
 
-
         Main main1 = new Main();
 
 
@@ -45,20 +39,21 @@ public class Main implements Examble {
         Scanner input = new Scanner(System.in);
         do {
             System.out.println("-----------------------------------------------------------------");
-            System.out.println("Please choose an option from the menu");
-            System.out.println("1-Show all questions and their answers in the in the resevoir");
+            System.out.println("Welcome to the Exam generator program");
+            System.out.println("Please choose an option from the menu below");
+            System.out.println("1-Show all questions and their answers in the in the reservoir");
             System.out.println("2-Add questions");
             System.out.println("3-Change the question wording");
             System.out.println("4-Update the wording of an answer");
             System.out.println("5-Delete an answer to a question");
             System.out.println("6-Create a test manually");
             System.out.println("7-Create a test automatically");
-            System.out.println("8-clone an exam");
-            System.out.println("9-Exit program");
+            System.out.println("8-Clone an exam");
+            System.out.println("9-Save changes in questions reservoir and exit program");
             System.out.println("-----------------------------------------------------------------");
             try {
                 optMenu = input.nextInt();
-                if (optMenu < 1 || optMenu > 8) throw new Exception("Please choose Option from the range of 1-8");
+                if (optMenu < 1 || optMenu > 9) throw new Exception("Please choose Option from the range of 1-9");
             } catch (InputMismatchException e) {
                 System.out.println("Please input numbers only");
                 input.nextLine();
@@ -130,9 +125,9 @@ public class Main implements Examble {
 
 
                 case 9: {
-                    System.out.println("Question reservoir saved");
                     main1.saveBinary(qr1);
                     System.out.println("Goodbye");
+
                     break;
                 }
 
@@ -154,6 +149,7 @@ public class Main implements Examble {
         int optAddQuestion = exception1Or2Select();
         if (optAddQuestion == 1) {
             System.out.println("please enter a Question text:");
+            input.nextLine();
             String questionText = input.nextLine();
             System.out.println("please enter a Answer text:");
             String OpenAnswer = input.nextLine();
@@ -222,8 +218,6 @@ public class Main implements Examble {
                     }
                 }
 
-
-                //TO DO try catch
                 if (trueOrFalse == 1) {
                     americanAnswersCorrectness[i] = true;
                 } else {
@@ -298,7 +292,7 @@ public class Main implements Examble {
 
     @Override
     public void deleteAnswer(QuestionReservoir qr1) throws Exception {
-//Cant delete an answer for open question
+        //Cant delete an answer for open question
         //Can only delete up until 2 answers for american questions
         //american question needs at least 1 true answer
         //if american question has more than 1 correct answer than it needs at least 1 false answer

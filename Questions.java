@@ -9,15 +9,9 @@ import java.util.Objects;
 	protected String questionText;
 	
 	public Questions(String questionText) {
-
 		this.questionText=questionText;
-		setQuestionId(questionId);
+		setQuestionId();
 	}
-
-
-
-
-
 
 
 	protected void decreaseIdCounter(){
@@ -54,8 +48,7 @@ import java.util.Objects;
 		Questions p=(Questions)other;
 		return  this.questionText.equalsIgnoreCase(p.questionText);
 	}
-
-	 public void setQuestionId(int questionId) {
+	 public void setQuestionId() {
 		 this.questionId=counter++;
 		}
 
