@@ -473,7 +473,7 @@ public class Main implements Examble {
         System.out.println("Please choose which exam to clone");
         System.out.println("1-manual exam");
         System.out.println("2-automatic exam");
-        int option=input.nextInt();
+        int option=exception1Or2Select();
         qr1.cloneExam(option);
 
     }
