@@ -110,20 +110,20 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
             writerExam.println("the test without answers:\n");
             writerSolution.println("the test with answers:\n");
             for (int i = 0; i < numOfQuestions; i++) {
-                writerExam.println(i + 1 + ") " + "the question is : " + examQuestionArray.get(i).getQuestionText() + "\n");
-                writerSolution.println(i + 1 + ") " + "the question is : " + examQuestionArray.get(i).getQuestionText() + "\n");
+                writerExam.println((i + 1) + ") " + "the question is : " + examQuestionArray.get(i).getQuestionText() + "\n");
+                writerSolution.println((i + 1) + ") " + "the question is : " + examQuestionArray.get(i).getQuestionText() + "\n");
                 if (examQuestionArray.get(i) instanceof OpenQuestions) {
                     OpenQuestions printOpenQuestion = (OpenQuestions) examQuestionArray.get(i);
-                    writerSolution.println("solution for question " + i + 1 + ") " + "is: " + printOpenQuestion.getAnswerText() + "\n");
+                    writerSolution.println("solution for question " + (i + 1) + ") " + "is: " + printOpenQuestion.getAnswerText() + "\n");
                 }
                 if (examQuestionArray.get(i) instanceof AmericanQuestions) {
 
                     AmericanQuestions printAmericanQuestion = (AmericanQuestions) examQuestionArray.get(i);
                     Object[] americanAnswerArr=printAmericanQuestion.getAnswerArray().toArray();
-                    writerSolution.println("solutions for question " + i + 1 + ") " + "is: " + "\n");
+                    writerSolution.println("solutions for question " + (i + 1) + ") " + "is: " + "\n");
                     for (int j = 0; j < printAmericanQuestion.getNumOfAmericanAnswers(); j++) {
-                        writerSolution.println(j + 1 + ") " + americanAnswerArr[j] + "\n");
-                        writerExam.println(j + 1 + ") " + ((AmericanAnswer)americanAnswerArr[j]).getAnswerText() + "\n");
+                        writerSolution.println((j + 1) + ") " + americanAnswerArr[j] + "\n");
+                        writerExam.println((j + 1) + ") " + ((AmericanAnswer)americanAnswerArr[j]).getAnswerText() + "\n");
                     }
                 }
             }

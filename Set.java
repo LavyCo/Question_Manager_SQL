@@ -3,6 +3,7 @@ package id206214280_id316650399;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.lang.Object;
+import java.util.Iterator;
 
 
 public class Set<T> implements Serializable {
@@ -23,6 +24,7 @@ public class Set<T> implements Serializable {
             currentSize--;
         }
     }
+
 
     public boolean remove(T e) {
         if (contains(e)) {

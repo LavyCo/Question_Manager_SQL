@@ -1,0 +1,29 @@
+the test with answers:
+
+1) the question is : E Which one of these next Programming languages is Low-Level programming language?
+
+solutions for question 01) is: 
+
+1)  Java (False)
+
+2)  C++ (False)
+
+3)  Assembly (False)
+
+4)  C (False)
+
+5)  C# (False)
+
+6)  Python (False)
+
+7)  JavaScript (False)
+
+8)  Swift (False)
+
+9)  Machine Code (False)
+
+10)  There are more than 1 right answer (True)
+
+11)  All the answers are false (False)
+
+End

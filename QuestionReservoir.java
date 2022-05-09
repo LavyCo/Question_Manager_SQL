@@ -301,16 +301,14 @@ public class QuestionReservoir implements Serializable {
 
     public boolean addAmericanQuestion(String questionText, String[] answersArray, boolean[] correctnessArray) {
         Set<AmericanAnswer> answerArrayList = new Set<>();
-
         for (int i = 0; i < answersArray.length; i++) {
             answerArrayList.add(new AmericanAnswer(answersArray[i], correctnessArray[i]));
         }
         AmericanQuestions newAmericanQuestion = new AmericanQuestions(questionText, answerArrayList);
-
         questionArray.add(newAmericanQuestion);
         numberOfQuestions++;
-
         System.out.println("American Question added");
+
         return true;
 
 
@@ -342,11 +340,8 @@ public class QuestionReservoir implements Serializable {
                     }
                     if (this.questionArray.get(allQuestionsIndex) instanceof AmericanQuestions) {
                         Object[] answerArray=((AmericanQuestions) this.questionArray.get(allQuestionsIndex)).getAnswerArray().toArray();
-                        //first im going to initialize an american Question
                         AmericanQuestions newAmericanQuestion;
-                        //next Im going to initialize an answerArrayList
                         Set<AmericanAnswer> newAmericanAnswer = new Set<>();
-                        //now im going to start a loop that its stopping index is the index of the [][1]
                         for (int i = 0; i < indQuestion[arrayIndex][1]; i++) {
                             newAmericanAnswer.add((AmericanAnswer) answerArray[indQuestion[arrayIndex][i + 2] - 1]);
                         }

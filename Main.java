@@ -35,6 +35,9 @@ public class Main implements Examble {
 
         QuestionReservoir qr1 = new QuestionReservoir();
         qr1.readBin();
+
+
+
         Main main1 = new Main();
 
 
@@ -75,7 +78,7 @@ public class Main implements Examble {
 
                 // option 2 add questions
                 case 2: {
-                    main1.addQuestion(qr1);
+                    main1.addQuestion(qr1,input);
                     break;
                 }
 
@@ -145,13 +148,12 @@ public class Main implements Examble {
     }
 
     @Override
-    public void addQuestion(QuestionReservoir qr1) {
+    public void addQuestion(QuestionReservoir qr1,Scanner input) {
         System.out.println("What type of question do you want?");
         System.out.println("1)Open question \n2)American question");
         int optAddQuestion = exception1Or2Select();
         if (optAddQuestion == 1) {
             System.out.println("please enter a Question text:");
-
             String questionText = input.nextLine();
             System.out.println("please enter a Answer text:");
             String OpenAnswer = input.nextLine();
@@ -168,14 +170,16 @@ public class Main implements Examble {
         //add american answer
         if (optAddQuestion == 2) {
             System.out.println("Please enter a Question text:");
-
+            input.nextLine();
             String americanQuestionText = input.nextLine();
+
             boolean AnswerOptTry = false;
             int numberOfAnswers = 10;
             while (!AnswerOptTry) {
                 try {
                     System.out.println("enter a number of answers 2-10 only:");
                     numberOfAnswers = input.nextInt();
+
 
                     if (numberOfAnswers > 10 || numberOfAnswers <= 1) {
                         System.out.println("try again");
@@ -187,7 +191,7 @@ public class Main implements Examble {
 
                 } catch (InputMismatchException e) {
                     System.out.println("Please enter a valid input(numbers only)");
-                    input.nextLine();// cleans buffer
+                    input.next();// cleans buffer
                 } catch (Exception e) {
                     System.out.println("Error " + e.getMessage());
                 }
@@ -197,8 +201,9 @@ public class Main implements Examble {
             for (int i = 0; i < numberOfAnswers; i++) {
                 //inputting text
                 System.out.println("Please enter answer text for answer number " + (i + 1) + "/" + numberOfAnswers);
-                americanAnswersText[i] = input.next();
                 input.nextLine();
+                americanAnswersText[i] =  input.nextLine();
+
                 //inputting correctness
                 int trueOrFalse = 2;
                 boolean flagZeroOrOne = false;
@@ -226,6 +231,7 @@ public class Main implements Examble {
                 }
             }
             qr1.addAmericanQuestion(americanQuestionText, americanAnswersText, americanAnswersCorrectness);
+            askUserIftoAddAnswer(qr1,qr1.getNumberOfQuestions()-1);
 
         }
     }
@@ -408,8 +414,9 @@ public class Main implements Examble {
                         for (int k = 0; k < numberOfAmericanAnswers; k++) {
                             boolean flagIndexAns = false;
                             while (!flagIndexAns) {
+                                ((AmericanQuestions) qr1.getQuestionArray().get(j)).printAnswersOnly();
                                 try {
-                                    System.out.println("Choose the index of the answer you want to choose "+k+"from: "+numberOfAmericanAnswers);
+                                    System.out.println("Choose index of the answer "+(k+1)+"/"+numberOfAmericanAnswers);
                                     indQuestion[i][k + 2] = input.nextInt();
 
                                     if (indQuestion[i][k + 2] > 0 && indQuestion[i][k + 2] <= ((AmericanQuestions) qr1.getQuestionArray().get(j)).getAnswerArray().size()) {
@@ -440,17 +447,23 @@ public class Main implements Examble {
 
 
     @Override
-    public void createAutomaticExam(QuestionReservoir qr1) throws FileNotFoundException {
+    public void createAutomaticExam(QuestionReservoir qr1) throws FileNotFoundException,InputMismatchException {
         int numberOfQuestions = 0;
-        try {
+        boolean flagInput=false;
+        while (!flagInput){
+
+
             //Ask user how many questions he wants in the test
-            System.out.println("Please enter the number(between " + 1 + "-" + qr1.getNumberOfQuestions() + ")" + " of question you want in the test ");
             try {
+
+
+                System.out.println("Please enter the number(between " + 1 + "-" + qr1.getNumberOfQuestions() + ")" + " of question you want in the test ");
                 numberOfQuestions = input.nextInt();
-                while (numberOfQuestions < 0 || numberOfQuestions > qr1.getNumberOfQuestions()) {
+                if (numberOfQuestions >= 0 && numberOfQuestions <=qr1.getNumberOfQuestions()) {
+                   flagInput=true;
+
+                }else{
                     System.out.println("chosen number of questions not within range please try again:");
-                    input.nextLine();
-                    numberOfQuestions = input.nextInt();
                 }
 
             } catch (InputMismatchException e) {
@@ -458,14 +471,9 @@ public class Main implements Examble {
                 input.nextLine();// cleans buffer
 
             }
-
-
-        } catch (Exception e) {
-            System.out.println("Error " + e.getMessage());
-
         }
-        //TO DO
-        qr1.automaticExam(numberOfQuestions);
+
+            qr1.automaticExam(numberOfQuestions);
     }
 
     @Override

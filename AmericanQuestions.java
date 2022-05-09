@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 public class AmericanQuestions extends Questions {
 
-    private final int MAX_AMERICAN_ANSWERS = 10;
     private int numOfAmericanAnswers;
     private Set<AmericanAnswer> answerArrayList;
 
@@ -23,16 +22,6 @@ public class AmericanQuestions extends Questions {
     }
 
 
-    public boolean addAnswer(AmericanAnswer americanAnswer) {
-        if (numOfAmericanAnswers == MAX_AMERICAN_ANSWERS) {
-            System.out.println("Capacity full cannot add answer");
-            return false;
-        } else {
-            this.answerArrayList.add(americanAnswer);
-            numOfAmericanAnswers++;
-            return true;
-        }
-    }
 
 
 
@@ -51,7 +40,6 @@ public class AmericanQuestions extends Questions {
 
 
     public void add2Answers() {
-        if(this.getNumOfAmericanAnswers()<=8){
             Object[] americanAnswers=answerArrayList.toArray();
 
             AmericanAnswer[] plus2AmericanAnswer=new AmericanAnswer[this.getNumOfAmericanAnswers()+2];
@@ -65,8 +53,8 @@ public class AmericanQuestions extends Questions {
 
                 boolean correct= true;
                 boolean notCorrect=false;
-                String Ans2= "there is more than 1 right answer";
-                String Ans1= "all the answers is false";
+                String Ans2= "There is more than 1 right answers";
+                String Ans1= "All the answers are false";
                 americanAnswers=plus2AmericanAnswer;
                 this.setNumOfAmericanAnswers(plus2AmericanAnswer.length);
                 americanAnswers[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1, correct);
@@ -75,8 +63,8 @@ public class AmericanQuestions extends Questions {
             else if(counterTrueFalse(this.getAnswerArray())==3){
                 boolean notCorrect=false;
                 boolean correct= true;
-                String Ans1= "all the answers is false";
-                String Ans2= "there is more than 1 right answer";
+                String Ans1= "All the answers are false";
+                String Ans2= "There are more than 1 right answers";
                 americanAnswers=plus2AmericanAnswer;
                 this.setNumOfAmericanAnswers(plus2AmericanAnswer.length);
                 americanAnswers[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1,notCorrect );
@@ -86,8 +74,8 @@ public class AmericanQuestions extends Questions {
                 for(int i=0;i<numOfAmericanAnswers;i++){
                     plus2AmericanAnswer[i].setCorrectness(((AmericanAnswer)americanAnswers[i]).getCorrectness());
                 }
-                String Ans1= "all the answers is false";
-                String Ans2= "there is more than 1 right answer";
+                String Ans1= "All the answers are false";
+                String Ans2= "There are more than 1 right answers";
                 americanAnswers=plus2AmericanAnswer;
                 this.setNumOfAmericanAnswers(plus2AmericanAnswer.length);
                 americanAnswers[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1,false );
@@ -95,7 +83,7 @@ public class AmericanQuestions extends Questions {
             }
             this.answerArrayList=this.turnArrayIntoSet((AmericanAnswer[]) americanAnswers);
 
-        }
+
     }
 
 
@@ -115,10 +103,6 @@ public class AmericanQuestions extends Questions {
         //adds an "All answers are false" answer
         if (this.counterTrueFalse(americanAnswers) == 2) {
             try {
-                if (numOfAmericanAnswers == MAX_AMERICAN_ANSWERS) {
-                    System.out.println("Maximal number of answers exceeded");
-                    return false;
-                }
                 this.answerArrayList.add(new AmericanAnswer("All answers are false", true));
                 numOfAmericanAnswers++;
 
@@ -134,10 +118,6 @@ public class AmericanQuestions extends Questions {
         //turns all true answers into true and adds "More than answer is true" Answer
         Object [] americanAnswersArr= answerArrayList.toArray();
         if (this.counterTrueFalse(americanAnswers) == 3) {
-            if (numOfAmericanAnswers == MAX_AMERICAN_ANSWERS) {
-                System.out.println("Maximal number of answers exceeded");
-                return false;
-            }
             //loop that turns all true answers into false answers
             for (int i = 0; i < numOfAmericanAnswers; i++) {
                 ((AmericanAnswer)americanAnswersArr[i]).setCorrectness(false);
