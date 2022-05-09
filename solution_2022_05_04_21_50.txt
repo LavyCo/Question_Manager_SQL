@@ -1,7 +1,0 @@
-the test with answers:
-
-1) the question is : B Who solved the Engima machine during WWII?
-
-solution for question 01) is: Alan Turing
-
-End

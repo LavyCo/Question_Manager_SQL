@@ -1,7 +1,0 @@
-the test with answers:
-
-1) the question is : C What is the difference between Choclate cake and a Salad?
-
-solution for question 01) is: Salad wont give you Diabetes
-
-End

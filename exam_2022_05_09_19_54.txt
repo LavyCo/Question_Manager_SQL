@@ -8,30 +8,30 @@ the test without answers:
 
 4) the question is : E Which one of these next Programming languages is Low-Level programming language?
 
-1) Java
+1) Assembly
 
 2) C++
 
-3) Assembly
+3) C
 
-4) C
+4) Python
 
-5) there is more than 1 right answer
+5) There are more than 1 right answers
 
-6) all the answers is false
+6) All the answers are false
 
 5) the question is : D Which one of these is not dessert?
 
-1) Muffin
+1) Shawrma
 
-2) Choclate cake
+2) Ice cream
 
-3) Ice cream
+3) Muffin
 
-4) Brownies
+4) Choclate cake
 
-5) there is more than 1 right answer
+5) There are more than 1 right answers
 
-6) all the answers is false
+6) All the answers are false
 
 Good Luck

@@ -22,7 +22,7 @@ public interface Examble {
     //Create a test automatically
     void createAutomaticExam(QuestionReservoir qr1) throws FileNotFoundException;
     //clone an exam
-    void cloneExam(QuestionReservoir qr1) throws CloneNotSupportedException;
+    void cloneExam(QuestionReservoir qr1) throws CloneNotSupportedException, FileNotFoundException;
 
     //  save binary program
     void saveBinary(QuestionReservoir qr1) throws IOException, ClassNotFoundException;

@@ -167,7 +167,7 @@ public class QuestionReservoir implements Serializable {
                 int t = 0;
                 //loop will keep running as long as inside the array and there are less than 4 answer collected
                 for (int j = 0; j < americanAnswersSize && t < 4; j++) {
-                    //index for random anser array
+                    //index for random answer array
                     int p = randomAnswerIndex[j];
 
                     //if current chosen answer is the first true answer encountered add to automated array
@@ -222,7 +222,8 @@ public class QuestionReservoir implements Serializable {
 
     }
 
-    public boolean cloneExam(int whichExamOpt) throws CloneNotSupportedException {
+    public boolean cloneExam(int whichExamOpt) throws CloneNotSupportedException, FileNotFoundException {
+
         if (whichExamOpt == 1) {
             if (manualExam.getNumOfQuestions() == 0) {
                 System.out.println("Can't clone the exam. Manual exam not created yet.");
@@ -231,6 +232,7 @@ public class QuestionReservoir implements Serializable {
             manualExamClone = manualExam.clone();
             System.out.println("Manual exam cloned");
             System.out.println(manualExamClone.toString());
+            manualExamClone.saveToText();
             return true;
         }
 
@@ -242,6 +244,7 @@ public class QuestionReservoir implements Serializable {
             automaticExamClone = automaticExam.clone();
             System.out.println("Automatic exam cloned");
             System.out.println(automaticExamClone.toString());
+            automaticExamClone.saveToText();
             return true;
 
         }
