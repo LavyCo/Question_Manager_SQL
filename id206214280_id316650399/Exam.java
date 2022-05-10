@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -78,7 +79,9 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
 
     @Override
     protected Exam clone() throws CloneNotSupportedException {
-        return (Exam) super.clone();
+        Exam temp=(Exam)super.clone();
+        temp.examQuestionArray= (ArrayList) examQuestionArray.clone();
+        return temp;
     }
 
     public void saveToText() throws FileNotFoundException {
@@ -115,6 +118,10 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
         writerSolution.println("End");
         writerExam.close();
         writerSolution.close();
+    }
+
+    public void setExamQuestionArray(ArrayList<AmericanQuestions> examQuestionArray){
+        this.examQuestionArray= (ArrayList<Questions>) examQuestionArray.clone();
     }
 
 
