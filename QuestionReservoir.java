@@ -116,7 +116,6 @@ public class QuestionReservoir implements Serializable {
         return true;
     }
 
-    //פונקציה זו נועדה בעיקר לכפר על כך שלמחלקה Set לא קיימת פונקצייה get שמחזירה אובייקט לפי אינדקס שהוכנס לכן היא עוזר לפונקציות שנכתבו לפני מימושה
     public Set<AmericanAnswer> copyArrayListToSet(ArrayList arrayList){
         Set<AmericanAnswer> newSet=new Set<>();
         for(int i=0;i<arrayList.size();i++){
@@ -309,23 +308,21 @@ public class QuestionReservoir implements Serializable {
     }
 
 
-    public void manualExamCreate(int numOfQuestInTest, int[][] indQuestion) throws FileNotFoundException {
+    public void manualExamCreate(int numOfQuestInTest, ArrayList<ArrayList<Integer>> manualQuestionArrayList) throws FileNotFoundException {
 
         for (int arrayIndex = 0; arrayIndex < numOfQuestInTest; arrayIndex++) {
             for (int allQuestionsIndex = 0; allQuestionsIndex < numberOfQuestions; allQuestionsIndex++) {
-                if (this.questionArray.get(allQuestionsIndex).questionId == indQuestion[arrayIndex][0] + 1) {
-
+                if (this.questionArray.get(allQuestionsIndex).questionId == manualQuestionArrayList.get(arrayIndex).get(0) + 1) {
                     if (this.questionArray.get(allQuestionsIndex) instanceof OpenQuestions) {
                         OpenQuestions newOpenQuestions = new OpenQuestions((OpenQuestions) this.questionArray.get(allQuestionsIndex));
                         manualExam.addQuestion(newOpenQuestions);
-
                     }
                     if (this.questionArray.get(allQuestionsIndex) instanceof AmericanQuestions) {
                         Object[] answerArray=((AmericanQuestions) this.questionArray.get(allQuestionsIndex)).getAnswerArray().toArray();
                         AmericanQuestions newAmericanQuestion;
                         Set<AmericanAnswer> newAmericanAnswer = new Set<>();
-                        for (int i = 0; i < indQuestion[arrayIndex][1]; i++) {
-                            newAmericanAnswer.add((AmericanAnswer) answerArray[indQuestion[arrayIndex][i + 2] - 1]);
+                        for (int i = 0; i < manualQuestionArrayList.get(arrayIndex).size()-1; i++) {
+                            newAmericanAnswer.add((AmericanAnswer) answerArray[manualQuestionArrayList.get(arrayIndex).get(i)]);
                         }
                         newAmericanQuestion = new AmericanQuestions(this.getQuestionArray().get(allQuestionsIndex).getQuestionText(), newAmericanAnswer);
                         manualExam.addQuestion(newAmericanQuestion);
@@ -338,8 +335,6 @@ public class QuestionReservoir implements Serializable {
         manualExam.saveToText();
         System.out.println("Manual exam created successfully !");
         manualExam.toString();
-
-
 
     }
 

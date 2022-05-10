@@ -3,37 +3,40 @@ package id206214280_id316650399;
 import java.io.*;
 import java.util.*;
 
-
 public class Main implements Examble {
 
-    public static void main(String[] args) throws Exception, FileNotFoundException, IOException, ClassNotFoundException {
+    public static void main(String[] args)
+            throws Exception, FileNotFoundException, IOException, ClassNotFoundException {
+//		QuestionReservoir qr1 = new QuestionReservoir();
+//		// open question #1
+//		qr1.addOpenQuestion("A Who was Yitzhak Rabin?", "Israeli prime minister");
+//		// open question #2
+//		qr1.addOpenQuestion("B Who solved the Engima machine during WWII?", "Alan Turing");
+//		// open question #3
+//		qr1.addOpenQuestion("C What is the difference between Choclate cake and a Salad?",
+//				"Salad wont give you Diabetes");
+//		// american question #1
+//		String aq1 = ("D Which one of these is not dessert?");
+//		String[] aa1 = new String[] { "Muffin", "Choclate cake", "Ice cream", "Brownies", "Salad", "Burger", "Shawrma",
+//				"Pizza" };
+//		boolean[] tof1 = new boolean[] { false, false, false, false, true, true, true, true };
+//		qr1.addAmericanQuestion(aq1, aa1, tof1);
+//		// american question #2
+//		String aq2 = "E Which one of these next Programming languages is Low-Level programming language?";
+//		String[] aa2 = new String[] { "Java", "C++", "Assembly", "C", "C#", "Python", "JavaScript", "Swift",
+//				"Machine Code" };
+//		boolean[] tof2 = new boolean[] { false, false, true, false, false, false, false, false, true };
+//		qr1.addAmericanQuestion(aq2, aa2, tof2);
+//		System.out.println(qr1.getQuestionArray().size());
+//		qr1.saveBin();
+//
+//		ArrayList<Integer> indexOfAnswer = new ArrayList<Integer>();
+//		ArrayList<ArrayList<Integer>> indexOfQuestion = new ArrayList<>();
+
         QuestionReservoir qr1 = new QuestionReservoir();
-        //open question #1
-        qr1.addOpenQuestion("A Who was Yitzhak Rabin?","Israeli prime minister");
-        //open question #2
-        qr1.addOpenQuestion("B Who solved the Engima machine during WWII?","Alan Turing");
-        //open question #3
-        qr1.addOpenQuestion("C What is the difference between Choclate cake and a Salad?","Salad wont give you Diabetes");
-        //american question #1
-        String aq1=("D Which one of these is not dessert?");
-        String[] aa1=new String[]{"Muffin","Choclate cake","Ice cream","Brownies","Salad","Burger","Shawrma","Pizza"};
-        boolean[] tof1=new boolean[]{false,false,false,false,true,true,true,true};
-        qr1.addAmericanQuestion(aq1,aa1,tof1);
-        //american question #2
-        String aq2="E Which one of these next Programming languages is Low-Level programming language?";
-        String[] aa2=new String[]{"Java","C++","Assembly","C","C#","Python","JavaScript","Swift","Machine Code"};
-        boolean[] tof2=new boolean[]{false,false,true,false,false,false,false,false,true};
-        qr1.addAmericanQuestion(aq2,aa2,tof2);
-        System.out.println(qr1.getQuestionArray().size());
-        qr1.saveBin();
-
-
-//        QuestionReservoir qr1 = new QuestionReservoir();
-//        qr1.readBin();
-
+        qr1.readBin();
 
         Main main1 = new Main();
-
 
         int optMenu = 0;
         Scanner input = new Scanner(System.in);
@@ -53,7 +56,8 @@ public class Main implements Examble {
             System.out.println("-----------------------------------------------------------------");
             try {
                 optMenu = input.nextInt();
-                if (optMenu < 1 || optMenu > 9) throw new Exception("Please choose Option from the range of 1-9");
+                if (optMenu < 1 || optMenu > 9)
+                    throw new Exception("Please choose Option from the range of 1-9");
             } catch (InputMismatchException e) {
                 System.out.println("Please input numbers only");
                 input.nextLine();
@@ -61,7 +65,6 @@ public class Main implements Examble {
                 System.out.println(e.getMessage());
                 input.nextLine();
             }
-
 
             switch (optMenu) {
                 // option 1 show all questions and answers
@@ -73,7 +76,7 @@ public class Main implements Examble {
 
                 // option 2 add questions
                 case 2: {
-                    main1.addQuestion(qr1,input);
+                    main1.addQuestion(qr1, input);
                     break;
                 }
 
@@ -84,22 +87,25 @@ public class Main implements Examble {
 
                 }
 
-                //change the wording of an answer
+                // change the wording of an answer
                 case 4: {
                     main1.updateAnswerWording(qr1);
                 }
 
                 break;
 
-                //delete an answer
+                // delete an answer
                 case 5: {
-                    //Cant delete an answer for open question
-                    //Can only delete up until 2 answers for american questions
-                    //american question needs at least 1 true answer
-                    //if american question has more than 1 correct answer than it needs at least 1 false answer
-                    //if american question has 2 answers,1 of them needs to be true and the second needs to be true
-                    //if american question has only 1 and user wants to delete it add another answer (none of the answers is correct)
-                    //let user choose an id of the question it wants to delete
+                    // Cant delete an answer for open question
+                    // Can only delete up until 2 answers for american questions
+                    // american question needs at least 1 true answer
+                    // if american question has more than 1 correct answer than it needs at least 1
+                    // false answer
+                    // if american question has 2 answers,1 of them needs to be true and the second
+                    // needs to be true
+                    // if american question has only 1 and user wants to delete it add another
+                    // answer (none of the answers is correct)
+                    // let user choose an id of the question it wants to delete
                     main1.deleteAnswer(qr1);
                     break;
                 }
@@ -123,7 +129,6 @@ public class Main implements Examble {
                     break;
                 }
 
-
                 case 9: {
                     main1.saveBinary(qr1);
                     System.out.println("Goodbye");
@@ -136,14 +141,13 @@ public class Main implements Examble {
         input.close();
     }
 
-
     @Override
     public void printQuestions(QuestionReservoir qr1) {
         System.out.println(qr1.toString());
     }
 
     @Override
-    public void addQuestion(QuestionReservoir qr1,Scanner input) {
+    public void addQuestion(QuestionReservoir qr1, Scanner input) {
         System.out.println("What type of question do you want?");
         System.out.println("1)Open question \n2)American question");
         int optAddQuestion = exception1Or2Select();
@@ -153,7 +157,7 @@ public class Main implements Examble {
             String questionText = input.nextLine();
             System.out.println("please enter a Answer text:");
             String OpenAnswer = input.nextLine();
-            //fixed case 2 sends the function Strings instead of OpenQuestion
+            // fixed case 2 sends the function Strings instead of OpenQuestion
             boolean canOrNot = qr1.addOpenQuestion(questionText, OpenAnswer);
             if (canOrNot) {
                 System.out.println("Added question ");
@@ -163,7 +167,7 @@ public class Main implements Examble {
             }
 
         }
-        //add american answer
+        // add american answer
         if (optAddQuestion == 2) {
             System.out.println("Please enter a Question text:");
             input.nextLine();
@@ -176,10 +180,8 @@ public class Main implements Examble {
                     System.out.println("enter a number of answers 2-10 only:");
                     numberOfAnswers = input.nextInt();
 
-
                     if (numberOfAnswers > 10 || numberOfAnswers <= 1) {
                         System.out.println("try again");
-
 
                     } else {
                         AnswerOptTry = true;
@@ -195,17 +197,18 @@ public class Main implements Examble {
             String[] americanAnswersText = new String[numberOfAnswers];
             boolean[] americanAnswersCorrectness = new boolean[numberOfAnswers];
             for (int i = 0; i < numberOfAnswers; i++) {
-                //inputting text
+                // inputting text
                 System.out.println("Please enter answer text for answer number " + (i + 1) + "/" + numberOfAnswers);
                 input.nextLine();
-                americanAnswersText[i] =  input.nextLine();
+                americanAnswersText[i] = input.nextLine();
 
-                //inputting correctness
+                // inputting correctness
                 int trueOrFalse = 2;
                 boolean flagZeroOrOne = false;
                 while (!flagZeroOrOne) {
                     try {
-                        System.out.println("Please enter correctness of the answer for true press-1 for False press-0:");
+                        System.out
+                                .println("Please enter correctness of the answer for true press-1 for False press-0:");
                         trueOrFalse = input.nextInt();
                         if (trueOrFalse == 0 || trueOrFalse == 1) {
                             flagZeroOrOne = true;
@@ -225,15 +228,14 @@ public class Main implements Examble {
                 }
             }
             qr1.addAmericanQuestion(americanQuestionText, americanAnswersText, americanAnswersCorrectness);
-            askUserIftoAddAnswer(qr1,qr1.getNumberOfQuestions()-1);
+            askUserIftoAddAnswer(qr1, qr1.getNumberOfQuestions() - 1);
 
         }
     }
 
     @Override
     public void updateQuestionWording(QuestionReservoir qr1) throws Exception {
-        System.out.println(
-                "Please choose which question would you like to change from the list below:");
+        System.out.println("Please choose which question would you like to change from the list below:");
         // print all questions an show their Id
         for (int i = 0; i < qr1.getNumberOfQuestions(); i++) {
             System.out.print("id is:(" + qr1.getQuestionArray().get(i).getQuestionId() + ")" + " ");
@@ -245,14 +247,14 @@ public class Main implements Examble {
 
         String newQuestionText = input.nextLine();
         qr1.changeQuestionWording(newQuestionText, expId);
-        //check array to see if adding "All answers are false" or "more than 1 answer is true needs to be added"
+        // check array to see if adding "All answers are false" or "more than 1 answer
+        // is true needs to be added"
 
     }
 
     @Override
     public void updateAnswerWording(QuestionReservoir qr1) throws Exception {
-        System.out.println(
-                "Hi please choose from below the id of the Answer you want to change the wording of");
+        System.out.println("Hi please choose from below the id of the Answer you want to change the wording of");
         // print all questions and their answers and show their Ind
         System.out.println(qr1.toString());
         // let user choose a question id by input
@@ -274,7 +276,8 @@ public class Main implements Examble {
 
             String newWordingForAmericanAnswer = input.nextLine();
             boolean newAnswerOpt = exceptionIsAmericanTrueOrFalse();
-            qr1.changeAnswerWordingOfAmericanQuestions(newWordingForAmericanAnswer, (AmericanQuestions) qr1.getQuestionArray().get(indQuestion), numOfAnswer - 1, newAnswerOpt);
+            qr1.changeAnswerWordingOfAmericanQuestions(newWordingForAmericanAnswer,
+                    (AmericanQuestions) qr1.getQuestionArray().get(indQuestion), numOfAnswer - 1, newAnswerOpt);
             askUserIftoAddAnswer(qr1, indQuestion);
 
         }
@@ -282,7 +285,8 @@ public class Main implements Examble {
             System.out.println("type in a new answer wording ");
 
             String newAnswer = input.nextLine();
-            if (qr1.changeAnswerWordingOfOpenQuestion(newAnswer, qr1.getQuestionArray().get(indQuestion), numOfAnswer)) {
+            if (qr1.changeAnswerWordingOfOpenQuestion(newAnswer, qr1.getQuestionArray().get(indQuestion),
+                    numOfAnswer)) {
                 System.out.println("the answer wording changed");
             } else {
                 System.out.println("failed");
@@ -292,16 +296,19 @@ public class Main implements Examble {
 
     @Override
     public void deleteAnswer(QuestionReservoir qr1) throws Exception {
-        //Cant delete an answer for open question
-        //Can only delete up until 2 answers for american questions
-        //american question needs at least 1 true answer
-        //if american question has more than 1 correct answer than it needs at least 1 false answer
-        //if american question has 2 answers,1 of them needs to be true and the second needs to be true
-        //if american question has only 1 and user wants to delete it add another answer (none of the answers is correct)
-        //let user choose an id of the question it wants to delete
+        // Cant delete an answer for open question
+        // Can only delete up until 2 answers for american questions
+        // american question needs at least 1 true answer
+        // if american question has more than 1 correct answer than it needs at least 1
+        // false answer
+        // if american question has 2 answers,1 of them needs to be true and the second
+        // needs to be true
+        // if american question has only 1 and user wants to delete it add another
+        // answer (none of the answers is correct)
+        // let user choose an id of the question it wants to delete
         System.out.println(qr1.toString());
         int userGivenQuestionId = exceptionId(qr1);
-        //find the question index and check its type
+        // find the question index and check its type
         int indQuestion = 0;
         boolean americanQuestionFlag = true;
         for (int i = 0; i < qr1.getNumberOfQuestions(); i++) {
@@ -319,16 +326,19 @@ public class Main implements Examble {
 
         if (americanQuestionFlag) {
             int answerNumber = 0;
-            //choosing the answer number
+            // choosing the answer number
             boolean flagCountAmericanAns = false;
 
             System.out.println(((AmericanQuestions) qr1.getQuestionArray().get(indQuestion)).printAnswersOnly());
-            System.out.println("" + ((AmericanQuestions) qr1.getQuestionArray().get(indQuestion)).getNumOfAmericanAnswers() + "");
+            System.out.println(
+                    "" + ((AmericanQuestions) qr1.getQuestionArray().get(indQuestion)).getNumOfAmericanAnswers() + "");
             while (!flagCountAmericanAns) {
                 try {
                     System.out.println("Please choose the answer you want to delete");
                     answerNumber = input.nextInt();
-                    if (answerNumber > 0 && answerNumber <= ((AmericanQuestions) qr1.getQuestionArray().get(indQuestion)).getNumOfAmericanAnswers()) {
+                    if (answerNumber > 0
+                            && answerNumber <= ((AmericanQuestions) qr1.getQuestionArray().get(indQuestion))
+                            .getNumOfAmericanAnswers()) {
                         flagCountAmericanAns = true;
                     }
 
@@ -339,12 +349,13 @@ public class Main implements Examble {
                 }
             }
 
-            //sending parametes to the function (Question Index and Answer number)
+            // sending parametes to the function (Question Index and Answer number)
             qr1.deleteAmericanAnswer(indQuestion, (answerNumber - 1));
             askUserIftoAddAnswer(qr1, indQuestion);
         }
     }
 
+    // seif6
     @Override
     public void createManualExam(QuestionReservoir qr1) throws Exception {
         int numOfQuestionsInTheTest = 0;
@@ -365,8 +376,13 @@ public class Main implements Examble {
                 System.out.println("Error " + e.getMessage());
             }
         }
+        // this Arraylist hold the index of the question in the head of the list
+        // if the question is American what comes after the 0 elements are the answers
+        // indexes
+        ArrayList<Integer> indexesOfQuestionsAndIndexesOfAnswers = new ArrayList<Integer>();
+        // this list holds arrays of the indexes
+        ArrayList<ArrayList<Integer>> manualQuestionArrayList = new ArrayList<ArrayList<Integer>>();
 
-        int[][] indQuestion = new int[numOfQuestionsInTheTest][12];
         // print all questions and their answers and show their Ind
         System.out.println(qr1.toString());
 
@@ -379,11 +395,17 @@ public class Main implements Examble {
                 if (expId == qr1.getQuestionArray().get(j).getQuestionId()) {
 
                     if (qr1.getQuestionArray().get(j) instanceof OpenQuestions) {
-                        indQuestion[i][0] = j;
+                        int questionIndex = j;
+                        indexesOfQuestionsAndIndexesOfAnswers.add(questionIndex);
+                        manualQuestionArrayList.add(i, indexesOfQuestionsAndIndexesOfAnswers);
+                        indexesOfQuestionsAndIndexesOfAnswers = new ArrayList<Integer>();
+
                     }
 
                     if (qr1.getQuestionArray().get(j) instanceof AmericanQuestions) {
-                        indQuestion[i][0] = j;
+                        int questionIndex = j;
+                        indexesOfQuestionsAndIndexesOfAnswers.add(questionIndex);
+
                         boolean numOfAns = false;
                         int numberOfAmericanAnswers = 0;
                         int numbersOfAns = qr1.takeNumOfAnswers(qr1, j);
@@ -403,17 +425,18 @@ public class Main implements Examble {
                             }
                         }
 
-
-                        indQuestion[i][1] = numberOfAmericanAnswers;
                         for (int k = 0; k < numberOfAmericanAnswers; k++) {
                             boolean flagIndexAns = false;
                             while (!flagIndexAns) {
                                 ((AmericanQuestions) qr1.getQuestionArray().get(j)).printAnswersOnly();
                                 try {
-                                    System.out.println("Choose index of the answer "+(k+1)+"/"+numberOfAmericanAnswers);
-                                    indQuestion[i][k + 2] = input.nextInt();
+                                    System.out.println(
+                                            "Choose index of the answer " + (k + 1) + "/" + numberOfAmericanAnswers);
+                                    int americanAnswerIndex = input.nextInt();
 
-                                    if (indQuestion[i][k + 2] > 0 && indQuestion[i][k + 2] <= ((AmericanQuestions) qr1.getQuestionArray().get(j)).getAnswerArray().size()) {
+                                    if (americanAnswerIndex > 0 && americanAnswerIndex <= ((AmericanQuestions) qr1
+                                            .getQuestionArray().get(j)).getAnswerArray().size()) {
+                                        indexesOfQuestionsAndIndexesOfAnswers.add(americanAnswerIndex - 1);
                                         flagIndexAns = true;
                                     }
                                 } catch (InputMismatchException e) {
@@ -424,39 +447,34 @@ public class Main implements Examble {
                                 }
                             }
                         }
-
+                        manualQuestionArrayList.add(i, indexesOfQuestionsAndIndexesOfAnswers);
+                        indexesOfQuestionsAndIndexesOfAnswers = new ArrayList<Integer>();
                     }
                 }
-
             }
         }
-        qr1.manualExamCreate(numOfQuestionsInTheTest, indQuestion);
-        System.out.println(qr1.getManualExam().toString());
 
+        qr1.manualExamCreate(numOfQuestionsInTheTest, manualQuestionArrayList);
+        System.out.println(qr1.getManualExam().toString());
 
     }
 
-
-
-
-
     @Override
-    public void createAutomaticExam(QuestionReservoir qr1) throws FileNotFoundException,InputMismatchException {
+    public void createAutomaticExam(QuestionReservoir qr1) throws FileNotFoundException, InputMismatchException {
         int numberOfQuestions = 0;
-        boolean flagInput=false;
-        while (!flagInput){
+        boolean flagInput = false;
+        while (!flagInput) {
 
-
-            //Ask user how many questions he wants in the test
+            // Ask user how many questions he wants in the test
             try {
 
-
-                System.out.println("Please enter the number(between " + 1 + "-" + qr1.getNumberOfQuestions() + ")" + " of question you want in the test ");
+                System.out.println("Please enter the number(between " + 1 + "-" + qr1.getNumberOfQuestions() + ")"
+                        + " of question you want in the test ");
                 numberOfQuestions = input.nextInt();
-                if (numberOfQuestions >= 0 && numberOfQuestions <=qr1.getNumberOfQuestions()) {
-                    flagInput=true;
+                if (numberOfQuestions >= 0 && numberOfQuestions <= qr1.getNumberOfQuestions()) {
+                    flagInput = true;
 
-                }else{
+                } else {
                     System.out.println("chosen number of questions not within range please try again:");
                 }
 
@@ -475,7 +493,7 @@ public class Main implements Examble {
         System.out.println("Please choose which exam to clone");
         System.out.println("1-manual exam");
         System.out.println("2-automatic exam");
-        int option=exception1Or2Select();
+        int option = exception1Or2Select();
         qr1.cloneExam(option);
 
     }
@@ -485,6 +503,7 @@ public class Main implements Examble {
         System.out.println("Question reservoir saved");
         qr1.saveBin();
     }
+
     public static int exceptionId(QuestionReservoir qr) throws Exception {
         Scanner input = new Scanner(System.in);
         int expId = 0;
@@ -504,7 +523,8 @@ public class Main implements Examble {
 
                 }
 
-                if (!flag) throw new Exception("Id not from the list");
+                if (!flag)
+                    throw new Exception("Id not from the list");
                 flagForWhile = true;
             } catch (InputMismatchException e) {
                 System.out.println("Please put numbers only");
@@ -517,13 +537,13 @@ public class Main implements Examble {
         return expId;
     }
 
-    //a function that inputs a number of an american with exceptions
+    // a function that inputs a number of an american with exceptions
     public static int exceptionNumOfAnswer(QuestionReservoir qr, int expId) {
         Scanner input = new Scanner(System.in);
         int numberOfAnswer = 0;
         int QuestionInd = 0;
 
-        //finding the chosen question by id
+        // finding the chosen question by id
         for (int i = 0; i < qr.getQuestionArray().size(); i++) {
 
             if (qr.getQuestionArray().get(i) == null) {
@@ -532,27 +552,31 @@ public class Main implements Examble {
                 QuestionInd = i;
             }
         }
-        //printing the answers to the user
+        // printing the answers to the user
         System.out.println("Please choose an answer by number");
-        System.out.println( qr.getQuestionArray().get(QuestionInd));
-        //allowing user to choose within range (needs to be bigger than 0 and smaller than the answer array)
-        while (numberOfAnswer <= 0 || numberOfAnswer > ((AmericanQuestions)qr.getQuestionArray().get(QuestionInd)).getAnswerArray().size()) {
+        System.out.println(qr.getQuestionArray().get(QuestionInd));
+        // allowing user to choose within range (needs to be bigger than 0 and smaller
+        // than the answer array)
+        while (numberOfAnswer <= 0 || numberOfAnswer > ((AmericanQuestions) qr.getQuestionArray().get(QuestionInd))
+                .getAnswerArray().size()) {
 
             try {
                 numberOfAnswer = input.nextInt();
-                if (numberOfAnswer <= 0 || numberOfAnswer > ((AmericanQuestions)qr.getQuestionArray().get(QuestionInd)).getAnswerArray().size())
+                if (numberOfAnswer <= 0 || numberOfAnswer > ((AmericanQuestions) qr.getQuestionArray().get(QuestionInd))
+                        .getAnswerArray().size())
                     throw new Exception("Number not within answers range");
 
             }
-            //self explenatory
+            // self explenatory
             catch (InputMismatchException e) {
                 System.out.println("please enter an integer");
                 input.nextLine();
 
             }
-            //checks if enterd answer index is withing range
+            // checks if enterd answer index is withing range
             catch (Exception e) {
-                System.out.println("Entered number not within range of answer" + "(" + 1 + "-" + ((AmericanQuestions)qr.getQuestionArray().get(QuestionInd)).getAnswerArray().size() + ")");
+                System.out.println("Entered number not within range of answer" + "(" + 1 + "-"
+                        + ((AmericanQuestions) qr.getQuestionArray().get(QuestionInd)).getAnswerArray().size() + ")");
                 input.nextLine();
             }
 
@@ -560,7 +584,7 @@ public class Main implements Examble {
         return numberOfAnswer;
     }
 
-    //a function that inputs if the question is 1 or 2 and return the select
+    // a function that inputs if the question is 1 or 2 and return the select
     public static int exception1Or2Select() {
         Scanner input = new Scanner(System.in);
         int optAddQuestion = 0;
@@ -585,7 +609,7 @@ public class Main implements Examble {
         return optAddQuestion;
     }
 
-    //a function that inputs if the question is true or false
+    // a function that inputs if the question is true or false
     public static boolean exceptionIsAmericanTrueOrFalse() {
         Scanner input = new Scanner(System.in);
 
@@ -598,7 +622,6 @@ public class Main implements Examble {
                 if (optB == 0 || optB == 1) {
                     FlagOfAnswerOpt = true;
                 }
-
 
             } catch (InputMismatchException e) {
                 System.out.println("Please enter a valid input(numbers only)");
@@ -618,13 +641,14 @@ public class Main implements Examble {
         return true;
     }
 
-    //function that asks user if to add an "all answers are false" or "more than 1 answer is true"
-    public static boolean askUserIftoAddAnswer( QuestionReservoir qr1,int americanIndex) {
+    // function that asks user if to add an "all answers are false" or "more than 1
+    // answer is true"
+    public static boolean askUserIftoAddAnswer(QuestionReservoir qr1, int americanIndex) {
         Scanner input = new Scanner(System.in);
-        //asks user if he want to add an "All answers are false" or "More than 1 answer is true option"
-        if(qr1.getQuestionArray().get(americanIndex)instanceof AmericanQuestions) {
-            AmericanQuestions  americanQuestion=(AmericanQuestions) qr1.getQuestionArray().get(americanIndex);
-
+        // asks user if he want to add an "All answers are false" or "More than 1 answer
+        // is true option"
+        if (qr1.getQuestionArray().get(americanIndex) instanceof AmericanQuestions) {
+            AmericanQuestions americanQuestion = (AmericanQuestions) qr1.getQuestionArray().get(americanIndex);
 
             if (americanQuestion.counterTrueFalse(americanQuestion.getAnswerArray()) == 2) {
                 System.out.println("All answers are false would you like to add an 'All answers are false answers ?'");
@@ -653,9 +677,10 @@ public class Main implements Examble {
                     }
                 }
             }
-            //asks user if he wants to add an "more than 1 answer is true" answer
+            // asks user if he wants to add an "more than 1 answer is true" answer
             if (americanQuestion.counterTrueFalse(americanQuestion.getAnswerArray()) == 3) {
-                System.out.println("more than 1 answer is true would you like to add an 'More than 1 answer is true ?'");
+                System.out
+                        .println("more than 1 answer is true would you like to add an 'More than 1 answer is true ?'");
                 System.out.println("to add enter 1,otherwise enter 0");
                 boolean validInputFlag = false;
                 while (!validInputFlag) {
