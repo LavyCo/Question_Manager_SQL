@@ -1,0 +1,23 @@
+the test without answers:
+
+1) the question is : D Which one of these is not dessert?
+
+1) Brownies
+
+2) Muffin
+
+3) Choclate cake
+
+4) There is more than 1 right answers
+
+5) All the answers are false
+
+2) the question is : E Which one of these next Programming languages is Low-Level programming language?
+
+1) C#
+
+2) There is more than 1 right answers
+
+3) All the answers are false
+
+Good Luck

@@ -80,7 +80,14 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
     @Override
     protected Exam clone() throws CloneNotSupportedException {
         Exam temp=(Exam)super.clone();
-        temp.examQuestionArray= (ArrayList) examQuestionArray.clone();
+        ArrayList<Questions> copyQuestionArray = new ArrayList<>();
+        for(int i=0;i<this.numOfQuestions;i++) {
+            if (this.examQuestionArray.get(i) instanceof AmericanQuestions) {
+                copyQuestionArray.add(((AmericanQuestions) this.examQuestionArray.get(i)).clone());
+            } else if (this.examQuestionArray.get(i) instanceof OpenQuestions) {
+                copyQuestionArray.add(((OpenQuestions) this.examQuestionArray.get(i)).clone());
+            }
+        }
         return temp;
     }
 

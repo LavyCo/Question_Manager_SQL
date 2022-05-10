@@ -3,7 +3,7 @@ package id206214280_id316650399;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class AmericanAnswer implements Serializable {
+public class AmericanAnswer implements Serializable,Cloneable {
 	private boolean correctness;
 	private String answerText;
 	
@@ -44,7 +44,10 @@ public class AmericanAnswer implements Serializable {
 		AmericanAnswer p=(AmericanAnswer)other;
 	  return  this.answerText.equalsIgnoreCase(p.answerText);
 	}
+	protected AmericanAnswer clone() throws CloneNotSupportedException{
+		return	 (AmericanAnswer)  super.clone();
 
+	}
 
 	public boolean getCorrectness() {
 		return correctness;

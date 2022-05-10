@@ -3,7 +3,7 @@ package id206214280_id316650399;
 
 import java.util.Iterator;
 
-public class AmericanQuestions extends Questions {
+public class AmericanQuestions extends Questions implements Cloneable{
 
     private int numOfAmericanAnswers;
     private Set<AmericanAnswer> answerArrayList;
@@ -23,7 +23,16 @@ public class AmericanQuestions extends Questions {
 
 
 
+    protected AmericanQuestions clone() throws CloneNotSupportedException{
+       AmericanQuestions temp=(AmericanQuestions)super.clone();
+        Set <AmericanAnswer> copyAnswers = new Set<>();
+        Object[] americanAnswerArr=this.answerArrayList.toArray();
+        for(int i=0;i<this.numOfAmericanAnswers;i++){
+            copyAnswers.add(((AmericanAnswer) americanAnswerArr[i]).clone());
+        } temp.answerArrayList= copyAnswers;
+        return temp;
 
+    }
 
     public boolean americanAnswerRemove(int answerNumber) {
         Object[] americanAnswerArr=this.answerArrayList.toArray();

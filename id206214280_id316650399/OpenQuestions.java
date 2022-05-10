@@ -2,7 +2,7 @@ package id206214280_id316650399;
 
 import java.util.Objects;
 
-public class OpenQuestions extends Questions {
+public class OpenQuestions extends Questions implements Cloneable {
 
 	private String answerText;
 	
@@ -24,6 +24,10 @@ public class OpenQuestions extends Questions {
 	public void setAnswerText(String answerText) {
 		this.answerText = answerText;
 		
+	}
+	protected OpenQuestions clone() throws CloneNotSupportedException{
+	return	 (OpenQuestions)  super.clone();
+
 	}
 
 	@Override

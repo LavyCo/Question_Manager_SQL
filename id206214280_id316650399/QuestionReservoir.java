@@ -231,7 +231,6 @@ public class QuestionReservoir implements Serializable {
             manualExamClone = manualExam.clone();
             System.out.println("Manual exam cloned");
             System.out.println(manualExamClone.toString());
-            manualExamClone.saveToText();
             manualExam=automaticExam;
             System.out.println(manualExam.toString());
             System.out.println(manualExamClone.toString());
@@ -246,7 +245,6 @@ public class QuestionReservoir implements Serializable {
             automaticExamClone = automaticExam.clone();
             System.out.println("Automatic exam cloned");
             System.out.println(automaticExamClone.toString());
-            automaticExamClone.saveToText();
             return true;
 
         }
