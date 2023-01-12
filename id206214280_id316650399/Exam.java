@@ -14,11 +14,20 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Exam<examQuestionArray> implements Cloneable, Serializable {
+
+
+    private static int count=1;
+
+
+    protected int examId;
+    private String examName;
     private int numOfQuestions;
     private ArrayList<Questions> examQuestionArray;
 
     public Exam() {
+
         examQuestionArray = new ArrayList<>();
+
     }
 
     public boolean addQuestion(Questions newQuestion) {
@@ -132,6 +141,15 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
     }
 
 
+    public  int getExamId() {
+        return this.examId;
+    }
+
+    public  void setExamId(int examId) {
+        this.examId=count++;
+    }
+
+
     @Override
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -157,4 +175,7 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
         }
         return sb.toString();
     }
+
 }
+
+

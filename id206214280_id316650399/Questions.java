@@ -7,6 +7,7 @@ import java.util.Objects;
 	private static int counter=1;
 	protected int questionId;
 	protected String questionText;
+	protected int teacherId;
 	
 	public Questions(String questionText) {
 		this.questionText=questionText;

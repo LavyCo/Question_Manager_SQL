@@ -2,6 +2,9 @@ package id206214280_id316650399;
 
 import java.io.*;
 import java.util.*;
+import java.util.jar.*;
+import java.sql.*;
+
 
 public class Main implements Examble {
 
@@ -32,9 +35,31 @@ public class Main implements Examble {
 //
 //		ArrayList<Integer> indexOfAnswer = new ArrayList<Integer>();
 //		ArrayList<ArrayList<Integer>> indexOfQuestion = new ArrayList<>();
+        try {
+            // Load the MySql driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Establish a connection to the database
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_database", "root", "lavy2120626");
+            // Execute a query
+            Statement stmt = conn.createStatement();
+            ResultSet rs= stmt.executeQuery("SELECT * FROM teacher_table");
+
+            // Process the result set
+            while (rs.next()) {
+                String name=rs.getString("teacher_name");
+                System.out.println(name);
+            }
+
+        } catch (ClassNotFoundException e) {
+            //Handle ClassNotFoundException
+        } catch (SQLException e) {
+            // Handle SQLException
+        }
+
 
         QuestionReservoir qr1 = new QuestionReservoir();
-        qr1.readBin();
+        //qr1.readBin();
 
         Main main1 = new Main();
 
