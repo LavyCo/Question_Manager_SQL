@@ -14,6 +14,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Exam<examQuestionArray> implements Cloneable, Serializable {
+    private static int counter=0;
+    private int examId;
     private int numOfQuestions;
     private ArrayList<Questions> examQuestionArray;
 
@@ -22,6 +24,7 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
     }
 
     public boolean addQuestion(Questions newQuestion) {
+        examId=++counter;
         this.examQuestionArray.add(newQuestion);
         numOfQuestions++;
         return true;

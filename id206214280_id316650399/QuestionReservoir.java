@@ -283,16 +283,17 @@ public class QuestionReservoir implements Serializable {
 
     public boolean addAmericanQuestion(String questionText, String[] answersArray, boolean[] correctnessArray) {
         Set<AmericanAnswer> answerArrayList = new Set<>();
-        for (int i = 0; i < answersArray.length; i++) {
-            answerArrayList.add(new AmericanAnswer(answersArray[i], correctnessArray[i]));
-        }
         AmericanQuestions newAmericanQuestion = new AmericanQuestions(questionText, answerArrayList);
+        for (int i = 0; i < answersArray.length; i++) {
+            answerArrayList.add(new AmericanAnswer(answersArray[i], correctnessArray[i],newAmericanQuestion.getQuestionId()));
+        }
+        newAmericanQuestion.setAnswerArray(answerArrayList);
+
         questionArray.add(newAmericanQuestion);
         numberOfQuestions++;
         System.out.println("American Question added");
 
         return true;
-
 
     }
 

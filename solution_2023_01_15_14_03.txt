@@ -1,0 +1,47 @@
+the test with answers:
+
+1) the question is : C What is the difference between Choclate cake and a Salad?
+
+solution for question 1) is: Salad wont give you Diabetes
+
+2) the question is : D Which one of these is not dessert?
+
+solutions for question 2) is: 
+
+1)  Burger (True)7
+
+2)  Ice cream (False)7
+
+3)  Brownies (False)7
+
+4)  Choclate cake (False)7
+
+5)  There are more than 1 right answers (False)7
+
+6)  All the answers are false (False)7
+
+3) the question is : A Who was Yitzhak Rabin?
+
+solution for question 3) is: Israeli prime minister
+
+4) the question is : E Which one of these next Programming languages is Low-Level programming language?
+
+solutions for question 4) is: 
+
+1)  Machine Code (True)9
+
+2)  C++ (False)9
+
+3)  Python (False)9
+
+4)  JavaScript (False)9
+
+5)  There are more than 1 right answers (False)9
+
+6)  All the answers are false (False)9
+
+5) the question is : B Who solved the Engima machine during WWII?
+
+solution for question 5) is: Alan Turing
+
+End

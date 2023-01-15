@@ -8,12 +8,13 @@ public class AmericanQuestions extends Questions implements Cloneable{
     private int numOfAmericanAnswers;
     private Set<AmericanAnswer> answerArrayList;
 
-
     public AmericanQuestions(String questionText, Set<AmericanAnswer> answerArrayList) {
         super(questionText);
         this.numOfAmericanAnswers = answerArrayList.size();
         this.answerArrayList = answerArrayList;
     }
+
+
 
     public AmericanQuestions(AmericanQuestions other) {
         super(other.questionText);
@@ -53,7 +54,7 @@ public class AmericanQuestions extends Questions implements Cloneable{
 
             AmericanAnswer[] plus2AmericanAnswer=new AmericanAnswer[this.getNumOfAmericanAnswers()+2];
             for(int i=0;i<this.getNumOfAmericanAnswers();i++){
-                plus2AmericanAnswer[i]=new AmericanAnswer(((AmericanAnswer) americanAnswers[i]).getAnswerText(),((AmericanAnswer) americanAnswers[i]).getCorrectness());
+                plus2AmericanAnswer[i]=new AmericanAnswer(((AmericanAnswer) americanAnswers[i]).getAnswerText(),((AmericanAnswer) americanAnswers[i]).getCorrectness(),this.questionId);
             }
             for(int i=0;i<numOfAmericanAnswers;i++){
                 plus2AmericanAnswer[i].setCorrectness(false);
@@ -66,8 +67,8 @@ public class AmericanQuestions extends Questions implements Cloneable{
                 String Ans1= "All the answers are false";
                 americanAnswers=plus2AmericanAnswer;
                 this.setNumOfAmericanAnswers(plus2AmericanAnswer.length);
-                americanAnswers[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1, correct);
-                americanAnswers[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, notCorrect);
+                americanAnswers[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1, correct,this.questionId);
+                americanAnswers[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, notCorrect,this.questionId);
             }
             else if(counterTrueFalse(this.getAnswerArray())==3){
                 boolean notCorrect=false;
@@ -76,8 +77,8 @@ public class AmericanQuestions extends Questions implements Cloneable{
                 String Ans2= "There are more than 1 right answers";
                 americanAnswers=plus2AmericanAnswer;
                 this.setNumOfAmericanAnswers(plus2AmericanAnswer.length);
-                americanAnswers[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1,notCorrect );
-                americanAnswers[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, correct);
+                americanAnswers[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1,notCorrect,this.questionId );
+                americanAnswers[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, correct,this.questionId);
             }
             else{
                 for(int i=0;i<numOfAmericanAnswers;i++){
@@ -87,8 +88,8 @@ public class AmericanQuestions extends Questions implements Cloneable{
                 String Ans2= "There are more than 1 right answers";
                 americanAnswers=plus2AmericanAnswer;
                 this.setNumOfAmericanAnswers(plus2AmericanAnswer.length);
-                americanAnswers[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1,false );
-                americanAnswers[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, false);
+                americanAnswers[numOfAmericanAnswers-1]=new AmericanAnswer( Ans1,false ,this.questionId);
+                americanAnswers[numOfAmericanAnswers-2]=new AmericanAnswer( Ans2, false,this.questionId);
             }
             this.answerArrayList=this.turnArrayIntoSet((AmericanAnswer[]) americanAnswers);
 
@@ -112,7 +113,7 @@ public class AmericanQuestions extends Questions implements Cloneable{
         //adds an "All answers are false" answer
         if (this.counterTrueFalse(americanAnswers) == 2) {
             try {
-                this.answerArrayList.add(new AmericanAnswer("All answers are false", true));
+                this.answerArrayList.add(new AmericanAnswer("All answers are false", true,this.questionId));
                 numOfAmericanAnswers++;
 
                 return true;
@@ -139,7 +140,7 @@ public class AmericanQuestions extends Questions implements Cloneable{
                 numOfAmericanAnswers++;
             }
 
-            this.answerArrayList.add(new AmericanAnswer("All answers are true", true));
+            this.answerArrayList.add(new AmericanAnswer("All answers are true", true,this.questionId));
             numOfAmericanAnswers++;
 
         }
@@ -237,6 +238,12 @@ public class AmericanQuestions extends Questions implements Cloneable{
     public Set<AmericanAnswer> getAnswerArray() {
         return answerArrayList;
     }
+
+    public void setAnswerArray(Set<AmericanAnswer> answerArrayList) {
+        this.numOfAmericanAnswers=answerArrayList.size();
+        this.answerArrayList=answerArrayList;
+    }
+
 
 }
 

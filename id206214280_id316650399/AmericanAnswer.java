@@ -5,12 +5,14 @@ import java.util.Objects;
 
 public class AmericanAnswer implements Serializable,Cloneable {
 	private boolean correctness;
+	private int americanAnswerId;
 	private String answerText;
 	
-	public AmericanAnswer(String answerText,boolean correctness) {
-
+	public AmericanAnswer(String answerText,boolean correctness,int americanAnswerId) {
+		this.americanAnswerId=americanAnswerId;
 		this.answerText=answerText;
 		this.correctness=correctness;
+
 	}
 
 
@@ -26,7 +28,8 @@ public class AmericanAnswer implements Serializable,Cloneable {
 			sb=" (False)";
 					
 		}
-		return " "+answerText+sb;
+		return " "+answerText+sb
+				+americanAnswerId;
 	}
 
 
