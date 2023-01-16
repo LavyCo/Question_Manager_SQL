@@ -2,11 +2,38 @@ package id206214280_id316650399;
 
 import java.io.*;
 import java.util.*;
+import java.util.jar.*;
+import java.sql.*;
+
 
 public class Main implements Examble {
 
     public static void main(String[] args)
             throws Exception, FileNotFoundException, IOException, ClassNotFoundException {
+
+        try {
+            // Load the MySql driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Establish a connection to the database
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/college", "root", "gilad318513355");
+
+            // Execute a query
+            Statement stmt = conn.createStatement();
+            ResultSet rs= stmt.executeQuery("SELECT * FROM coursetable");
+
+            // Process the result set
+            while (rs.next()) {
+                String name=rs.getString("courseName");
+                System.out.println(name);
+            }
+
+        } catch (ClassNotFoundException e) {
+            //Handle ClassNotFoundException
+        } catch (SQLException e) {
+            // Handle SQLException
+        }
+
 //		QuestionReservoir qr1 = new QuestionReservoir();
 //		// open question #1
 //		qr1.addOpenQuestion("A Who was Yitzhak Rabin?", "Israeli prime minister");
@@ -32,6 +59,7 @@ public class Main implements Examble {
 
 //		ArrayList<Integer> indexOfAnswer = new ArrayList<Integer>();
 //		ArrayList<ArrayList<Integer>> indexOfQuestion = new ArrayList<>();
+
 
          QuestionReservoir qr1 = new QuestionReservoir();
         qr1.readBin();

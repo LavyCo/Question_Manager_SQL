@@ -14,6 +14,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Exam<examQuestionArray> implements Cloneable, Serializable {
+
+    private String examName;
     private static int counter=0;
     private int examId;
     private int numOfQuestions;
@@ -130,8 +132,37 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
         writerSolution.close();
     }
 
-    public void setExamQuestionArray(ArrayList<AmericanQuestions> examQuestionArray){
-        this.examQuestionArray= (ArrayList<Questions>) examQuestionArray.clone();
+
+    public String getExamName() {
+        return examName;
+    }
+
+    public void setExamName(String examName) {
+        this.examName = examName;
+    }
+
+    public static int getCounter() {
+        return counter;
+    }
+
+    public static void setCounter(int counter) {
+        Exam.counter = counter;
+    }
+
+    public int getExamId() {
+        return examId;
+    }
+
+    public void setExamId(int examId) {
+        this.examId = examId;
+    }
+
+    public void setNumOfQuestions(int numOfQuestions) {
+        this.numOfQuestions = numOfQuestions;
+    }
+
+    public ArrayList<Questions> getExamQuestionArray() {
+        return examQuestionArray;
     }
 
 

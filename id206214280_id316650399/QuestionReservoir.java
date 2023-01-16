@@ -12,6 +12,8 @@ public class QuestionReservoir implements Serializable {
     private Exam automaticExam;
     private Exam automaticExamClone;
 
+    private ArrayList<Exam> examArrayList;
+
 
     public QuestionReservoir() {
         questionArray = new ArrayList<>();
