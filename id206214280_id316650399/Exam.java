@@ -15,18 +15,19 @@ import java.util.Date;
 
 public class Exam<examQuestionArray> implements Cloneable, Serializable {
 
-    private String examName;
+
     private static int counter=0;
     private int examId;
     private int numOfQuestions;
     private ArrayList<Questions> examQuestionArray;
 
     public Exam() {
+
         examQuestionArray = new ArrayList<>();
+        this.examId=++counter;
     }
 
     public boolean addQuestion(Questions newQuestion) {
-        examId=++counter;
         this.examQuestionArray.add(newQuestion);
         numOfQuestions++;
         return true;
@@ -133,13 +134,9 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
     }
 
 
-    public String getExamName() {
-        return examName;
-    }
 
-    public void setExamName(String examName) {
-        this.examName = examName;
-    }
+
+
 
     public static int getCounter() {
         return counter;
@@ -168,11 +165,12 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
 
     @Override
     public String toString() {
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
         StringBuffer sb = new StringBuffer("The date is:");
         sb.append(dtf.format(now) + "\n");
-        sb.append("The exam is:" + "\n");
+        sb.append("The exam is:" +examId + "\n");
         for (int i = 0; i < numOfQuestions; i++) {
             if (examQuestionArray.get(i) instanceof AmericanQuestions) {
                 sb.append("Question number " + (i + 1) + "\n");
@@ -184,7 +182,7 @@ public class Exam<examQuestionArray> implements Cloneable, Serializable {
             if (examQuestionArray.get(i) instanceof OpenQuestions) {
                 sb.append("Question number " + (i + 1) + "\n");
                 sb.append("Question: "+examQuestionArray.get(i).getQuestionText() + "\n");
-                sb.append("Question Answer "+((OpenQuestions) examQuestionArray.get(i)).getAnswerText() + "\n");
+                sb.append("Question Answer "+((OpenQuestions) examQuestionArray.get(i)).getQuestionText() + "\n");
                 sb.append("\n");
 
             }

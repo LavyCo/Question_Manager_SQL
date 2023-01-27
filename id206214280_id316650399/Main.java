@@ -1,10 +1,9 @@
 package id206214280_id316650399;
+import java.util.jar.*;
 
 import java.io.*;
-import java.util.*;
-import java.util.jar.*;
 import java.sql.*;
-
+import java.util.*;
 
 public class Main implements Examble {
 
@@ -16,53 +15,53 @@ public class Main implements Examble {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             // Establish a connection to the database
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/college", "root", "gilad318513355");
-
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/exam", "root", "lavy2120626");
             // Execute a query
             Statement stmt = conn.createStatement();
-            ResultSet rs= stmt.executeQuery("SELECT * FROM coursetable");
-
+            ResultSet rs= stmt.executeQuery("SELECT * FROM questionTable");
             // Process the result set
-            while (rs.next()) {
-                String name=rs.getString("courseName");
+            while (((ResultSet) rs).next()) {
+                String name=rs.getString("QText");
                 System.out.println(name);
             }
 
         } catch (ClassNotFoundException e) {
-            //Handle ClassNotFoundException
+            e.printStackTrace();
         } catch (SQLException e) {
-            // Handle SQLException
+            e.printStackTrace();
         }
 
-//		QuestionReservoir qr1 = new QuestionReservoir();
-//		// open question #1
-//		qr1.addOpenQuestion("A Who was Yitzhak Rabin?", "Israeli prime minister");
-//		// open question #2
-//		qr1.addOpenQuestion("B Who solved the Engima machine during WWII?", "Alan Turing");
-//		// open question #3
-//		qr1.addOpenQuestion("C What is the difference between Choclate cake and a Salad?",
-//				"Salad wont give you Diabetes");
-//		// american question #1
-//		String aq1 = ("D Which one of these is not dessert?");
-//		String[] aa1 = new String[] { "Muffin", "Choclate cake", "Ice cream", "Brownies", "Salad", "Burger", "Shawrma",
-//				"Pizza" };
-//		boolean[] tof1 = new boolean[] { false, false, false, false, true, true, true, true };
-//		qr1.addAmericanQuestion(aq1, aa1, tof1);
-//		// american question #2
-//		String aq2 = "E Which one of these next Programming languages is Low-Level programming language?";
-//		String[] aa2 = new String[] { "Java", "C++", "Assembly", "C", "C#", "Python", "JavaScript", "Swift",
-//				"Machine Code" };
-//		boolean[] tof2 = new boolean[] { false, false, true, false, false, false, false, false, true };
-//		qr1.addAmericanQuestion(aq2, aa2, tof2);
-//		System.out.println(qr1.getQuestionArray().size());
-//		qr1.saveBin();
-
-//		ArrayList<Integer> indexOfAnswer = new ArrayList<Integer>();
-//		ArrayList<ArrayList<Integer>> indexOfQuestion = new ArrayList<>();
 
 
-         QuestionReservoir qr1 = new QuestionReservoir();
-        qr1.readBin();
+
+		QuestionReservoir qr1 = new QuestionReservoir();
+		// open question #1
+		qr1.addOpenQuestion("A Who was Yitzhak Rabin?", "Israeli prime minister");
+		// open question #2
+		qr1.addOpenQuestion("B Who solved the Engima machine during WWII?", "Alan Turing");
+		// open question #3
+		qr1.addOpenQuestion("C What is the difference between Choclate cake and a Salad?",
+				"Salad wont give you Diabetes");
+		// american question #1
+		String aq1 = ("D Which one of these is not dessert?");
+		String[] aa1 = new String[] { "Muffin", "Choclate cake", "Ice cream", "Brownies", "Salad", "Burger", "Shawrma",
+				"Pizza" };
+		boolean[] tof1 = new boolean[] { false, false, false, false, true, true, true, true };
+		qr1.addAmericanQuestion(aq1, aa1, tof1);
+		// american question #2
+		String aq2 = "E Which one of these next Programming languages is Low-Level programming language?";
+		String[] aa2 = new String[] { "Java", "C++", "Assembly", "C", "C#", "Python", "JavaScript", "Swift",
+				"Machine Code" };
+		boolean[] tof2 = new boolean[] { false, false, true, false, false, false, false, false, true };
+		qr1.addAmericanQuestion(aq2, aa2, tof2);
+		System.out.println(qr1.getQuestionArray().size());
+		qr1.saveBin();
+
+
+
+
+//        QuestionReservoir qr1 = new QuestionReservoir();
+//        qr1.readBin();
 
         Main main1 = new Main();
 
@@ -172,6 +171,7 @@ public class Main implements Examble {
     @Override
     public void printQuestions(QuestionReservoir qr1) {
         System.out.println(qr1.toString());
+
     }
 
     @Override

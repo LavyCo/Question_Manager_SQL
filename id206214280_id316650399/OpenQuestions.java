@@ -5,35 +5,19 @@ import java.util.Objects;
 public class OpenQuestions extends Questions implements Cloneable {
 
 	private String answerText;
-	private OpenAnswer questionAnswer;
-	
+
 	public OpenQuestions(String questionText,String answerText) {
 		super(questionText);
-		this.questionAnswer=new OpenAnswer(answerText,this.questionId);
+		this.answerText=answerText;
 	}
 
 	public OpenQuestions(OpenQuestions other){
 		super(other.questionText);
-		this.questionAnswer=new OpenAnswer(other.getAnswerText(), other.questionId);
-
+		this.answerText=other.answerText;
 	}
 
-	public OpenAnswer getQuestionAnswer() {
-		return questionAnswer;
-	}
 
-	public void setQuestionAnswer(OpenAnswer questionAnswer) {
-		this.questionAnswer = questionAnswer;
-	}
 
-	public String getAnswerText() {
-		return this.getQuestionAnswer().getAnswerText();
-	}
-
-	public void setAnswerText(String answerText) {
-		this.getQuestionAnswer().setAnswerText(answerText);
-		
-	}
 	protected OpenQuestions clone() throws CloneNotSupportedException{
 	return	 (OpenQuestions)  super.clone();
 
@@ -59,15 +43,15 @@ public class OpenQuestions extends Questions implements Cloneable {
 	
 	@Override
 	public String toString() {
-		return super.toString()+"and the answer is: "+this.questionAnswer.toString()+"\n\n";
+		return super.toString()+"and the answer is: "+answerText+"\n\n";
 	}
 
 
-	
-	
+	public String getAnswerText() {
+		return answerText;
+	}
 
-	
-	
-	
-	
+	public void setAnswerText(String newAnswerText) {
+		this.answerText=newAnswerText;
+	}
 }

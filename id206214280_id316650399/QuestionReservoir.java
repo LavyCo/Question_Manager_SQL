@@ -1,11 +1,15 @@
 package id206214280_id316650399;
 
 import java.io.*;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class QuestionReservoir implements Serializable {
 
+    private  static int counter=0;
+    private int qrId;
     private int numberOfQuestions = 0;
+    private int numberOfExams=0;
     private ArrayList<Questions> questionArray;
     private Exam manualExam;
     private Exam manualExamClone;
@@ -17,8 +21,10 @@ public class QuestionReservoir implements Serializable {
 
     public QuestionReservoir() {
         questionArray = new ArrayList<>();
+        examArrayList=new ArrayList<>();
         manualExam = new Exam();
         automaticExam = new Exam();
+        this.qrId=++counter;
 
     }
 
@@ -128,6 +134,7 @@ public class QuestionReservoir implements Serializable {
     }
 
     public void automaticExam(int automaticExamNumberOfQuestions) throws FileNotFoundException {
+
         automaticExam = new Exam<>();
         //new question array for the exam
         ArrayList<Questions> newQuestionArray = new ArrayList<>(automaticExamNumberOfQuestions);
@@ -142,7 +149,7 @@ public class QuestionReservoir implements Serializable {
 
             //checks if the question is open
             if (qrQuestionArr.get(r) instanceof OpenQuestions) {
-                OpenQuestions newOpenQuestion = new OpenQuestions(qrQuestionArr.get(r).questionText, ((OpenQuestions) qrQuestionArr.get(r)).getAnswerText());
+                OpenQuestions newOpenQuestion = new OpenQuestions(qrQuestionArr.get(r).questionText,((OpenQuestions) qrQuestionArr.get(r)).getAnswerText());
                 newQuestionArray.add(newOpenQuestion);
                 automaticExam.addQuestion(newOpenQuestion);
             }
@@ -215,8 +222,11 @@ public class QuestionReservoir implements Serializable {
                 automaticAmericanQuestion = new AmericanQuestions(randomAmericanQuestion.questionText, automaticAmericanAnswerSet);
                 automaticAmericanQuestion.add2Answers();
                 automaticExam.addQuestion(automaticAmericanQuestion);
+
             }
         }
+        examArrayList.add(automaticExam);
+        numberOfExams++;
         automaticExam.saveToText();
         automaticExam.sortExamByShortestAnswers();
         System.out.println(automaticExam.toString());
@@ -254,9 +264,8 @@ public class QuestionReservoir implements Serializable {
 
     }
 
-
     public boolean addOpenQuestion(String questionText, String answerText) {
-        OpenQuestions newQuestion = new OpenQuestions(questionText, answerText);
+        OpenQuestions newQuestion = new OpenQuestions(questionText,answerText);
         if (this.equals(newQuestion.getQuestionText())) {
             System.out.println("Cannot add:This question is already in the reservoir");
             //decreasing id counter by 1
@@ -336,6 +345,8 @@ public class QuestionReservoir implements Serializable {
                 }
             }
         }
+        examArrayList.add(manualExam);
+        numberOfExams++;
         manualExam.saveToText();
         System.out.println("Manual exam created successfully !");
         manualExam.toString();
@@ -411,8 +422,13 @@ public class QuestionReservoir implements Serializable {
         for (int i = 0; i < numberOfQuestions; i++) {
             sb.append(questionArray.get(i).toString());
         }
+        sb.append("the numbers of exam is:"+numberOfExams);
+        for(int i=0;i<numberOfExams;i++){
+            sb.append(examArrayList.get(i).toString());
+        }
         return sb.toString();
     }
+
 
 
 }
