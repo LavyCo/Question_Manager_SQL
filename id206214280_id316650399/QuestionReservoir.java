@@ -264,7 +264,8 @@ public class QuestionReservoir implements Serializable {
 
     }
 
-    public boolean addOpenQuestion(String questionText, String answerText) {
+
+        public boolean addOpenQuestion(String questionText, String answerText) {
         OpenQuestions newQuestion = new OpenQuestions(questionText,answerText);
         if (this.equals(newQuestion.getQuestionText())) {
             System.out.println("Cannot add:This question is already in the reservoir");

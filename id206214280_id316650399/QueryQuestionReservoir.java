@@ -1,41 +1,98 @@
 package id206214280_id316650399;
 
-import java.sql.Connection;
-import java.io.*;
+import javax.xml.transform.Result;
 import java.sql.*;
-import java.util.*;
 
-public class QueryQuestionReservoir {
-    static {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch(Exception e){
-                e.printStackTrace();
+
+public class QueryQuestionReservoir extends QuestionReservoir {
+
+
+    Connection conn;
+    Statement qrStmt;
+    ResultSet rs;
+
+    private static final long serialVersionUID = 1L;
+
+
+
+
+    public void printQuestions(Connection con) throws SQLException {
+        String queryQuestions = "SELECT QID, QText, isMulti FROM QuestionTable";
+        try (Statement stmt = con.createStatement()) {
+            ResultSet rs = stmt.executeQuery(queryQuestions);
+            while (rs.next()) {
+
+                int questionID = rs.getInt("QID");
+
+                String questionText = rs.getString("QText");
+
+                int isMulti = rs.getInt("isMulti");
+
+                System.out.printf("Question ID : %d \nQuestion : %s \nIs it multiple choice? : %d\n" , questionID , questionText , isMulti);
+                System.out.println();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
 
-
-    }
-    public static void main(String[] args) {
-        QueryQuestionReservoir jdbc =new QueryQuestionReservoir();
-        try(Connection con=jdbc.getConnection()){
-            System.out.println("all Questions:");
-            jdbc.getQuestion(con).forEach(System.out::println);
-            System.out.println();
-            
         }
     }
 
-    private Iterable<Object> getQuestion(Connection con) {
 
-        return null;
+    public boolean addOpenQuestionDB(String question , String answer )throws SQLException {
+        String queryInsertInto = "INSERT INTO questionTable VALUE (NULL,'" + question + "', 0);";
+        qrStmt.executeQuery(queryInsertInto);
+
+        return true;
+
     }
 
-    private Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/exam", "root", "lavy2120626");
-        } catch(SQLException e){
-                    throw new RuntimeException(e);
-        }
+
+    String queryQuestions = "SELECT QID,QText,isMulti";
+
+    String queryOpenQuestions  = "SELECT EID, NumOfQuestions";
+    String queryAmericanQuestions = "SELECT AQID";
+    String queryAmericanAnswers = "SELECT, AQID, AID , isCorrect , AAnsText";
+
+
+
+
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return super.toString();
     }
+
+//    public static void main(String[] args) {
+//
+//        QueryQuestionReservoir jdbc =new QueryQuestionReservoir();
+//        try(Connection con=jdbc.getConnection()){
+//
+
+//            System.out.println("--- All OpenQuestions ---");
+//            jdbc.getOpenQuestions(con).forEach(System.out::println);
+//            System.out.println();
+//
+//
+//            System.out.println("--- All AmericanQuestions ---");
+//            jdbc.getAmericanQuestions(con).forEach(System.out::println);
+//            System.out.println();
+//
+//
+//            System.out.println("--- All Questions ---");
+//            jdbc.getQuestions(con).forEach(System.out::println);
+//            System.out.println();
+//
+
+//    }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+//
+//
+
+
+
+
 
 }

@@ -1,61 +1,67 @@
 package id206214280_id316650399;
-import java.util.jar.*;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
-public class Main implements Examble {
+public class Main implements Examble,questionReservoirSQL {
 
     public static void main(String[] args)
             throws Exception, FileNotFoundException, IOException, ClassNotFoundException {
 
+
+         QueryQuestionReservoir manager = new QueryQuestionReservoir();
+        manager.conn = null;
+        manager.qrStmt= manager.conn.createStatement();
         try {
-            // Load the MySql driver
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            // Establish a connection to the database
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/exam", "root", "lavy2120626");
-            // Execute a query
-            Statement stmt = conn.createStatement();
-            ResultSet rs= stmt.executeQuery("SELECT * FROM questionTable");
-            // Process the result set
-            while (((ResultSet) rs).next()) {
-                String name=rs.getString("QText");
-                System.out.println(name);
-            }
+            String url = "jdbc:mysql://localhost:3306/exam" ;
+            manager.conn = DriverManager.getConnection(url, "root", "lavy2120626");
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        }catch(SQLException e)
+        {
             e.printStackTrace();
         }
 
 
 
 
-		QuestionReservoir qr1 = new QuestionReservoir();
-		// open question #1
-		qr1.addOpenQuestion("A Who was Yitzhak Rabin?", "Israeli prime minister");
-		// open question #2
-		qr1.addOpenQuestion("B Who solved the Engima machine during WWII?", "Alan Turing");
-		// open question #3
-		qr1.addOpenQuestion("C What is the difference between Choclate cake and a Salad?",
-				"Salad wont give you Diabetes");
-		// american question #1
-		String aq1 = ("D Which one of these is not dessert?");
-		String[] aa1 = new String[] { "Muffin", "Choclate cake", "Ice cream", "Brownies", "Salad", "Burger", "Shawrma",
-				"Pizza" };
-		boolean[] tof1 = new boolean[] { false, false, false, false, true, true, true, true };
-		qr1.addAmericanQuestion(aq1, aa1, tof1);
-		// american question #2
-		String aq2 = "E Which one of these next Programming languages is Low-Level programming language?";
-		String[] aa2 = new String[] { "Java", "C++", "Assembly", "C", "C#", "Python", "JavaScript", "Swift",
-				"Machine Code" };
-		boolean[] tof2 = new boolean[] { false, false, true, false, false, false, false, false, true };
-		qr1.addAmericanQuestion(aq2, aa2, tof2);
-		System.out.println(qr1.getQuestionArray().size());
-		qr1.saveBin();
+        manager.printQuestions(manager.conn);
+
+
+
+
+
+
+
+
+
+        QuestionReservoir qr1 = new QuestionReservoir();
+        // open question #1
+        qr1.addOpenQuestion("A Who was Yitzhak Rabin?", "Israeli prime minister");
+        // open question #2
+        qr1.addOpenQuestion("B Who solved the Engima machine during WWII?", "Alan Turing");
+        // open question #3
+        qr1.addOpenQuestion("C What is the difference between Choclate cake and a Salad?",
+                "Salad wont give you Diabetes");
+        // american question #1
+        String aq1 = ("D Which one of these is not dessert?");
+        String[] aa1 = new String[] { "Muffin", "Choclate cake", "Ice cream", "Brownies", "Salad", "Burger", "Shawrma",
+                "Pizza" };
+        boolean[] tof1 = new boolean[] { false, false, false, false, true, true, true, true };
+        qr1.addAmericanQuestion(aq1, aa1, tof1);
+        // american question #2
+        String aq2 = "E Which one of these next Programming languages is Low-Level programming language?";
+        String[] aa2 = new String[] { "Java", "C++", "Assembly", "C", "C#", "Python", "JavaScript", "Swift",
+                "Machine Code" };
+        boolean[] tof2 = new boolean[] { false, false, true, false, false, false, false, false, true };
+        qr1.addAmericanQuestion(aq2, aa2, tof2);
+        System.out.println(qr1.getQuestionArray().size());
+        qr1.saveBin();
 
 
 
@@ -168,14 +174,14 @@ public class Main implements Examble {
         input.close();
     }
 
-    @Override
-    public void printQuestions(QuestionReservoir qr1) {
-        System.out.println(qr1.toString());
+//    @Override
+//    public void printQuestions(QuestionReservoir qr1) {
+//        System.out.println(qr1.toString());
+//
+//    }
 
-    }
-
     @Override
-    public void addQuestion(QuestionReservoir qr1, Scanner input) {
+    public void addQuestionToDataBase(QueryQuestionReservoir qqr,QuestionReservoir qr, Scanner input) throws SQLException {
         System.out.println("What type of question do you want?");
         System.out.println("1)Open question \n2)American question");
         int optAddQuestion = exception1Or2Select();
@@ -186,15 +192,16 @@ public class Main implements Examble {
             System.out.println("please enter a Answer text:");
             String OpenAnswer = input.nextLine();
             // fixed case 2 sends the function Strings instead of OpenQuestion
-            boolean canOrNot = qr1.addOpenQuestion(questionText, OpenAnswer);
-            if (canOrNot) {
+            qr.addOpenQuestion(questionText,OpenAnswer);
+            boolean canOrNot = qqr.addOpenQuestionDB(questionText,OpenAnswer);
+            if (canOrNot)
                 System.out.println("Added question ");
 
             } else {
                 System.out.println("your question Already exists");
             }
 
-        }
+
         // add american answer
         if (optAddQuestion == 2) {
             System.out.println("Please enter a Question text:");
@@ -255,7 +262,7 @@ public class Main implements Examble {
                     americanAnswersCorrectness[i] = false;
                 }
             }
-            qr1.addAmericanQuestion(americanQuestionText, americanAnswersText, americanAnswersCorrectness);
+            qr.addAmericanQuestion(americanQuestionText, americanAnswersText, americanAnswersCorrectness);
             //askUserIftoAddAnswer(qr1, qr1.getNumberOfQuestions() - 1);
 
         }
@@ -736,6 +743,22 @@ public class Main implements Examble {
             }
         }
         return false;
+    }
+
+    @Override
+    public void printQuestions(QuestionReservoir qr1) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void addQuestion(QuestionReservoir qr1, Scanner input) {
+
+    }
+
+    @Override
+    public void addQuestion(QueryQuestionReservoir qr1, Scanner input) {
+
     }
 
 }

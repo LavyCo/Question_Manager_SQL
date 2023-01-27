@@ -11,6 +11,9 @@ public interface Examble {
     void printQuestions (QuestionReservoir qr1);
     //Add questions
     void addQuestion (QuestionReservoir qr1,Scanner input);
+
+    void addQuestion(QueryQuestionReservoir qr1, Scanner input);
+
     //Change the question wording
     void updateQuestionWording(QuestionReservoir qr1) throws Exception;
     //Update the wording of an answer
