@@ -39,14 +39,38 @@ public class QueryQuestionReservoir extends QuestionReservoir {
 
 
     public boolean addOpenQuestionDB(String question , String answer )throws SQLException {
-        String queryInsertInto = "INSERT INTO questionTable VALUE (NULL,'" + question + "', 0);";
-        qrStmt.executeQuery(queryInsertInto);
+        String queryInsertInto = ("INSERT INTO questionTable VALUE (NULL,'" + question + "', 0);");
+        qrStmt.executeUpdate(queryInsertInto);
+        rs=qrStmt.executeQuery("select QID FROM questionTable where QText='"+question+"';");
+        if(rs.next()){
+            int QID=rs.getInt("QID");
+            qrStmt.executeUpdate("INSERT INTO openquestiontable VALUES ("+QID+",'"+answer+"');");
+
+        }
 
         return true;
 
     }
+    public void addAmricanQuestionDB(String question )throws SQLException {
+        qrStmt.executeUpdate("INSERT INTO questionTable VALUES (NULL,'" + question + "', 1);");
+        rs = qrStmt.executeQuery("SELECT QID FROM questionTable WHERE QText = '" + question + "';");
+        if (rs.next()) {
+            int QID = rs.getInt("QID");
+            qrStmt.executeUpdate("INSERT INTO americanquestiontable VALUE ('" + QID + "');");
+        }
 
 
+    }
+    public void addAnswer(String answer, boolean correctness) throws SQLException {
+        rs = qrStmt.executeQuery("SELECT QID FROM questionTable left join  americanquestiontable ON QID = AQID WHERE QID = AQID;");
+        if (rs.next()) {
+            ResultSet rs2 = qrStmt.executeQuery("SELECT MAX(QID) from questiontable;");
+            if (rs2.next()) {
+                int QID = rs2.getInt(1);
+                qrStmt.executeUpdate("INSERT INTO americananswerstable VALUES ('" + QID + "',NULL," + correctness + ",'" + answer + "');");
+            }
+        }
+    }
     String queryQuestions = "SELECT QID,QText,isMulti";
 
     String queryOpenQuestions  = "SELECT EID, NumOfQuestions";

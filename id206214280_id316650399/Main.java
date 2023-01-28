@@ -15,12 +15,13 @@ public class Main implements Examble,questionReservoirSQL {
 
          QueryQuestionReservoir manager = new QueryQuestionReservoir();
         manager.conn = null;
-        manager.qrStmt= manager.conn.createStatement();
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             String url = "jdbc:mysql://localhost:3306/exam" ;
             manager.conn = DriverManager.getConnection(url, "root", "lavy2120626");
+            manager.qrStmt= manager.conn.createStatement();
 
         }catch(SQLException e)
         {
@@ -109,7 +110,8 @@ public class Main implements Examble,questionReservoirSQL {
 
                 // option 2 add questions
                 case 2: {
-                    main1.addQuestion(qr1, input);
+                   // main1.addQuestion(qr1, input);
+                    main1.addQuestionToDataBase(manager,qr1,input);
                     break;
                 }
 
@@ -207,6 +209,7 @@ public class Main implements Examble,questionReservoirSQL {
             System.out.println("Please enter a Question text:");
             input.nextLine();
             String americanQuestionText = input.nextLine();
+            qqr.addAmricanQuestionDB(americanQuestionText);
 
             boolean AnswerOptTry = false;
             int numberOfAnswers = 10;
@@ -237,6 +240,8 @@ public class Main implements Examble,questionReservoirSQL {
                 input.nextLine();
                 americanAnswersText[i] = input.nextLine();
 
+
+
                 // inputting correctness
                 int trueOrFalse = 2;
                 boolean flagZeroOrOne = false;
@@ -261,8 +266,11 @@ public class Main implements Examble,questionReservoirSQL {
                 } else {
                     americanAnswersCorrectness[i] = false;
                 }
+                qqr.addAnswer(americanAnswersText[i],americanAnswersCorrectness[i]);
             }
-            qr.addAmericanQuestion(americanQuestionText, americanAnswersText, americanAnswersCorrectness);
+
+
+           // qr.addAmericanQuestion(americanQuestionText, americanAnswersText, americanAnswersCorrectness);
             //askUserIftoAddAnswer(qr1, qr1.getNumberOfQuestions() - 1);
 
         }
