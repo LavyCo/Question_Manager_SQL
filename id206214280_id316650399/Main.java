@@ -340,6 +340,11 @@ public class Main implements Examble,questionReservoirSQL {
         }
     }
 
+    @Override
+    public void deleteAnswer(QuestionReservoir qr1) throws Exception {
+
+    }
+
 //    @Override
 //    public boolean deleteAnswerFromDB(QueryQuestionReservoir qqr, Scanner s) throws SQLException {
 //        boolean isValid = false;
@@ -863,6 +868,11 @@ public class Main implements Examble,questionReservoirSQL {
 
     @Override
     public void addQuestion(QueryQuestionReservoir qr1, Scanner input) {
+
+    }
+
+    @Override
+    public void updateQuestionWording(QuestionReservoir qr1) throws Exception {
 
     }
 
