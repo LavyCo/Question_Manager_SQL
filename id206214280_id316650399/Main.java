@@ -141,7 +141,7 @@ public class Main implements Examble,questionReservoirSQL {
                     // if american question has only 1 and user wants to delete it add another
                     // answer (none of the answers is correct)
                     // let user choose an id of the question it wants to delete
-                    main1.deleteAnswer(qr1);
+                    main1.deleteAnswerFromDB(manager,input);
                     break;
                 }
 
@@ -277,19 +277,22 @@ public class Main implements Examble,questionReservoirSQL {
     }
 
     @Override
-    public void updateQuestionWording(QuestionReservoir qr1) throws Exception {
+    public void updateQuestionWordingFromDataBase(QueryQuestionReservoir qr1) throws Exception {
         System.out.println("Please choose which question would you like to change from the list below:");
         // print all questions an show their Id
-        for (int i = 0; i < qr1.getNumberOfQuestions(); i++) {
-            System.out.print("id is:(" + qr1.getQuestionArray().get(i).getQuestionId() + ")" + " ");
-            System.out.println("Question text is: " + qr1.getQuestionArray().get(i).getQuestionText());
-        }
+//        for (int i = 0; i < qr1.getNumberOfQuestions(); i++) {
+//            System.out.print("id is:(" + qr1.getQuestionArray().get(i).getQuestionId() + ")" + " ");
+//            System.out.println("Question text is: " + qr1.getQuestionArray().get(i).getQuestionText());
+//        }
+        qr1.printQuestions(qr1.conn);
         // let user choose a question id by input
         int expId = exceptionId(qr1);
         System.out.println("Please enter the new wording for the text:");
 
+
         String newQuestionText = input.nextLine();
-        qr1.changeQuestionWording(newQuestionText, expId);
+       // qr1.changeQuestionWording(newQuestionText, expId);
+        qr1.updateQuestionWordingFromDB(expId,newQuestionText);
         // check array to see if adding "All answers are false" or "more than 1 answer
         // is true needs to be added"
 
@@ -337,8 +340,81 @@ public class Main implements Examble,questionReservoirSQL {
         }
     }
 
+//    @Override
+//    public boolean deleteAnswerFromDB(QueryQuestionReservoir qqr, Scanner s) throws SQLException {
+//        boolean isValid = false;
+//        int QID = 0;
+//        while (!isValid) {
+//            try {
+//                QID = checkIfValidID(qqr);
+//                isValid = true;
+//            } catch (Exception e) {
+//                System.err.println("Invalid input.Please Try again.");
+//
+//            }
+//        }
+//        if (!(qqr.isAmericanQuestion(QID))) {
+//            System.err.println("Can't delete the answer of an open question.");
+//            return false;
+//
+//        } else {
+//            int answerNum = 0;
+//            if (qqr.getNumOfAnswers(QID) <= 2) {
+//                System.err.println("There is no option to delete because there are less than 3 answers.");
+//                return false;
+//            }
+//            {
+//                isValid = false;
+//                System.out.println("please choose answer number:" + "\n");
+//                qqr.printAllAmericanAnswers(QID);
+//                while (!isValid) {
+//                    try {
+//                        answerNum = checkCorrectness(qqr, QID);
+//                        isValid = true;
+//                    } catch (Exception e) {
+//                        System.err.println("Invalid input. Try again");
+//
+//                    }
+//                }
+//            }
+//            try {
+//                qqr.deleteAnswer(QID, answerNum - 1);
+//            }
+//            catch (Exception e) {
+//                e.getMessage();
+//            }
+//            System.out.println("The answer has been deleted successfully.");
+//            return true;
+//        }
+//
+//    }
+//    public static int checkIfValidID(QueryQuestionReservoir qqr) throws  SQLException {
+//        Scanner s = new Scanner(System.in);
+//        System.out.println("Please enter a question ID:");
+//        int QID = s.nextInt();
+//        if ((Questions)qqr.getQuestionById(QID) == null) {
+//
+//            System.out.println("error");
+//            return -1;
+//        }
+//        s.nextLine();
+//        return QID;
+//    }
+//    public static int checkCorrectness(QueryQuestionReservoir qqr, int QID) throws  SQLException {
+//        Scanner s = new Scanner(System.in);
+//        int answerNum = s.nextInt();
+//        qqr.rs = qqr.qrStmt.executeQuery("SELECT count(*) FROM americananswerstable WHERE AQID = "+QID+"");
+//        qqr.rs.next();
+//        int count = qqr.rs.getInt(1);
+//        if (answerNum < 1 || answerNum > count) {
+//            System.out.println("error");
+//        }
+//        s.nextLine();
+//        return answerNum;
+//    }
+
     @Override
-    public void deleteAnswer(QuestionReservoir qr1) throws Exception {
+    public boolean deleteAnswerFromDB(QueryQuestionReservoir qqr, Scanner s) throws Exception {
         // Cant delete an answer for open question
         // Can only delete up until 2 answers for american questions
         // american question needs at least 1 true answer
@@ -349,9 +425,26 @@ public class Main implements Examble,questionReservoirSQL {
         // if american question has only 1 and user wants to delete it add another
         // answer (none of the answers is correct)
         // let user choose an id of the question it wants to delete
-        System.out.println(qr1.toString());
-        int userGivenQuestionId = exceptionId(qr1);
+        //System.out.println(qr1.toString());
+        qqr.printQuestions(qqr.conn);
+
+        int userGivenQuestionId = exceptionId(qqr);
         // find the question index and check its type
+        Questions check = qqr.chackTypeOfQuestion(userGivenQuestionId);
+        if(check instanceof OpenQuestions){
+            System.out.println("Can't delete the answer of an open question");
+            return false;
+        }else{
+           int count= qqr.printAllAmericanAnswers(userGivenQuestionId);
+            if(count<=2){
+                System.out.println("can't delete you have only 2 answers");
+                return false;
+            }
+            else{
+
+            }
+
+        }
         int indQuestion = 0;
         boolean americanQuestionFlag = true;
         for (int i = 0; i < qr1.getNumberOfQuestions(); i++) {
@@ -394,7 +487,7 @@ public class Main implements Examble,questionReservoirSQL {
 
             // sending parametes to the function (Question Index and Answer number)
             qr1.deleteAmericanAnswer(indQuestion, (answerNumber - 1));
-            askUserIftoAddAnswer(qr1, indQuestion);
+           // askUserIftoAddAnswer(qr1, indQuestion);
         }
     }
 
@@ -547,7 +640,7 @@ public class Main implements Examble,questionReservoirSQL {
         qr1.saveBin();
     }
 
-    public static int exceptionId(QuestionReservoir qr) throws Exception {
+    public static int exceptionId(QueryQuestionReservoir qr) throws Exception {
         Scanner input = new Scanner(System.in);
         int expId = 0;
         boolean flagForWhile = false;
@@ -558,12 +651,16 @@ public class Main implements Examble,questionReservoirSQL {
                 System.out.println("Please input a question id(from the list):");
                 expId = input.nextInt();
                 boolean flag = false;
-                for (int i = 0; i < qr.getNumberOfQuestions(); i++) {
-                    if (qr.getQuestionArray().get(i).questionId == expId) {
-                        flag = true;
-                        return expId;
-                    }
-
+//                for (int i = 0; i < qr.getNumberOfQuestions(); i++) {
+//                    if (qr.getQuestionArray().get(i).questionId == expId) {
+//                        flag = true;
+//                        return expId;
+//                    }
+//
+//                }
+                if(qr.chackQID(expId)){
+                    flag = true;
+                    return expId;
                 }
 
                 if (!flag)

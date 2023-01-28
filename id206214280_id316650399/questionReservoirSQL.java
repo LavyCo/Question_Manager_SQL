@@ -7,4 +7,8 @@ public interface questionReservoirSQL {
 
 
     void addQuestionToDataBase(QueryQuestionReservoir qqr, QuestionReservoir qr, Scanner input) throws SQLException;
+
+    void updateQuestionWordingFromDataBase(QueryQuestionReservoir qr1) throws Exception;
+
+    boolean deleteAnswerFromDB(QueryQuestionReservoir qqr, Scanner s) throws Exception;
 }
