@@ -5,10 +5,9 @@ import java.util.Scanner;
 
 public interface questionReservoirSQL {
 
-
     void addQuestionToDataBase(QueryQuestionReservoir qqr, QuestionReservoir qr, Scanner input) throws SQLException;
+    void deleteAnswerDB(QueryQuestionReservoir manager) throws Exception;
+    void updateQuestionWordingDB(QueryQuestionReservoir manager) throws Exception;
+    void updateAnswerWordingDB(QueryQuestionReservoir manager) throws Exception;
 
-    void updateQuestionWordingFromDataBase(QueryQuestionReservoir qr1) throws Exception;
-
-    boolean deleteAnswerFromDB(QueryQuestionReservoir qqr, Scanner s) throws Exception;
 }

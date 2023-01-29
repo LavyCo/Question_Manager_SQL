@@ -13,15 +13,15 @@ public class Main implements Examble,questionReservoirSQL {
             throws Exception, FileNotFoundException, IOException, ClassNotFoundException {
 
 
-         QueryQuestionReservoir manager = new QueryQuestionReservoir();
+        QueryQuestionReservoir manager = new QueryQuestionReservoir();
         manager.conn = null;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             String url = "jdbc:mysql://localhost:3306/exam" ;
-            manager.conn = DriverManager.getConnection(url, "root", "lavy2120626");
-            manager.qrStmt= manager.conn.createStatement();
+            manager.conn = DriverManager.getConnection(url, "root", "asherb1993");
+            manager.stmt= manager.conn.createStatement();
 
         }catch(SQLException e)
         {
@@ -31,7 +31,9 @@ public class Main implements Examble,questionReservoirSQL {
 
 
 
-        manager.printQuestions(manager.conn);
+        //  manager.updateQuestionWording(1 , "HELLO BABY MAMA");
+
+        //  manager.updateAnswerWording(8, 3 , "omg ! new ANSWER  " , true , true);
 
 
 
@@ -104,29 +106,27 @@ public class Main implements Examble,questionReservoirSQL {
                 // option 1 show all questions and answers
 
                 case 1: {
-                    main1.printQuestions(qr1);
+                    manager.printQuestions();
                     break;
                 }
 
                 // option 2 add questions
                 case 2: {
-                   // main1.addQuestion(qr1, input);
+                    // main1.addQuestion(qr1, input);
                     main1.addQuestionToDataBase(manager,qr1,input);
                     break;
                 }
 
-                // change the wording of a question
+                // change the wording of a question // Dor Does it
                 case 3: {
-                    main1.updateQuestionWording(qr1);
+                    main1.updateQuestionWordingDB(manager);
                     break;
-
                 }
 
-                // change the wording of an answer
+                // change the wording of an answer // Dor Does it
                 case 4: {
-                    main1.updateAnswerWording(qr1);
+                    main1.updateAnswerWordingDB(manager);
                 }
-
                 break;
 
                 // delete an answer
@@ -141,7 +141,7 @@ public class Main implements Examble,questionReservoirSQL {
                     // if american question has only 1 and user wants to delete it add another
                     // answer (none of the answers is correct)
                     // let user choose an id of the question it wants to delete
-                    main1.deleteAnswerFromDB(manager,input);
+                    main1.deleteAnswerDB(manager);
                     break;
                 }
 
@@ -199,9 +199,9 @@ public class Main implements Examble,questionReservoirSQL {
             if (canOrNot)
                 System.out.println("Added question ");
 
-            } else {
-                System.out.println("your question Already exists");
-            }
+        } else {
+            System.out.println("your question Already exists");
+        }
 
 
         // add american answer
@@ -209,7 +209,7 @@ public class Main implements Examble,questionReservoirSQL {
             System.out.println("Please enter a Question text:");
             input.nextLine();
             String americanQuestionText = input.nextLine();
-            qqr.addAmricanQuestionDB(americanQuestionText);
+            qqr.addAmericanQuestionDB(americanQuestionText);
 
             boolean AnswerOptTry = false;
             int numberOfAnswers = 10;
@@ -270,29 +270,41 @@ public class Main implements Examble,questionReservoirSQL {
             }
 
 
-           // qr.addAmericanQuestion(americanQuestionText, americanAnswersText, americanAnswersCorrectness);
+            // qr.addAmericanQuestion(americanQuestionText, americanAnswersText, americanAnswersCorrectness);
             //askUserIftoAddAnswer(qr1, qr1.getNumberOfQuestions() - 1);
 
         }
     }
 
     @Override
-    public void updateQuestionWordingFromDataBase(QueryQuestionReservoir qr1) throws Exception {
+    public void printQuestions(QuestionReservoir qr1) {
+
+    }
+
+    @Override
+    public void addQuestion(QuestionReservoir qr1, Scanner input) {
+
+    }
+
+    @Override
+    public void addQuestion(QueryQuestionReservoir qr1, Scanner input) {
+
+    }
+
+    @Override
+    public void updateQuestionWording(QuestionReservoir qr1) throws Exception {
         System.out.println("Please choose which question would you like to change from the list below:");
         // print all questions an show their Id
-//        for (int i = 0; i < qr1.getNumberOfQuestions(); i++) {
-//            System.out.print("id is:(" + qr1.getQuestionArray().get(i).getQuestionId() + ")" + " ");
-//            System.out.println("Question text is: " + qr1.getQuestionArray().get(i).getQuestionText());
-//        }
-        qr1.printQuestions(qr1.conn);
+        for (int i = 0; i < qr1.getNumberOfQuestions(); i++) {
+            System.out.print("id is:(" + qr1.getQuestionArray().get(i).getQuestionId() + ")" + " ");
+            System.out.println("Question text is: " + qr1.getQuestionArray().get(i).getQuestionText());
+        }
         // let user choose a question id by input
         int expId = exceptionId(qr1);
         System.out.println("Please enter the new wording for the text:");
 
-
         String newQuestionText = input.nextLine();
-       // qr1.changeQuestionWording(newQuestionText, expId);
-        qr1.updateQuestionWordingFromDB(expId,newQuestionText);
+        qr1.changeQuestionWording(newQuestionText, expId);
         // check array to see if adding "All answers are false" or "more than 1 answer
         // is true needs to be added"
 
@@ -340,293 +352,228 @@ public class Main implements Examble,questionReservoirSQL {
         }
     }
 
+    public void deleteAnswerDB(QueryQuestionReservoir manager) throws Exception {
+        System.out.println("please enter the question ID and the answer ID which you would like to delete");
+        manager.printAmericanQuestions();
+        Scanner s=new Scanner(System.in);
+        System.out.println("Please enter question Id number");
+        int questionID=s.nextInt();
+        manager.rs=manager.stmt.executeQuery("SELECT COUNT(QID) FROM questionTable WHERE isMulti=1");
+        System.out.println("Please enter answer Id number");
+        int answerId=s.nextInt();
+        if(manager.deleteAnswer(questionID,answerId)==true)
+            System.out.println("Deleted successfully");
+        else
+            System.out.println("Error");
+    }
+
     @Override
-    public void deleteAnswer(QuestionReservoir qr1) throws Exception {
+    public void updateQuestionWordingDB(QueryQuestionReservoir manager) throws Exception {
+        manager.printQuestionWithoutAnswers();
+        System.out.println("Please choose a question ID to change it's text:\n");
+        Scanner s=new Scanner(System.in);
+        int questionId=s.nextInt();
+        System.out.println("Please enter a new text for this question");
+        s.nextLine();
+        String newText=s.nextLine();
+        if(manager.changeQuestionText(questionId,newText)==true)
+            System.out.println("Question text changed successfully ");
+        else
+            System.out.println("Error");
+    }
+
+    @Override
+    public void updateAnswerWordingDB(QueryQuestionReservoir manager) throws Exception {
+        manager.printQuestions();
+        Scanner s=new Scanner(System.in);
+        System.out.println("Please choose question ID");
+        int questionID=s.nextInt();
+
 
     }
 
-//    @Override
-//    public boolean deleteAnswerFromDB(QueryQuestionReservoir qqr, Scanner s) throws SQLException {
-//        boolean isValid = false;
-//        int QID = 0;
-//        while (!isValid) {
-//            try {
-//                QID = checkIfValidID(qqr);
-//                isValid = true;
-//            } catch (Exception e) {
-//                System.err.println("Invalid input.Please Try again.");
-//
-//            }
-//        }
-//        if (!(qqr.isAmericanQuestion(QID))) {
-//            System.err.println("Can't delete the answer of an open question.");
-//            return false;
-//
-//        } else {
-//            int answerNum = 0;
-//            if (qqr.getNumOfAnswers(QID) <= 2) {
-//                System.err.println("There is no option to delete because there are less than 3 answers.");
-//                return false;
-//            }
-//            {
-//                isValid = false;
-//                System.out.println("please choose answer number:" + "\n");
-//                qqr.printAllAmericanAnswers(QID);
-//                while (!isValid) {
-//                    try {
-//                        answerNum = checkCorrectness(qqr, QID);
-//                        isValid = true;
-//                    } catch (Exception e) {
-//                        System.err.println("Invalid input. Try again");
-//
-//                    }
+    @Override
+    public void deleteAnswer(QuestionReservoir qr1) throws Exception {
+//        manager.printQuestions();
+//        int userGivenQuestionId = exceptionId(qr1);
+//        // find the question index and check its type
+//        int indQuestion = 0;
+//        boolean americanQuestionFlag = true;
+//        for (int i = 0; i < qr1.getNumberOfQuestions(); i++) {
+//            if (qr1.getQuestionArray().get(i).getQuestionId() == userGivenQuestionId) {
+//                if (qr1.getQuestionArray().get(i) instanceof OpenQuestions) {
+//                    System.out.println("Can't delete the answer of an open question");
+//                    americanQuestionFlag = false;
+//                } else {
+//                    indQuestion = i;
+//                    americanQuestionFlag = true;
 //                }
 //            }
-//            try {
-//                qqr.deleteAnswer(QID, answerNum - 1);
-//            }
-//            catch (Exception e) {
-//                e.getMessage();
-//            }
-//            System.out.println("The answer has been deleted successfully.");
-//            return true;
+//
 //        }
 //
-//    }
-//    public static int checkIfValidID(QueryQuestionReservoir qqr) throws  SQLException {
-//        Scanner s = new Scanner(System.in);
-//        System.out.println("Please enter a question ID:");
-//        int QID = s.nextInt();
-//        if ((Questions)qqr.getQuestionById(QID) == null) {
+//        if (americanQuestionFlag) {
+//            int answerNumber = 0;
+//            // choosing the answer number
+//            boolean flagCountAmericanAns = false;
 //
-//            System.out.println("error");
-//            return -1;
+//            System.out.println(((AmericanQuestions) qr1.getQuestionArray().get(indQuestion)).printAnswersOnly());
+//            System.out.println(
+//                    "" + ((AmericanQuestions) qr1.getQuestionArray().get(indQuestion)).getNumOfAmericanAnswers() + "");
+//            while (!flagCountAmericanAns) {
+//                try {
+//                    System.out.println("Please choose the answer you want to delete");
+//                    answerNumber = input.nextInt();
+//                    if (answerNumber > 0
+//                            && answerNumber <= ((AmericanQuestions) qr1.getQuestionArray().get(indQuestion))
+//                            .getNumOfAmericanAnswers()) {
+//                        flagCountAmericanAns = true;
+//                    }
+//
+//                } catch (InputMismatchException e) {
+//                    System.out.println(e.getMessage());
+//                } catch (Exception e) {
+//                    System.out.println("Error " + e.getMessage());
+//                }
+//            }
+//
+//            // sending parametes to the function (Question Index and Answer number)
+//            qr1.deleteAmericanAnswer(indQuestion, (answerNumber - 1));
+//            askUserIftoAddAnswer(qr1, indQuestion);
 //        }
-//        s.nextLine();
-//        return QID;
-//    }
-//    public static int checkCorrectness(QueryQuestionReservoir qqr, int QID) throws  SQLException {
-//        Scanner s = new Scanner(System.in);
-//        int answerNum = s.nextInt();
-//        qqr.rs = qqr.qrStmt.executeQuery("SELECT count(*) FROM americananswerstable WHERE AQID = "+QID+"");
-//        qqr.rs.next();
-//        int count = qqr.rs.getInt(1);
-//        if (answerNum < 1 || answerNum > count) {
-//            System.out.println("error");
-//        }
-//        s.nextLine();
-//        return answerNum;
-//    }
-
-    @Override
-    public boolean deleteAnswerFromDB(QueryQuestionReservoir qqr, Scanner s) throws Exception {
-        // Cant delete an answer for open question
-        // Can only delete up until 2 answers for american questions
-        // american question needs at least 1 true answer
-        // if american question has more than 1 correct answer than it needs at least 1
-        // false answer
-        // if american question has 2 answers,1 of them needs to be true and the second
-        // needs to be true
-        // if american question has only 1 and user wants to delete it add another
-        // answer (none of the answers is correct)
-        // let user choose an id of the question it wants to delete
-        //System.out.println(qr1.toString());
-        qqr.printQuestions(qqr.conn);
-
-        int userGivenQuestionId = exceptionId(qqr);
-        // find the question index and check its type
-        Questions check = qqr.chackTypeOfQuestion(userGivenQuestionId);
-        if(check instanceof OpenQuestions){
-            System.out.println("Can't delete the answer of an open question");
-            return false;
-        }else{
-           int count= qqr.printAllAmericanAnswers(userGivenQuestionId);
-            if(count<=2){
-                System.out.println("can't delete you have only 2 answers");
-                return false;
-            }
-            else{
-
-            }
-
-        }
-        int indQuestion = 0;
-        boolean americanQuestionFlag = true;
-        for (int i = 0; i < qr1.getNumberOfQuestions(); i++) {
-            if (qr1.getQuestionArray().get(i).getQuestionId() == userGivenQuestionId) {
-                if (qr1.getQuestionArray().get(i) instanceof OpenQuestions) {
-                    System.out.println("Can't delete the answer of an open question");
-                    americanQuestionFlag = false;
-                } else {
-                    indQuestion = i;
-                    americanQuestionFlag = true;
-                }
-            }
-
-        }
-
-        if (americanQuestionFlag) {
-            int answerNumber = 0;
-            // choosing the answer number
-            boolean flagCountAmericanAns = false;
-
-            System.out.println(((AmericanQuestions) qr1.getQuestionArray().get(indQuestion)).printAnswersOnly());
-            System.out.println(
-                    "" + ((AmericanQuestions) qr1.getQuestionArray().get(indQuestion)).getNumOfAmericanAnswers() + "");
-            while (!flagCountAmericanAns) {
-                try {
-                    System.out.println("Please choose the answer you want to delete");
-                    answerNumber = input.nextInt();
-                    if (answerNumber > 0
-                            && answerNumber <= ((AmericanQuestions) qr1.getQuestionArray().get(indQuestion))
-                            .getNumOfAmericanAnswers()) {
-                        flagCountAmericanAns = true;
-                    }
-
-                } catch (InputMismatchException e) {
-                    System.out.println(e.getMessage());
-                } catch (Exception e) {
-                    System.out.println("Error " + e.getMessage());
-                }
-            }
-
-            // sending parametes to the function (Question Index and Answer number)
-            qr1.deleteAmericanAnswer(indQuestion, (answerNumber - 1));
-           // askUserIftoAddAnswer(qr1, indQuestion);
-        }
     }
 
     // seif6
     @Override
     public void createManualExam(QuestionReservoir qr1) throws Exception {
-        int numOfQuestionsInTheTest = 0;
-        boolean flagOfNumTest = false;
-        while (!flagOfNumTest) {
-            try {
-
-                System.out.println("type how many questions do you want in the test:");
-                numOfQuestionsInTheTest = input.nextInt();
-                if (numOfQuestionsInTheTest > 0 && numOfQuestionsInTheTest <= qr1.getNumberOfQuestions()) {
-                    flagOfNumTest = true;
-                }
-
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter a valid input(numbers only)");
-                input.nextLine();// cleans buffer
-            } catch (Exception e) {
-                System.out.println("Error " + e.getMessage());
-            }
-        }
-        // this Arraylist hold the index of the question in the head of the list
-        // if the question is American what comes after the 0 elements are the answers
-        // indexes
-        ArrayList<Integer> indexesOfQuestionsAndIndexesOfAnswers = new ArrayList<Integer>();
-        // this list holds arrays of the indexes
-        ArrayList<ArrayList<Integer>> manualQuestionArrayList = new ArrayList<ArrayList<Integer>>();
-
-        // print all questions and their answers and show their Ind
-        System.out.println(qr1.toString());
-
-        for (int i = 0; i < numOfQuestionsInTheTest; i++) {
-            System.out.println(
-                    "Hi please choose from below the id of the question from the list of the questions for the test:");
-            // let user choose a question id by input
-            int expId = exceptionId(qr1);
-            for (int j = 0; j < qr1.getNumberOfQuestions(); j++) {
-                if (expId == qr1.getQuestionArray().get(j).getQuestionId()) {
-
-                    if (qr1.getQuestionArray().get(j) instanceof OpenQuestions) {
-                        int questionIndex = j;
-                        indexesOfQuestionsAndIndexesOfAnswers.add(questionIndex);
-                        manualQuestionArrayList.add(i, indexesOfQuestionsAndIndexesOfAnswers);
-                        indexesOfQuestionsAndIndexesOfAnswers = new ArrayList<Integer>();
-
-                    }
-
-                    if (qr1.getQuestionArray().get(j) instanceof AmericanQuestions) {
-                        int questionIndex = j;
-                        indexesOfQuestionsAndIndexesOfAnswers.add(questionIndex);
-
-                        boolean numOfAns = false;
-                        int numberOfAmericanAnswers = 0;
-                        int numbersOfAns = qr1.takeNumOfAnswers(qr1, j);
-                        while (!numOfAns) {
-                            try {
-                                System.out.println("Please enter how many answers from the american question you want");
-                                numberOfAmericanAnswers = input.nextInt();
-                                if (numberOfAmericanAnswers > 0 && numberOfAmericanAnswers <= numbersOfAns) {
-                                    numOfAns = true;
-                                }
-
-                            } catch (InputMismatchException e) {
-                                System.out.println("Please enter a valid input(numbers only)");
-                                input.nextLine();// cleans buffer
-                            } catch (Exception e) {
-                                System.out.println("Error " + e.getMessage());
-                            }
-                        }
-
-                        for (int k = 0; k < numberOfAmericanAnswers; k++) {
-                            boolean flagIndexAns = false;
-                            while (!flagIndexAns) {
-                                ((AmericanQuestions) qr1.getQuestionArray().get(j)).printAnswersOnly();
-                                try {
-                                    System.out.println(
-                                            "Choose index of the answer " + (k + 1) + "/" + numberOfAmericanAnswers);
-                                    int americanAnswerIndex = input.nextInt();
-
-                                    if (americanAnswerIndex > 0 && americanAnswerIndex <= ((AmericanQuestions) qr1
-                                            .getQuestionArray().get(j)).getAnswerArray().size()) {
-                                        indexesOfQuestionsAndIndexesOfAnswers.add(americanAnswerIndex - 1);
-                                        flagIndexAns = true;
-                                    }
-                                } catch (InputMismatchException e) {
-                                    System.out.println("Please enter a valid input(numbers only)");
-                                    input.nextLine();// cleans buffer
-                                } catch (Exception e) {
-                                    System.out.println("Error " + e.getMessage());
-                                }
-                            }
-                        }
-                        manualQuestionArrayList.add(i, indexesOfQuestionsAndIndexesOfAnswers);
-                        indexesOfQuestionsAndIndexesOfAnswers = new ArrayList<Integer>();
-                    }
-                }
-            }
-        }
-
-        qr1.manualExamCreate(numOfQuestionsInTheTest, manualQuestionArrayList);
-        System.out.println(qr1.getManualExam().toString());
+//        int numOfQuestionsInTheTest = 0;
+//        boolean flagOfNumTest = false;
+//        while (!flagOfNumTest) {
+//            try {
+//
+//                System.out.println("type how many questions do you want in the test:");
+//                numOfQuestionsInTheTest = input.nextInt();
+//                if (numOfQuestionsInTheTest > 0 && numOfQuestionsInTheTest <= qr1.getNumberOfQuestions()) {
+//                    flagOfNumTest = true;
+//                }
+//
+//            } catch (InputMismatchException e) {
+//                System.out.println("Please enter a valid input(numbers only)");
+//                input.nextLine();// cleans buffer
+//            } catch (Exception e) {
+//                System.out.println("Error " + e.getMessage());
+//            }
+//        }
+//        // this Arraylist hold the index of the question in the head of the list
+//        // if the question is American what comes after the 0 elements are the answers
+//        // indexes
+//        ArrayList<Integer> indexesOfQuestionsAndIndexesOfAnswers = new ArrayList<Integer>();
+//        // this list holds arrays of the indexes
+//        ArrayList<ArrayList<Integer>> manualQuestionArrayList = new ArrayList<ArrayList<Integer>>();
+//
+//        // print all questions and their answers and show their Ind
+//        System.out.println(qr1.toString());
+//
+//        for (int i = 0; i < numOfQuestionsInTheTest; i++) {
+//            System.out.println(
+//                    "Hi please choose from below the id of the question from the list of the questions for the test:");
+//            // let user choose a question id by input
+//            int expId = exceptionId(qr1);
+//            for (int j = 0; j < qr1.getNumberOfQuestions(); j++) {
+//                if (expId == qr1.getQuestionArray().get(j).getQuestionId()) {
+//
+//                    if (qr1.getQuestionArray().get(j) instanceof OpenQuestions) {
+//                        int questionIndex = j;
+//                        indexesOfQuestionsAndIndexesOfAnswers.add(questionIndex);
+//                        manualQuestionArrayList.add(i, indexesOfQuestionsAndIndexesOfAnswers);
+//                        indexesOfQuestionsAndIndexesOfAnswers = new ArrayList<Integer>();
+//
+//                    }
+//
+//                    if (qr1.getQuestionArray().get(j) instanceof AmericanQuestions) {
+//                        int questionIndex = j;
+//                        indexesOfQuestionsAndIndexesOfAnswers.add(questionIndex);
+//
+//                        boolean numOfAns = false;
+//                        int numberOfAmericanAnswers = 0;
+//                        int numbersOfAns = qr1.takeNumOfAnswers(qr1, j);
+//                        while (!numOfAns) {
+//                            try {
+//                                System.out.println("Please enter how many answers from the american question you want");
+//                                numberOfAmericanAnswers = input.nextInt();
+//                                if (numberOfAmericanAnswers > 0 && numberOfAmericanAnswers <= numbersOfAns) {
+//                                    numOfAns = true;
+//                                }
+//
+//                            } catch (InputMismatchException e) {
+//                                System.out.println("Please enter a valid input(numbers only)");
+//                                input.nextLine();// cleans buffer
+//                            } catch (Exception e) {
+//                                System.out.println("Error " + e.getMessage());
+//                            }
+//                        }
+//
+//                        for (int k = 0; k < numberOfAmericanAnswers; k++) {
+//                            boolean flagIndexAns = false;
+//                            while (!flagIndexAns) {
+//                                ((AmericanQuestions) qr1.getQuestionArray().get(j)).printAnswersOnly();
+//                                try {
+//                                    System.out.println(
+//                                            "Choose index of the answer " + (k + 1) + "/" + numberOfAmericanAnswers);
+//                                    int americanAnswerIndex = input.nextInt();
+//
+//                                    if (americanAnswerIndex > 0 && americanAnswerIndex <= ((AmericanQuestions) qr1
+//                                            .getQuestionArray().get(j)).getAnswerArray().size()) {
+//                                        indexesOfQuestionsAndIndexesOfAnswers.add(americanAnswerIndex - 1);
+//                                        flagIndexAns = true;
+//                                    }
+//                                } catch (InputMismatchException e) {
+//                                    System.out.println("Please enter a valid input(numbers only)");
+//                                    input.nextLine();// cleans buffer
+//                                } catch (Exception e) {
+//                                    System.out.println("Error " + e.getMessage());
+//                                }
+//                            }
+//                        }
+//                        manualQuestionArrayList.add(i, indexesOfQuestionsAndIndexesOfAnswers);
+//                        indexesOfQuestionsAndIndexesOfAnswers = new ArrayList<Integer>();
+//                    }
+//                }
+//            }
+//        }
+//
+//        qr1.manualExamCreate(numOfQuestionsInTheTest, manualQuestionArrayList);
+//        System.out.println(qr1.getManualExam().toString());
 
     }
 
     @Override
     public void createAutomaticExam(QuestionReservoir qr1) throws FileNotFoundException, InputMismatchException {
-        int numberOfQuestions = 0;
-        boolean flagInput = false;
-        while (!flagInput) {
-
-            // Ask user how many questions he wants in the test
-            try {
-
-                System.out.println("Please enter the number(between " + 1 + "-" + qr1.getNumberOfQuestions() + ")"
-                        + " of question you want in the test ");
-                numberOfQuestions = input.nextInt();
-                if (numberOfQuestions >= 0 && numberOfQuestions <= qr1.getNumberOfQuestions()) {
-                    flagInput = true;
-
-                } else {
-                    System.out.println("chosen number of questions not within range please try again:");
-                }
-
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter a valid input(numbers only)");
-                input.nextLine();// cleans buffer
-
-            }
-        }
-
-        qr1.automaticExam(numberOfQuestions);
+//        int numberOfQuestions = 0;
+//        boolean flagInput = false;
+//        while (!flagInput) {
+//
+//            // Ask user how many questions he wants in the test
+//            try {
+//
+//                System.out.println("Please enter the number(between " + 1 + "-" + qr1.getNumberOfQuestions() + ")"
+//                        + " of question you want in the test ");
+//                numberOfQuestions = input.nextInt();
+//                if (numberOfQuestions >= 0 && numberOfQuestions <= qr1.getNumberOfQuestions()) {
+//                    flagInput = true;
+//
+//                } else {
+//                    System.out.println("chosen number of questions not within range please try again:");
+//                }
+//
+//            } catch (InputMismatchException e) {
+//                System.out.println("Please enter a valid input(numbers only)");
+//                input.nextLine();// cleans buffer
+//
+//            }
+//        }
+//
+//        qr1.automaticExam(numberOfQuestions);
     }
 
     @Override
@@ -645,7 +592,7 @@ public class Main implements Examble,questionReservoirSQL {
         qr1.saveBin();
     }
 
-    public static int exceptionId(QueryQuestionReservoir qr) throws Exception {
+    public static int exceptionId(QuestionReservoir qr) throws Exception {
         Scanner input = new Scanner(System.in);
         int expId = 0;
         boolean flagForWhile = false;
@@ -656,16 +603,12 @@ public class Main implements Examble,questionReservoirSQL {
                 System.out.println("Please input a question id(from the list):");
                 expId = input.nextInt();
                 boolean flag = false;
-//                for (int i = 0; i < qr.getNumberOfQuestions(); i++) {
-//                    if (qr.getQuestionArray().get(i).questionId == expId) {
-//                        flag = true;
-//                        return expId;
-//                    }
-//
-//                }
-                if(qr.chackQID(expId)){
-                    flag = true;
-                    return expId;
+                for (int i = 0; i < qr.getNumberOfQuestions(); i++) {
+                    if (qr.getQuestionArray().get(i).questionId == expId) {
+                        flag = true;
+                        return expId;
+                    }
+
                 }
 
                 if (!flag)
@@ -855,25 +798,7 @@ public class Main implements Examble,questionReservoirSQL {
         return false;
     }
 
-    @Override
-    public void printQuestions(QuestionReservoir qr1) {
-        // TODO Auto-generated method stub
 
-    }
 
-    @Override
-    public void addQuestion(QuestionReservoir qr1, Scanner input) {
-
-    }
-
-    @Override
-    public void addQuestion(QueryQuestionReservoir qr1, Scanner input) {
-
-    }
-
-    @Override
-    public void updateQuestionWording(QuestionReservoir qr1) throws Exception {
-
-    }
 
 }
