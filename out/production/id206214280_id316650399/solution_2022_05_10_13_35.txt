@@ -1,7 +1,0 @@
-the test with answers:
-
-1) the question is : A Who was Yitzhak Rabin?
-
-solution for question 1) is: Israeli prime minister
-
-End
